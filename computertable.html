@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Café-Furniture</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="index.js">
+    <link rel="stylesheet" href="index.html">
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <style>
+        .cart {
+            width: 40px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            justify-items: center;
+            margin: 40px 0;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            min-width: 0;
+            min-height: 370px;
+            padding: 14px 10px 18px 10px;
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="auth.js"></script>
+    <script src="cart-logic.js"></script>
+    <header class="navbar">
+        <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <div class="logo"><img src="image/logo.png" alt="Logo"></div>
+            <div class="location">Cluster<br><span>Chairs</span></div>
+        </a>
+
+        <!-- <div class="search">
+            <img src="image/search.png" alt="Search" class="search-input-icon">
+            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
+            <button>Search</button>
+        </div> -->
+
+        <div class="nav-links">
+            <a href="login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
+            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
+            <a href="cart.html">
+                <img src="image/cartimage.png" class="cart"
+                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
+                <span id="cart-count"
+                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="card-container">
+        <div class="card">
+            <img src="image/chikkan.jpg" alt="Chair 1">
+            <h3>computer table</h3>
+            <p class="price">₹15,000</p>
+            <p>Chikkana Compact Space Saving Computer Table SB 008 (SB-008 COMPUTER TABLE)</p>
+            <button class="add-to-cart-btn" data-name="computer table" data-price="15000"
+                data-img="image/chikkan.jpg">Add to
+                Cart</button>
+        </div>
+
+        <div class="card">
+            <img src="image/verner.jpg" alt="Chair 1">
+            <h3>Computer Table</h3>
+            <p class="price">₹15,000</p>
+            <p><strong>Verner Computer Desk | Walnut</strong></p>
+            <button class="add-to-cart-btn" data-name="Computer Table" data-price="15000"
+                data-img="image/verner.jpg">Add to
+                Cart</button>
+        </div>
+
+        <div class="card">
+            <img src="image/hutch.jpg" alt="Chair 1">
+            <h3>Hutch Computer Table</h3>
+            <p class="price">₹20,000</p>
+            <p>Home Office Computer Table with Hutch and Monitor Shelf, Modern Writing Desk with Drawers and Shelves</p>
+            <button class="add-to-cart-btn" data-name="Hutch Computer Table" data-price="20000"
+                data-img="image/hutch.jpg">Add to
+                Cart</button>
+        </div>
+
+        <div class="card">
+            <img src="image/gaming desk.jpg" alt="Chair 1">
+            <h3>Gaming Desk</h3>
+            <p class="price">₹12,000</p>
+            <p>Gaming desk, black, 160x80 cm (63x31 1/2 ")</p>
+            <button class="add-to-cart-btn" data-name="Gaming Desk" data-price="12000"
+                data-img="image/gaming desk.jpg">Add to
+                Cart</button>
+        </div>
+
+        <div class="card">
+            <img src="image/gaming vesk.jpg" alt="Chair 1">
+            <h3>Gaming Table</h3>
+            <p class="price">₹40,000</p>
+            <p>Gaming desk sit/stand, electric/black, 120x80 cm (47 1/4x31 1/2 ")</p>
+            <button class="add-to-cart-btn" data-name="Gaming Table" data-price="40000"
+                data-img="image/gaming vesk.jpg">Add
+                to Cart</button>
+        </div>
+
+        <div class="card">
+            <img src="image/computerone.jpg" alt="Chair 1">
+            <h3>Gaming Table</h3>
+            <p class="price">₹40,000</p>
+            <p>Computer Desk : Gaming Desk Laptop Table</p>
+            <button class="add-to-cart-btn" data-name="Gaming Table" data-price="40000"
+                data-img="image/computerone.jpg">Add
+                to Cart</button>
+        </div>
+
+        <div class="card">
+            <img src="image/computertwo.jpg" alt="Chair 1">
+            <h3>Gaming Table</h3>
+            <p class="price">₹15,000</p>
+            <p>Gaming Table In Black Finish</p>
+            <button class="add-to-cart-btn" data-name="Gaming Table" data-price="15000"
+                data-img="image/computertwo.jpg">Add
+                to Cart</button>
+        </div>
+
+        <div id="cart-popup"
+            style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+        </div>
+
+        
+</body>
+
+</html>
