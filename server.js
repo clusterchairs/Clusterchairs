@@ -15,6 +15,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+// Health check / Root Route to prevent 404 on deployment view
+app.get('/', (req, res) => {
+    // This message confirms the API is running successfully
+    res.status(200).json({ 
+        status: 'API is running successfully', 
+        message: 'Use /register or /login for authentication.',
+        endpoints: ['/register', '/login', '/create-order', '/verify-payment']
+    });
+});
+
 // MySQL connection
 const dbConfig = {
     host: process.env.DB_HOST,
