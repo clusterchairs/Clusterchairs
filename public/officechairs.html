@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Office Chairs</title>
+
+    <link rel="stylesheet" href="/index.js">
+    <link rel="stylesheet" href="/index.html">
+    <link rel="stylesheet" href="/office.css">
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <style>
+        .card img,
+        .cardone img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: #fff;
+        }
+
+        .cart {
+            width: 40px;
+        }
+
+        .location {
+            font-size: 50px;
+            margin-left: 270px;
+            font-family: Protest Strike, sans-serif;
+            line-height: 1.1;
+            letter-spacing: 2px;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+        }
+
+        .card .price {
+            margin-bottom: 14px;
+            margin-top: 0;
+        }
+
+        .card .add-to-cart-btn {
+            margin-top: 10px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .card .add-to-cart-btn:hover {
+            background: #a05252;
+        }
+
+        .cardone h3 {
+            margin-bottom: 12px;
+        }
+
+        .cardone .price {
+            margin-bottom: 14px;
+            margin-top: 0;
+        }
+
+        .cardone .add-to-cart-btn {
+            margin-top: 10px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cardone .add-to-cart-btn:hover {
+            background: #a05252;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="/auth.js"></script>
+    <script src="/cart-logic.js"></script>
+    <header class="navbar">
+        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+            <div class="location">Cluster Chairs</div>
+        </a>
+        <!-- <div class="search">
+            <img src="image/search.png" alt="Search" class="search-input-icon">
+            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
+            <button>Search</button>
+        </div> -->
+        <div class="nav-links">
+            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
+            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
+            <a href="/cart.html">
+                <img src="/image/cartimage.png" class="cart"
+                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
+                <span id="cart-count"
+                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+            </a>
+        </div>
+    </header>
+
+
+    <div class="card-container">
+        <div class="card">
+            <img src="/image/AE 701.png" alt="Chair 1">
+            <h3>AE 701</h3>
+            <p class="price">₹30,000</p>
+            <button class="add-to-cart-btn" data-name="AE 701" data-price="30000" data-img="/image/AE 701.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 702.png" alt="Table 1">
+            <h3>AE 702</h3>
+            <p class="price">₹30,000</p>
+            <button class="add-to-cart-btn" data-name="AE 702" data-price="30000" data-img="/image/AE 702.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 703.png" alt="Chair 1">
+            <h3>AE 703</h3>
+            <p class="price">₹30,000</p>
+            <button class="add-to-cart-btn" data-name="AE 703" data-price="30000" data-img="/image/AE 703.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 704.png" alt="Table 1">
+            <h3>AE 704</h3>
+            <p class="price">₹30,000</p>
+            <button class="add-to-cart-btn" data-name="AE 704" data-price="30000" data-img="/image/AE 704.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 705.png" alt="Chair 1">
+            <h3>AE 705</h3>
+            <p class="price">₹30,000</p>
+            <button class="add-to-cart-btn" data-name="AE 705" data-price="30000" data-img="/image/AE 705.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 706.png" alt="Table 1">
+            <h3>AE 706</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 706" data-price="15000" data-img="/image/AE 706.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 707.png" alt="Chair 1">
+            <h3>AE 707</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 707" data-price="15000" data-img="/image/AE 707.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 708.png" alt="Table 1">
+            <h3>AE 708</h3>
+            <p class="price">₹11,000</p>
+            <button class="add-to-cart-btn" data-name="AE 708" data-price="11000" data-img="/image/AE 708.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 709.png" alt="Chair 1">
+            <h3>AE 709</h3>
+            <p class="price">₹12,000</p>
+            <button class="add-to-cart-btn" data-name="AE 709" data-price="12000" data-img="/image/AE 709.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 710.png" alt="Table 1">
+            <h3>AE 710</h3>
+            <p class="price">₹18,000</p>
+            <button class="add-to-cart-btn" data-name="AE 710" data-price="18000" data-img="/image/AE 710.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 711.png" alt="Chair 1">
+            <h3>AE 711</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 711" data-price="15000" data-img="/image/AE 711.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 712.png" alt="Table 1">
+            <h3>AE 712</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 712" data-price="15000" data-img="/image/AE 712.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 713.png" alt="Chair 1">
+            <h3>AE 713</h3>
+            <p class="price">₹14,000</p>
+            <button class="add-to-cart-btn" data-name="AE 713" data-price="14000" data-img="/image/AE 713.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 714.png" alt="Table 1">
+            <h3>AE 714</h3>
+            <p class="price">₹18,000</p>
+            <button class="add-to-cart-btn" data-name="AE 714" data-price="18000" data-img="/image/AE 714.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 715.png" alt="Chair 1">
+            <h3>AE 715</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 715" data-price="15000" data-img="/image/AE 715.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 716.png" alt="Table 1">
+            <h3>AE 716</h3>
+            <p class="price">₹18,000</p>
+            <button class="add-to-cart-btn" data-name="AE 716" data-price="18000" data-img="/image/AE 716.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 717.png" alt="Chair 1">
+            <h3>AE 717</h3>
+            <p class="price">₹20,000</p>
+            <button class="add-to-cart-btn" data-name="AE 717" data-price="20000" data-img="/image/AE 717.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 718.png" alt="Table 1">
+            <h3>AE 718</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 718" data-price="15000" data-img="/image/AE 718.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 719.png" alt="Chair 1">
+            <h3>AE 719</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 719" data-price="15000" data-img="/image/AE 719.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 720.png" alt="Table 1">
+            <h3>AE 720</h3>
+            <p class="price">₹14,000</p>
+            <button class="add-to-cart-btn" data-name="AE 720" data-price="14000" data-img="/image/AE 720.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 721.png" alt="Chair 1">
+            <h3>AE 721</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 721" data-price="15000" data-img="/image/AE 721.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 722.png" alt="Table 1">
+            <h3>AE 722</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 722" data-price="15000" data-img="/image/AE 722.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 723.png" alt="Chair 1">
+            <h3>AE 723</h3>
+            <p class="price">₹14,000</p>
+            <button class="add-to-cart-btn" data-name="AE 723" data-price="15000" data-img="/image/AE 723.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 724.png" alt="Table 1">
+            <h3>AE 724</h3>
+            <p class="price">₹11,000</p>
+            <button class="add-to-cart-btn" data-name="AE 724" data-price="11000" data-img="/image/AE 724.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 725.png" alt="Chair 1">
+            <h3>AE 725</h3>
+            <p class="price">₹10,500</p>
+            <button class="add-to-cart-btn" data-name="AE 725" data-price="10500" data-img="/image/AE 725.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 726.png" alt="Table 1">
+            <h3>AE 726</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 726" data-price="15000" data-img="/image/AE 726.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 727.png" alt="Chair 1">
+            <h3>AE 727</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 727" data-price="15000" data-img="/image/AE 727.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 728.png" alt="Table 1">
+            <h3>AE 728</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 728" data-price="15000" data-img="/image/AE 728.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 729.png" alt="Chair 1">
+            <h3>AE 729</h3>
+            <p class="price">₹10,000</p>
+            <button class="add-to-cart-btn" data-name="AE 729" data-price="10000" data-img="/image/AE 729.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 730.png" alt="Table 1">
+            <h3>AE 730</h3>
+            <p class="price">₹9,500</p>
+            <button class="add-to-cart-btn" data-name="AE 730" data-price="9500" data-img="/image/AE 730.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 731.png" alt="Chair 1">
+            <h3>AE 731</h3>
+            <p class="price">₹11,000</p>
+            <button class="add-to-cart-btn" data-name="AE 731" data-price="11000" data-img="/image/AE 731.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 732.png" alt="Table 1">
+            <h3>AE 732</h3>
+            <p class="price">₹10,500</p>
+            <button class="add-to-cart-btn" data-name="AE 732" data-price="10500" data-img="/image/AE 732.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 733.png" alt="Chair 1">
+            <h3>AE 733</h3>
+            <p class="price">₹15,000</p>
+            <button class="add-to-cart-btn" data-name="AE 733" data-price="15000" data-img="/image/AE 733.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 734.png" alt="Table 1">
+            <h3>AE 734</h3>
+            <p class="price">₹10,000</p>
+            <button class="add-to-cart-btn" data-name="AE 734" data-price="10000" data-img="/image/AE 734.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 735.png" alt="Chair 1">
+            <h3>AE 735</h3>
+            <p class="price">₹9,500</p>
+            <button class="add-to-cart-btn" data-name="AE 735" data-price="9500" data-img="/image/AE 735.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 736.png" alt="Table 1">
+            <h3>AE 736</h3>
+            <p class="price">₹8,800</p>
+            <button class="add-to-cart-btn" data-name="AE 736" data-price="8800" data-img="/image/AE 736.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 737.png" alt="Chair 1">
+            <h3>AE 737</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 737" data-price="8500" data-img="/image/AE 737.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 738.png" alt="Table 1">
+            <h3>AE 738</h3>
+            <p class="price">₹8,800</p>
+            <button class="add-to-cart-btn" data-name="AE 738" data-price="8800" data-img="/image/AE 738.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 739.png" alt="Chair 1">
+            <h3>AE 739</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 739" data-price="8500" data-img="/image/AE 739.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 740.png" alt="Table 1">
+            <h3>AE 740</h3>
+            <p class="price">₹8,800</p>
+            <button class="add-to-cart-btn" data-name="AE 740" data-price="8800" data-img="/image/AE 740.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 741.png" alt="Chair 1">
+            <h3>AE 741</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 741" data-price="8500" data-img="/image/AE 741.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 742.png" alt="Table 1">
+            <h3>AE 742</h3>
+            <p class="price">₹8,800</p>
+            <button class="add-to-cart-btn" data-name="AE 742" data-price="8800" data-img="/image/AE 742.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 743.png" alt="Chair 1">
+            <h3>AE 743</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 743" data-price="8500" data-img="/image/AE 743.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 744.png" alt="Table 1">
+            <h3>AE 744</h3>
+            <p class="price">₹7,500</p>
+            <button class="add-to-cart-btn" data-name="AE 744" data-price="7500" data-img="/image/AE 744.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 745.png" alt="Chair 1">
+            <h3>AE 745</h3>
+            <p class="price">₹7,000</p>
+            <button class="add-to-cart-btn" data-name="AE 745" data-price="7000" data-img="/image/AE 745.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 746.png" alt="Table 1">
+            <h3>AE 746</h3>
+            <p class="price">₹7,000</p>
+            <button class="add-to-cart-btn" data-name="AE 746" data-price="7000" data-img="/image/AE 746.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 747.png" alt="Chair 1">
+            <h3>AE 747</h3>
+            <p class="price">₹6,600</p>
+            <button class="add-to-cart-btn" data-name="AE 747" data-price="6600" data-img="/image/AE 747.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 748.png" alt="Table 1">
+            <h3>AE 748</h3>
+            <p class="price">₹7,000</p>
+            <button class="add-to-cart-btn" data-name="AE 748" data-price="7000" data-img="/image/AE 748.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 749.png" alt="Chair 1">
+            <h3>AE 749</h3>
+            <p class="price">₹6,600</p>
+            <button class="add-to-cart-btn" data-name="AE 749" data-price="6600" data-img="/image/AE 749.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 750.png" alt="Table 1">
+            <h3>AE 750</h3>
+            <p class="price">₹8,800</p>
+            <button class="add-to-cart-btn" data-name="AE 750" data-price="8800" data-img="/image/AE 750.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 751.png" alt="Chair 1">
+            <h3>AE 751</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 751" data-price="8500" data-img="/image/AE 751.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 752.png" alt="Table 1">
+            <h3>AE 752</h3>
+            <p class="price">₹8,000</p>
+            <button class="add-to-cart-btn" data-name="AE 752" data-price="8000" data-img="/image/AE 752.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 753.png" alt="Chair 1">
+            <h3>AE 753</h3>
+            <p class="price">₹7,500</p>
+            <button class="add-to-cart-btn" data-name="AE 753" data-price="7500" data-img="/image/AE 753.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 754.png" alt="Table 1">
+            <h3>AE 754</h3>
+            <p class="price">₹8,800</p>
+            <button class="add-to-cart-btn" data-name="AE 754" data-price="8800" data-img="/image/AE 754.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 755.png" alt="Chair 1">
+            <h3>AE 755</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 755" data-price="8500" data-img="/image/AE 755.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 756.png" alt="Table 1">
+            <h3>AE 756</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 756" data-price="6500" data-img="/image/AE 756.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 757.png" alt="Chair 1">
+            <h3>AE 757</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 757" data-price="5000" data-img="/image/AE 757.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 758.png" alt="Table 1">
+            <h3>AE 758</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 758" data-price="5000" data-img="/image/AE 758.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 759.png" alt="Chair 1">
+            <h3>AE 759</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 759" data-price="5000" data-img="/image/AE 759.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 760.png" alt="Table 1">
+            <h3>AE 760</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 760" data-price="5000" data-img="/image/AE 760.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 761.png" alt="Chair 1">
+            <h3>AE 761</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 761" data-price="5000" data-img="/image/AE 761.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 762.png" alt="Table 1">
+            <h3>AE 762</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 762" data-price="5000" data-img="/image/AE 762.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 763.png" alt="Chair 1">
+            <h3>AE 763</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 763" data-price="5000" data-img="/image/AE 763.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 764.png" alt="Table 1">
+            <h3>AE 764</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 764" data-price="5000" data-img="/image/AE 764.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 765.png" alt="Chair 1">
+            <h3>AE 765</h3>
+            <p class="price">₹7,500</p>
+            <button class="add-to-cart-btn" data-name="AE 765" data-price="7500" data-img="/image/AE 765.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 766.png" alt="Table 1">
+            <h3>AE 766</h3>
+            <p class="price">₹7,000</p>
+            <button class="add-to-cart-btn" data-name="AE 766" data-price="7000" data-img="/image/AE 766.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 767.png" alt="Chair 1">
+            <h3>AE 767</h3>
+            <p class="price">₹6,000</p>
+            <button class="add-to-cart-btn" data-name="AE 767" data-price="6000" data-img="/image/AE 767.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 768.png" alt="Table 1">
+            <h3>AE 768</h3>
+            <p class="price">₹8,500</p>
+            <button class="add-to-cart-btn" data-name="AE 768" data-price="8500" data-img="/image/AE 768.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 769.png" alt="Chair 1">
+            <h3>AE 769</h3>
+            <p class="price">₹6,000</p>
+            <button class="add-to-cart-btn" data-name="AE 769" data-price="6000" data-img="/image/AE 769.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 770.png" alt="Table 1">
+            <h3>AE 770</h3>
+            <p class="price">₹6,000</p>
+            <button class="add-to-cart-btn" data-name="AE 770" data-price="6000" data-img="/image/AE 770.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 771.png" alt="Chair 1">
+            <h3>AE 771</h3>
+            <p class="price">₹6,000</p>
+            <button class="add-to-cart-btn" data-name="AE 771" data-price="6000" data-img="/image/AE 771.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 772.png" alt="Table 1">
+            <h3>AE 772</h3>
+            <p class="price">₹6,000</p>
+            <button class="add-to-cart-btn" data-name="AE 772" data-price="60000" data-img="/image/AE 772.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 773.png" alt="Chair 1">
+            <h3>AE 773</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 773" data-price="6500" data-img="/image/AE 773.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 774.png" alt="Table 1">
+            <h3>AE 774</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 774" data-price="6500" data-img="/image/AE 774.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 775.png" alt="Chair 1">
+            <h3>AE 775</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 775" data-price="6500" data-img="/image/AE 775.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 776.png" alt="Table 1">
+            <h3>AE 776</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 776" data-price="6500" data-img="/image/AE 776.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 777.png" alt="Chair 1">
+            <h3>AE 777</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 777" data-price="6500" data-img="/image/AE 777.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 778.png" alt="Table 1">
+            <h3>AE 778</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 778" data-price="6500" data-img="/image/AE 778.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 779.png" alt="Chair 1">
+            <h3>AE 779</h3>
+            <p class="price">₹7,500</p>
+            <button class="add-to-cart-btn" data-name="AE 779" data-price="7500" data-img="/image/AE 779.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 780.png" alt="Table 1">
+            <h3>AE 780</h3>
+            <p class="price">₹6,500</p>
+            <button class="add-to-cart-btn" data-name="AE 780" data-price="6500" data-img="/image/AE 780.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 781.png" alt="Chair 1">
+            <h3>AE 781</h3>
+            <p class="price">₹5,500</p>
+            <button class="add-to-cart-btn" data-name="AE 781" data-price="5500" data-img="/image/AE 781.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 782.png" alt="Table 1">
+            <h3>AE 782</h3>
+            <p class="price">₹5,500</p>
+            <button class="add-to-cart-btn" data-name="AE 782" data-price="5500" data-img="/image/AE 782.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 783.png" alt="Chair 1">
+            <h3>AE 783</h3>
+            <p class="price">₹5,500</p>
+            <button class="add-to-cart-btn" data-name="AE 783" data-price="5500" data-img="/image/AE 783.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 784.png" alt="Table 1">
+            <h3>AE 784</h3>
+            <p class="price">₹5,200</p>
+            <button class="add-to-cart-btn" data-name="AE 784" data-price="5200" data-img="/image/AE 784.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 785.png" alt="Chair 1">
+            <h3>AE 785</h3>
+            <p class="price">₹5,200</p>
+            <button class="add-to-cart-btn" data-name="AE 785" data-price="5200" data-img="/image/AE 785.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 786.png" alt="Table 1">
+            <h3>AE 786</h3>
+            <p class="price">₹5,200</p>
+            <button class="add-to-cart-btn" data-name="AE 786" data-price="5200" data-img="/image/AE 786.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 787.png" alt="Chair 1">
+            <h3>AE 787</h3>
+            <p class="price">₹3,500</p>
+            <button class="add-to-cart-btn" data-name="AE 787" data-price="3500" data-img="/image/AE 787.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 788.png" alt="Table 1">
+            <h3>AE 788</h3>
+            <p class="price">₹4,000</p>
+            <button class="add-to-cart-btn" data-name="AE 788" data-price="4000" data-img="/image/AE 788.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 789.png" alt="Chair 1">
+            <h3>AE 789</h3>
+            <p class="price">₹5,200</p>
+            <button class="add-to-cart-btn" data-name="AE 789" data-price="5200" data-img="/image/AE 789.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 790.png" alt="Table 1">
+            <h3>AE 790</h3>
+            <p class="price">₹4,800</p>
+            <button class="add-to-cart-btn" data-name="AE 790" data-price="4800" data-img="/image/AE 790.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 791.png" alt="Chair 1">
+            <h3>AE 791</h3>
+            <p class="price">₹5,200</p>
+            <button class="add-to-cart-btn" data-name="AE 791" data-price="5200" data-img="/image/AE 791.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 792.png" alt="Table 1">
+            <h3>AE 792</h3>
+            <p class="price">₹4,800</p>
+            <button class="add-to-cart-btn" data-name="AE 792" data-price="4800" data-img="/image/AE 792.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 793.png" alt="Chair 1">
+            <h3>AE 793</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 793" data-price="5000" data-img="/image/AE 793.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 794.png" alt="Table 1">
+            <h3>AE 794</h3>
+            <p class="price">₹3,000</p>
+            <button class="add-to-cart-btn" data-name="AE 794" data-price="3000" data-img="/image/AE 794.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 795.png" alt="Chair 1">
+            <h3>AE 795</h3>
+            <p class="price">₹7,500</p>
+            <button class="add-to-cart-btn" data-name="AE 795" data-price="7500" data-img="/image/AE 795.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 796.png" alt="Table 1">
+            <h3>AE 796</h3>
+            <p class="price">₹5,000</p>
+            <button class="add-to-cart-btn" data-name="AE 796" data-price="5000" data-img="/image/AE 796.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AE 814.png" alt="Table 1">
+            <h3>AE 814</h3>
+            <p class="price">₹3,300</p>
+            <button class="add-to-cart-btn" data-name="AE 814" data-price="3300" data-img="/image/AE 814.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/oxford chair.jpg" alt="Table 1">
+            <h3>Oxford Chair</h3>
+            <p class="price">₹18,999</p>
+            <p>Seat cushioned
+                Height Adjustable</p>
+            <button class="add-to-cart-btn" data-name="Oxford Chair" data-price="18999"
+                data-img="/image/oxford chair.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/boxy chair.jpg" alt="Table 1">
+            <h3>Boxy Chair</h3>
+            <p class="price">₹12,000</p>
+            <p>(Chrome Armrest)
+                Seat cushioned
+                Height Adjustable</p>
+            <button class="add-to-cart-btn" data-name="Boxy Chair" data-price="12000"
+                data-img="/image/boxy chair.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/black beauty hb chair.png" alt="Table 1">
+            <h3>Black Beauty HB Chair</h3>
+            <p class="price">₹7,500</p>
+            <p>Chrome Base
+                Adjustable Height</p>
+            <button class="add-to-cart-btn" data-name="Black Beauty HB Chair" data-price="7500"
+                data-img="/image/black beauty hb chair.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/mb black beauty chair.png" alt="Table 1">
+            <h3>Black Beauty MB Chair</h3>
+            <p class="price">₹6,500</p>
+            <p>Chrome Base
+                Adjustable Height</p>
+            <button class="add-to-cart-btn" data-name="Black Beauty MB Chair" data-price="6500"
+                data-img="/image/mb black beauty chair.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/boss chair.png" alt="Table 1">
+            <h3>Boss Chair</h3>
+            <p class="price">₹7,499</p>
+            <p>Metal Base
+                Adjustable Height</p>
+            <button class="add-to-cart-btn" data-name="Boss Chair" data-price="7499"
+                data-img="/image/boss chair.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/stanley chair.png" alt="Table 1">
+            <h3>Stanley Chair</h3>
+            <p class="price">₹18,999</p>
+            <p>(Aluminium Armrest)
+                Seat cushioned
+                Height Adjustable</p>
+            <button class="add-to-cart-btn" data-name="Stanley Chair" data-price="18999"
+                data-img="/image/stanley chair.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/Leno.png" alt="Table 1">
+            <h3>Leno</h3>
+            <p class="price">₹5,400</p>
+            <p>Moulded seat push back mechanism fixed arms</p>
+            <button class="add-to-cart-btn" data-name="Leno" data-price="5400" data-img="/image/Leno.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/nova.png" alt="Table 1">
+            <h3>Nova</h3>
+            <p class="price">₹5,000</p>
+            <p>Moulded seat push back mechanism fixed arms</p>
+            <button class="add-to-cart-btn" data-name="nova" data-price="5000" data-img="/image/nova.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/comport.png" alt="Table 1">
+            <h3>Comport</h3>
+            <p class="price">₹5,300</p>
+            <p>Moulded seat push back mechanism fixed arms</p>
+            <button class="add-to-cart-btn" data-name="Comport" data-price="5300" data-img="/image/comport.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/trinity.png" alt="Table 1">
+            <h3>Trinity</h3>
+            <p class="price">₹8,500</p>
+            <p>Synchronised Tilt Metal base fixed arms</p>
+            <button class="add-to-cart-btn" data-name="Trinity" data-price="8500" data-img="/image/trinity.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/revel.png" alt="Table 1">
+            <h3>Revel</h3>
+            <p class="price">₹6,200</p>
+            <p>fixed Armrest Tilt Mechanism</p>
+            <button class="add-to-cart-btn" data-name="Revel" data-price="6200" data-img="/image/revel.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/XF.png" alt="Table 1">
+            <h3>XF</h3>
+            <p class="price">₹5,400</p>
+            <p>Push Back Mechanism Metal Base Fixed Arms</p>
+            <button class="add-to-cart-btn" data-name="XF" data-price="5400" data-img="/image/XF.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/aura.png" alt="Table 1">
+            <h3>Aura</h3>
+            <p class="price">₹8,000</p>
+            <p>Synchronised Tilt Metal base Adjustable Handles</p>
+            <button class="add-to-cart-btn" data-name="Aura" data-price="8000" data-img="/image/aura.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/jupiter.png" alt="Table 1">
+            <h3>Jupiter</h3>
+            <p class="price">₹7,000</p>
+            <p>Synchronised Tilt Metal base fixed arms</p>
+            <button class="add-to-cart-btn" data-name="Jupiter" data-price="7000" data-img="/image/jupiter.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/cube.png" alt="Table 1">
+            <h3>Cube</h3>
+            <p class="price">₹5,400</p>
+            <p>Push back mechanism metal base fixed arms</p>
+            <button class="add-to-cart-btn" data-name="Cube" data-price="5400" data-img="/image/cube.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/fusionplus.png" alt="Table 1">
+            <h3>Fusion Plus</h3>
+            <p class="price">₹9,750</p>
+            <p>Knee Tilt Mechanism | Adjustable Handles | Nylon Base</p>
+            <button class="add-to-cart-btn" data-name="Fusion Plus" data-price="9750"
+                data-img="/image/fusionplus.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/fusion.png" alt="Table 1">
+            <h3>Fusion</h3>
+            <p class="price">₹6,400</p>
+            <p> Nylon Base | Push Back Mechanism</p>
+            <button class="add-to-cart-btn" data-name="Fusion" data-price="6400" data-img="/image/fusion.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/slatelab.png" alt="Table 1">
+            <h3>Slate Lab</h3>
+            <p class="price">₹6,400</p>
+            <p>Ring Footrest chrome base fixed arms</p>
+            <button class="add-to-cart-btn" data-name="Slate Lab" data-price="6400" data-img="/image/slatelab.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/slate.png" alt="Table 1">
+            <h3>Slate</h3>
+            <p class="price">₹5,300</p>
+            <p>Metal Base Fixed Arms Push back Mechanism</p>
+            <button class="add-to-cart-btn" data-name="Slate" data-price="5300" data-img="/image/slate.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/kia.png" alt="Table 1">
+            <h3>Kia</h3>
+            <p class="price">₹5,850</p>
+            <p>Push Back Mechanism Fixed Armrest Metal Base</p>
+            <button class="add-to-cart-btn" data-name="Kia" data-price="5850" data-img="/image/kia.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/kialab.png" alt="Table 1">
+            <h3>Kia Lab</h3>
+            <p class="price">₹6,850</p>
+            <p>Chrome Base and Ring Footrest</p>
+            <button class="add-to-cart-btn" data-name="Kia Lab" data-price="6850" data-img="/image/kialab.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/contour.png" alt="Table 1">
+            <h3>Contour</h3>
+            <p class="price">₹6,000</p>
+            <p>Single lock Tilt Fix arms | Metal base</p>
+            <button class="add-to-cart-btn" data-name="Contour" data-price="6000" data-img="/image/contour.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/smart.png" alt="Table 1">
+            <h3>Smart</h3>
+            <p class="price">₹7,500</p>
+            <p>Medium back <br>Synchronised Tilt | Metal Base | Adjustable Lumbar Support</p>
+            <button class="add-to-cart-btn" data-name="Smart" data-price="7500" data-img="/image/smart.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/space.png" alt="Table 1">
+            <h3>Space</h3>
+            <p class="price">₹20,000</p>
+            <p>high back <br>Synchronised Tilt | Metal Base | Adjustable Arms | Adjustable Lumbar Support</p>
+            <button class="add-to-cart-btn" data-name="Space" data-price="20000" data-img="/image/space.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/oscar.png" alt="Table 1">
+            <h3>Oscar</h3>
+            <p class="price">₹10,000</p>
+            <p>high back <br>Synchronised Tilt | Metal Base | Adjustable Lumbar Support</p>
+            <button class="add-to-cart-btn" data-name="Oscar" data-price="10000" data-img="/image/oscar.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/cairo glow.png" alt="Table 1">
+            <h3>Cairo Glow</h3>
+            <p class="price">₹8,000</p>
+            <p>Tilt Mechanism| White Handles Fix Arms</p>
+            <button class="add-to-cart-btn" data-name="Cairo Glow" data-price="8000"
+                data-img="/image/cairo glow.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/cairo.png" alt="Table 1">
+            <h3>Cairo</h3>
+            <p class="price">₹6,000</p>
+            <p>Tilt Mechanism | Metal Base | Fixed Arms</p>
+            <button class="add-to-cart-btn" data-name="Cairo" data-price="6000" data-img="/image/cairo.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/coach.png" alt="Table 1">
+            <h3>Coach</h3>
+            <p class="price">₹6,000</p>
+            <p>Tilt Mechanism | Metal Base | Fixed Arms</p>
+            <button class="add-to-cart-btn" data-name="Coach" data-price="6000" data-img="/image/coach.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/stud glow.png" alt="Table 1">
+            <h3>Stud Glow</h3>
+            <p class="price">₹8,500</p>
+            <p>Synchronised Tilt | Metal Base | Fixed Arms</p>
+            <button class="add-to-cart-btn" data-name="Stud Glow" data-price="8500" data-img="/image/stud glow.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/stud.png" alt="Table 1">
+            <h3>Stud</h3>
+            <p class="price">₹7,700</p>
+            <p>Synchronised Tilt | Metal Base | Fixed Arms</p>
+            <button class="add-to-cart-btn" data-name="Stud" data-price="7700" data-img="/image/stud.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/whisper.png" alt="Table 1">
+            <h3>Whisper</h3>
+            <p class="price">₹7,499</p>
+            <p>Mesh Back Lumbar Support | Synchronised Tilt Single lock</p>
+            <button class="add-to-cart-btn" data-name="Whisper" data-price="7499" data-img="/image/whisper.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/jewel.png" alt="Table 1">
+            <h3>Jewel</h3>
+            <p class="price">₹6,000</p>
+            <p>Chrome BBase | Fixed Arms | Single Lock Tilt</p>
+            <button class="add-to-cart-btn" data-name="Jewel" data-price="6000" data-img="/image/jewel.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/beatle.png" alt="Table 1">
+            <h3>Beatle</h3>
+            <p class="price">₹6,000</p>
+            <p>Fixed Armrest Push Back Mechanism Metal Base</p>
+            <button class="add-to-cart-btn" data-name="Beatle" data-price="6000" data-img="/image/beatle.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/dynasty.png" alt="Table 1">
+            <h3>Dynasty</h3>
+            <p class="price">₹7,500</p>
+            <p>fixed Handles Moulded Seat Synchronised Tilt</p>
+            <button class="add-to-cart-btn" data-name="Dynasty" data-price="7500" data-img="/image/dynasty.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/trendz.png" alt="Table 1">
+            <h3>Trendz</h3>
+            <p class="price">₹5,800</p>
+            <p>Fixed Armrest Single Lock Tilt</p>
+            <button class="add-to-cart-btn" data-name="Trendz" data-price="5800" data-img="/image/trendz.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/mercury.png" alt="Table 1">
+            <h3>Mercury</h3>
+            <p class="price">₹7,000</p>
+            <p>Lumbar Support Synchronised Tilt</p>
+            <button class="add-to-cart-btn" data-name="Mercury" data-price="7000" data-img="/image/mercury.png">Add
+                to
+                Cart</button>
+        </div>
+        <div class="cardone ">
+            <img src="/image/alfa.png" alt="Table 1">
+            <h3>Alfa</h3>
+            <p class="price">₹7,250</p>
+            <p>Fixed armrest Single Lock Sync Tilt</p>
+            <button class="add-to-cart-btn" data-name="Alfa" data-price="7250" data-img="/image/alfa.png">Add
+                to
+                Cart</button>
+        </div>
+    </div>
+
+    <div id="cart-popup"
+        style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+    </div>
+
+</body>
+
+</html>

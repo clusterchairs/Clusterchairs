@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | ClusterChairs</title>
+  <style>
+    body { background:#f1f2f4; font-family: Arial, sans-serif; }
+    .container {
+      max-width:400px; margin:50px auto; background:#fff;
+      padding:32px; border-radius:12px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    }
+    h2 { text-align:center; margin-bottom:20px; }
+    input { width:100%; padding:10px; margin-bottom:14px;
+      border:1px solid #ccc; border-radius:6px; }
+    button {
+      width:100%; padding:10px; border:none; border-radius:6px;
+      background:#a05252; color:#fff; font-size:1em; cursor:pointer;
+    }
+    button:hover { background:#7a3d3d; }
+    #message { text-align:center; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Account</h2>
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="text" id="phone" placeholder="Phone Number" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="sendOTP()">Send OTP</button>
+
+    <div id="otp-section" style="display:none;">
+      <input type="text" id="otp" placeholder="Enter OTP" />
+      <button onclick="verifyOTP()">Verify OTP & Register</button>
+    </div>
+    <p id="message"></p>
+    <p style="text-align:center;">Already have an account? <a href="/login.html">Login</a></p>
+  </div>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("UgY7M-_GEp0PIX27k");  // your public key
+
+    let generatedOTP;
+
+    function sendOTP() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      if (!email || !name) {
+        document.getElementById("message").textContent = "Enter your name and email first!";
+        return;
+      }
+
+      generatedOTP = Math.floor(100000 + Math.random() * 900000);
+
+      emailjs.send("service_uun8501", "template_muph04o", {
+        to_name: name,
+        otp: generatedOTP,
+        email: email
+      })
+      .then(() => {
+        document.getElementById("message").textContent = "✅ OTP sent to your email!";
+        document.getElementById("otp-section").style.display = "block";
+      })
+      .catch(err => {
+        console.error("EmailJS Error:", err);
+        document.getElementById("message").textContent = "❌ Error sending OTP!";
+      });
+    }
+
+    function verifyOTP() {
+      const entered = document.getElementById("otp").value;
+      if (parseInt(entered) === generatedOTP) {
+        document.getElementById("message").textContent = "✅ OTP Verified. Registering user...";
+
+        const user = {
+          name: document.getElementById("name").value,
+          mobile: document.getElementById("phone").value,
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value
+        };
+
+        fetch("/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById("message").textContent = "🎉 Registration Successful!";
+            setTimeout(() => { window.location.href = "/login.html"; }, 1500);
+          } else {
+            document.getElementById("message").textContent = "❌ " + data.message;
+          }
+        })
+        .catch(() => {
+          document.getElementById("message").textContent = "❌ Server error!";
+        });
+
+      } else {
+        document.getElementById("message").textContent = "❌ Invalid OTP!";
+      }
+    }
+  </script>
+</body>
+</html>

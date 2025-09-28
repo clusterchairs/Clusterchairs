@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sofa Cumbed</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/index.js">
+    <link rel="stylesheet" href="/index.html">
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <style>
+        .cart {
+            width: 40px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            justify-items: center;
+            margin: 40px 0;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            min-width: 0;
+            min-height: 370px;
+            padding: 14px 10px 18px 10px;
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="/auth.js"></script>
+    <script src="/cart-logic.js"></script>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+            <div class="location">Cluster Chairs</div>
+        </a>
+        <!-- <div class="search">
+            <img src="image/search.png" alt="Search" class="search-input-icon">
+            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
+            <button>Search</button>
+        </div> -->
+        <div class="nav-links">
+            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
+            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
+            <a href="/cart.html">
+                <img src="/image/cartimage.png" class="cart"
+                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
+                <span id="cart-count"
+                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="card-container">
+        <div class="card">
+            <img src="/image/flipper Sofa Cum Bed.jpg" alt="Chair 1">
+            <h3>Flipper Sofa Cumbed</h3>
+            <p class="price">₹11,000</p>
+            <p>Three Seater (6'x5') Feet- WarpKnit Grey
+            </p>
+            <button class="add-to-cart-btn" data-name="Fancy" data-price="11000"
+                data-img="/image/flipper Sofa Cum Bed.jpg">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/Friheten.jpg" alt="Table 1">
+            <h3>Friheten</h3>
+            <p class="price">₹54,000</p>
+            <p>Corner sofa-bed with storage, Faringe light grey</p>
+            <button class="add-to-cart-btn" data-name="IAFA" data-price="54000" data-img="/image/Friheten.jpg">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/Skonaback.jpg" alt="Chair 1">
+            <h3>Skonaback</h3>
+            <p class="price">₹42,000</p>
+            <p>Skonaback 2 seat sofa bed knisa dark grey</p>
+            <button class="add-to-cart-btn" data-name="Skonaback" data-price="42000" data-img="/image/Skonaback.jpg">Add
+                to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/milan.jpg" alt="Table 1">
+            <h3>Milan Sofa Cumbed</h3>
+            <p class="price">₹40,000</p>
+            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
+            <button class="add-to-cart-btn" data-name="Milan Sofa Cumbed" data-price="40000"
+                data-img="/image/Milan Sofa Cumbed.jpg">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/upholstered.jpg" alt="Table 1">
+            <h3>Upholstered Sofa Bed</h3>
+            <p class="price">₹70,000</p>
+            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
+            <button class="add-to-cart-btn" data-name="Upholstered Sofa Bed" data-price="70000"
+                data-img="/image/Upholstered Sofa Bed.jpg">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/Marisa 4 seat.jpg" alt="Table 1">
+            <h3>Marisa 4 Seater Sofa Bed</h3>
+            <p class="price">₹40,000</p>
+            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
+            <button class="add-to-cart-btn" data-name="Marisa 4 Seater Sofa Bed" data-price="40000"
+                data-img="/image/Marisa 4 seat.jpg">Add to
+                Cart</button>
+        </div>
+    </div>
+
+    <div id="cart-popup"
+        style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+    </div>
+
+</body>
+
+</html>

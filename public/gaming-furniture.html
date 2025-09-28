@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gaming-Furniture</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/index.js">
+    <link rel="stylesheet" href="/index.html">
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <style>
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            justify-items: center;
+            margin: 40px 0;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 320px;
+            min-width: 0;
+            min-height: 340px;
+            padding: 14px 10px 18px 10px;
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: #fff;
+        }
+
+        .cart {
+            width: 40px;
+            /* height: -10px !important; */
+        }
+    </style>
+
+</head>
+
+<body>
+    <script src="/auth.js"></script>
+    <script src="/cart-logic.js"></script>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+            <div class="location">Cluster Chairs</div>
+        </a>
+        <!-- <div class="search">
+            <img src="image/search.png" alt="Search" class="search-input-icon">
+            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
+            <button>Search</button>
+        </div> -->
+        <div class="nav-links">
+            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
+            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
+            <a href="/cart.html">
+                <img src="/image/cartimage.png" class="cart"
+                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
+                <span id="cart-count"
+                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="card-container">
+        <div class="card">
+            <img src="/image/GTPLAYER.jpg" alt="Chair 1">
+            <h3>GTPLAYER</h3>
+            <p class="price">₹12,000</p>
+            <p>GTPLAYER #1USA Multi-Functional Ergonomic Gaming & Computer Chair – Massage Cushion, Premium PU Leather,
+                Adjustable Neck & Lumbar Pillow for Back Support, Footrest (Red)</p>
+            <button class="add-to-cart-btn" data-name="GTPLAYER" data-price="12000" data-img="/image/GTPLAYER.jpg">Add
+                to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/IAFA.jpg" alt="Table 1">
+            <h3>IAFA</h3>
+            <p class="price">₹7,000</p>
+            <p>IAFA FURNITURE Ergolux Ergonomic Premium Office Chair | Mesh Desk Chair with Adjustable Armrests & Lumbar
+                Support | Tilt Lock Mechanism | Breathable Fabric | Comfortable & Stylish (Black)</p>
+            <button class="add-to-cart-btn" data-name="IAFA" data-price="7000" data-img="/image/IAFA.jpg">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AS 203.png" alt="Chair 1">
+            <h3>AS 203</h3>
+            <p class="price">₹6,000</p>
+            <button class="add-to-cart-btn" data-name="AS 203" data-price="6000" data-img="/image/AS 203.png">Add to
+                Cart</button>
+        </div>
+        <div class="card">
+            <img src="/image/AS 204.png" alt="Table 1">
+            <h3>AS 204</h3>
+            <p class="price">₹3,500</p>
+            <button class="add-to-cart-btn" data-name="AS 204" data-price="3500" data-img="/image/AS 204.png">Add to
+                Cart</button>
+        </div>
+    </div>
+
+    <div id="cart-popup"
+        style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+    </div>
+
+
+</body>
+
+</html>

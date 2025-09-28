@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClusterChairs - Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f1f2f4;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background: #7d4b4b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 120px;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-img {
+      height: 120px;
+      margin-right: 16px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .cluster {
+      font-size: 2.2em;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: 1px;
+      font-family: Protest Strike, sans-serif !important;
+      margin-bottom: -18px;
+    }
+
+    .chairs {
+      font-size: 2.2em;
+      color: #ffd700;
+      line-height: 1.1;
+      letter-spacing: 1px;
+      font-family: Protest Strike, sans-serif !important;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .user-email {
+      color: #fff;
+      font-size: 1.1em;
+      margin-right: 10px;
+    }
+
+    .logout-link {
+      color: #fff;
+      font-size: 1.1em;
+      text-decoration: none;
+      margin-right: 18px;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .logout-link:hover {
+      color: #ffd700;
+    }
+
+    .cart-link {
+      display: flex;
+      align-items: center;
+      position: relative;
+      color: #ffd700;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+
+    .cart-icon {
+      height: 32px;
+      filter: brightness(1.2) sepia(1) hue-rotate(-30deg) saturate(5);
+    }
+
+    #cart-count {
+      color: #ffd700;
+      font-weight: bold;
+      margin-left: 6px;
+      font-size: 1.2em;
+    }
+
+    .cart-container {
+      background: #fff;
+      max-width: 600px;
+      margin: 40px auto 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+      padding: 32px 24px;
+    }
+
+    .cart-container h2 {
+      margin-top: 0;
+      font-size: 2em;
+      color: #232f3e;
+      text-align: center;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 16px 0;
+    }
+
+    .cart-item img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 18px;
+      background: #f1f2f4;
+    }
+
+    .cart-item .details {
+      flex: 1;
+    }
+
+    .cart-item .name {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 4px;
+    }
+
+    .remove-btn {
+      background: #ff4d4f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #d9363e;
+    }
+
+    #cart-total {
+      text-align: right;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 18px;
+      color: #232f3e;
+    }
+
+    .address-container {
+      margin-top: 32px;
+      background: #f9f9f9;
+      padding: 18px 16px;
+      border-radius: 8px;
+    }
+
+    .address-container h3 {
+      margin-top: 0;
+      color: #232f3e;
+    }
+
+    #address-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+      background: #fff;
+    }
+
+    .pay-btn {
+      width: 100%;
+      background: #232f3e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 0;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pay-btn:hover {
+      background: #1a222c;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="navbar-left">
+      <img src="/image/logo.png" alt="Cluster Logo" class="logo-img" />
+      <div class="brand-text">
+        <span class="cluster">Cluster</span>
+        <span class="chairs">Chairs</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <span class="user-email" id="user-email"></span>
+      <a href="#" id="logout-link" class="logout-link">Logout</a>
+      <a href="/cart.html" class="cart-link">
+        <img src="/image/cartimage.png" class="cart-icon" alt="Cart" />
+        <span id="cart-count">0</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="cart-container">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div id="cart-total"></div>
+
+    <div class="address-container">
+      <h3>Shipping Address</h3>
+      <form id="address-form">
+        <input type="text" id="street" placeholder="Street Address" required>
+        <input type="text" id="city" placeholder="City" required>
+        <input type="text" id="state" placeholder="State" required>
+        <input type="text" id="zip" placeholder="Zip Code" required>
+      </form>
+    </div>
+
+    <button class="pay-btn" onclick="payNow()">Pay Now</button>
+  </div>
+
+  <script>
+    // Set your hosted backend URL here!
+    // Example: "https://your-backend.onrender.com"
+    const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const email = localStorage.getItem('userEmail');
+      document.getElementById('user-email').textContent = email ? email : '';
+    });
+
+    document.getElementById('logout-link').addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('cart');
+      window.location.href = '/login.html';
+    });
+
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItemsDiv = document.getElementById('cart-items');
+      const cartTotalDiv = document.getElementById('cart-total');
+      const payButton = document.querySelector('.pay-btn');
+      document.getElementById('cart-count').textContent = cart.length;
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
+        cartTotalDiv.textContent = '';
+        payButton.style.display = 'none';
+        return;
+      }
+
+      payButton.style.display = 'block';
+      cartItemsDiv.innerHTML = '';
+
+      let total = 0;
+      cart.forEach(item => {
+        total += Number(item.price) * item.quantity;
+        cartItemsDiv.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="details">
+                            <div class="name">${item.name}</div>
+                            <div>₹${item.price} x ${item.quantity} = ₹${(item.price * item.quantity).toFixed(2)}</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart('${item.name}','${item.price}')">Remove</button>
+                    </div>
+                `;
+      });
+      cartTotalDiv.textContent = `Total: ₹${total.toFixed(2)}`;
+    }
+
+    function removeFromCart(name, price) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const idx = cart.findIndex(item => item.name === name && item.price === price);
+      if (idx > -1) {
+        if (cart[idx].quantity > 1) {
+          cart[idx].quantity -= 1;
+        } else {
+          cart.splice(idx, 1);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+      }
+    }
+
+    window.addEventListener('load', renderCart);
+
+    // Save order and address to database (no payment)
+    async function payNow() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      const street = document.getElementById('street').value;
+      const city = document.getElementById('city').value;
+      const state = document.getElementById('state').value;
+      const zip = document.getElementById('zip').value;
+
+      if (!street || !city || !state || !zip) {
+        alert("Please fill in your complete shipping address.");
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+      const userEmail = localStorage.getItem('userEmail');
+
+      try {
+        const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_email: userEmail,
+            cart,
+            total_amount: total,
+            street,
+            city,
+            state,
+            zip
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert("Order placed successfully!");
+          localStorage.removeItem('cart');
+          renderCart();
+        } else {
+          alert("Order failed: " + data.message);
+        }
+      } catch (err) {
+        console.error("Order error:", err);
+        alert("Order failed: " + err.message);
+      }
+    }
+  </script>
+</body>
+
+</html>
