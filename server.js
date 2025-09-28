@@ -82,13 +82,18 @@ app.post("/add-order", async (req, res) => {
     zip
   } = req.body;
 
-  // Validation
   if (!user_email || !cart || !total_amount || !street || !city || !state || !zip) {
     return res.status(400).json({ success: false, message: "All fields required" });
   }
 
   try {
-    // Generate a random order_id and payment_id for demo purposes
+    // Get user id from email
+    const [rows] = await db.query("SELECT id FROM users WHERE email = ?", [user_email]);
+    if (rows.length === 0) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+    const user_id = rows[0].id;
+
     const order_id = "order_" + Date.now();
     const payment_id = "manual_" + Date.now();
 
@@ -97,7 +102,7 @@ app.post("/add-order", async (req, res) => {
       (user_id, order_id, payment_id, items, total_amount, status, street, city, state, zip) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        user_email,
+        user_id, // use numeric id, not email!
         order_id,
         payment_id,
         JSON.stringify(cart),
