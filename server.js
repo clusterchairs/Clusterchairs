@@ -82,6 +82,11 @@ app.post("/add-order", async (req, res) => {
     zip
   } = req.body;
 
+  // Validation
+  if (!user_email || !cart || !total_amount || !street || !city || !state || !zip) {
+    return res.status(400).json({ success: false, message: "All fields required" });
+  }
+
   try {
     // Generate a random order_id and payment_id for demo purposes
     const order_id = "order_" + Date.now();
@@ -107,7 +112,7 @@ app.post("/add-order", async (req, res) => {
     res.json({ success: true, message: "Order stored!" });
   } catch (err) {
     console.error("❌ Error in /add-order:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 
