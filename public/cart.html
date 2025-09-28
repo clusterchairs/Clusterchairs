@@ -14,33 +14,292 @@
       margin: 0;
       padding: 0;
     }
-    .navbar { background: #7d4b4b; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 120px; }
-    .navbar-left { display: flex; align-items: center; }
-    .logo-img { height: 120px; margin-right: 16px; }
-    .brand-text { display: flex; flex-direction: column; justify-content: center; margin-top: 10px; }
-    .cluster { font-size: 2.2em; color: #fff; line-height: 1.1; letter-spacing: 1px; font-family: Protest Strike, sans-serif !important; margin-bottom: -18px; }
-    .chairs { font-size: 2.2em; color: #ffd700; line-height: 1.1; letter-spacing: 1px; font-family: Protest Strike, sans-serif !important; }
-    .navbar-right { display: flex; align-items: center; gap: 24px; }
-    .user-email { color: #fff; font-size: 1.1em; margin-right: 10px; }
-    .logout-link { color: #fff; font-size: 1.1em; text-decoration: none; margin-right: 18px; transition: color 0.2s; cursor: pointer; }
-    .logout-link:hover { color: #ffd700; }
-    .cart-link { display: flex; align-items: center; position: relative; color: #ffd700; text-decoration: none; font-size: 1.2em; }
-    .cart-icon { height: 32px; filter: brightness(1.2) sepia(1) hue-rotate(-30deg) saturate(5); }
-    #cart-count { color: #ffd700; font-weight: bold; margin-left: 6px; font-size: 1.2em; }
-    .cart-container { background: #fff; max-width: 600px; margin: 40px auto 0 auto; border-radius: 12px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08); padding: 32px 24px; }
-    .cart-container h2 { margin-top: 0; font-size: 2em; color: #232f3e; text-align: center; }
-    .cart-item { display: flex; align-items: center; border-bottom: 1px solid #eee; padding: 16px 0; }
-    .cart-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 18px; background: #f1f2f4; }
-    .cart-item .details { flex: 1; }
-    .cart-item .name { font-weight: bold; font-size: 1.1em; margin-bottom: 4px; }
-    .remove-btn { background: #ff4d4f; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-size: 0.95em; transition: background 0.2s; }
-    .remove-btn:hover { background: #d9363e; }
-    #cart-total { text-align: right; font-size: 1.2em; font-weight: bold; margin-top: 18px; color: #232f3e; }
-    .address-container { margin-top: 32px; background: #f9f9f9; padding: 18px 16px; border-radius: 8px; }
-    .address-container h3 { margin-top: 0; color: #232f3e; }
-    #address-form input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 1em; background: #fff; }
-    .pay-btn { width: 100%; background: #232f3e; color: #fff; border: none; border-radius: 8px; padding: 14px 0; font-size: 1.1em; font-weight: bold; margin-top: 24px; cursor: pointer; transition: background 0.2s; }
-    .pay-btn:hover { background: #1a222c; }
+
+    .navbar {
+      background: #7d4b4b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 120px;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-img {
+      height: 120px;
+      margin-right: 16px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .cluster {
+      font-size: 2.2em;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: 1px;
+      font-family: Protest Strike, sans-serif !important;
+      margin-bottom: -18px;
+    }
+
+    .chairs {
+      font-size: 2.2em;
+      color: #ffd700;
+      line-height: 1.1;
+      letter-spacing: 1px;
+      font-family: Protest Strike, sans-serif !important;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .user-email {
+      color: #fff;
+      font-size: 1.1em;
+      margin-right: 10px;
+    }
+
+    .logout-link {
+      color: #fff;
+      font-size: 1.1em;
+      text-decoration: none;
+      margin-right: 18px;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .logout-link:hover {
+      color: #ffd700;
+    }
+
+    .cart-link {
+      display: flex;
+      align-items: center;
+      position: relative;
+      color: #ffd700;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+
+    .cart-icon {
+      height: 32px;
+      filter: brightness(1.2) sepia(1) hue-rotate(-30deg) saturate(5);
+    }
+
+    .floating-text {
+      /* position: fixed; */
+      width: 195.3% ;
+      bottom: 435px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2em;
+      background: #7d4b4b;
+      color: #ffd700;
+      padding: 10px 32px;
+      font-weight: bold;
+      z-index: 9999;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .floating-text span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: floatTextLeft 12s linear infinite;
+    }
+
+    @keyframes floatTextLeft {
+      0% {
+        transform: translateX(350%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+
+    #cart-count {
+      color: #ffd700;
+      font-weight: bold;
+      margin-left: 6px;
+      font-size: 1.2em;
+    }
+
+    .cart-container {
+      background: #fff;
+      max-width: 600px;
+      margin: 40px auto 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+      padding: 32px 24px;
+    }
+
+    .cart-container h2 {
+      margin-top: 0;
+      font-size: 2em;
+      color: #232f3e;
+      text-align: center;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 16px 0;
+    }
+
+    .cart-item img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 18px;
+      background: #f1f2f4;
+    }
+
+    .cart-item .details {
+      flex: 1;
+    }
+
+    .cart-item .name {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 4px;
+    }
+
+    .remove-btn {
+      background: #ff4d4f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #d9363e;
+    }
+
+    #cart-total {
+      text-align: right;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 18px;
+      color: #232f3e;
+    }
+
+    .address-container {
+      margin-top: 32px;
+      background: #f9f9f9;
+      padding: 18px 16px;
+      border-radius: 8px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 9999;
+    }
+
+    .whatsapp-icon {
+      width: 56px;
+      height: 56px;
+      background: #25d366;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+    }
+
+    .whatsapp-icon::before {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 32px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg') no-repeat center center;
+      background-size: contain;
+    }
+
+    .whatsapp-popup {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+      padding: 14px 18px;
+      min-width: 160px;
+      font-size: 1.08em;
+    }
+
+    .whatsapp-popup a {
+      color: #25d366;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .whatsapp-popup a:last-child {
+      margin-bottom: 0;
+    }
+
+    .whatsapp-float:hover .whatsapp-popup {
+      display: block;
+    }
+
+    .address-container h3 {
+      margin-top: 0;
+      color: #232f3e;
+    }
+
+    #address-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+      background: #fff;
+    }
+
+    .pay-btn {
+      width: 100%;
+      background: #232f3e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 0;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pay-btn:hover {
+      background: #1a222c;
+    }
   </style>
 </head>
 
@@ -62,6 +321,15 @@
       </a>
     </div>
   </header>
+  <div class="floating-text"><span>Contact for better prices if you are buying in bulk!</span></div>
+
+  <div class="whatsapp-float">
+    <div class="whatsapp-icon"></div>
+    <div class="whatsapp-popup">
+      <a href="https://wa.me/919969566885" target="_blank">Amol Mhaske</a><br>
+      <a href="https://wa.me/918149231317" target="_blank">Swayam Divekar</a>
+    </div>
+  </div>
 
   <div class="cart-container">
     <h2>Your Cart</h2>
@@ -235,4 +503,5 @@
     document.getElementById('pay-now-btn').addEventListener('click', payNow);
   </script>
 </body>
+
 </html>
