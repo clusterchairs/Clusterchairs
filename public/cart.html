@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClusterChairs - Cart</title>
   <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
-    /* ...existing CSS from your file... */
     body {
       background: #f1f2f4;
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -148,7 +148,7 @@
       }
     }
 
-    // Save order and address to database (no payment)
+    // Razorpay payment and order save
     async function payNow() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       if (cart.length === 0) {
@@ -170,30 +170,65 @@
       const userEmail = localStorage.getItem('userEmail');
 
       try {
-        const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {
+        // 1. Create Razorpay order on backend
+        const orderRes = await fetch(`${HOSTED_BACKEND_URL}/create-order`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_email: userEmail,
-            cart,
-            total_amount: total,
-            street,
-            city,
-            state,
-            zip
-          })
+          body: JSON.stringify({ amount: total })
         });
-        const data = await res.json();
-        if (data.success) {
-          alert("Order placed successfully!");
-          localStorage.removeItem('cart');
-          renderCart();
-        } else {
-          alert("Order failed: " + data.message);
+        const order = await orderRes.json();
+        if (!order.id) {
+          alert("Order creation failed: " + (order.message || "Unknown error"));
+          return;
         }
+
+        // 2. Open Razorpay payment modal
+        const options = {
+          key: "rzp_test_RJ8q6Yz0Jx8dCw", // Replace with your Razorpay key!
+          amount: order.amount,
+          currency: order.currency,
+          name: "ClusterChairs",
+          description: "Order Payment",
+          order_id: order.id,
+          handler: async function (response) {
+            // 3. On payment success, save order in DB
+            try {
+              const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  user_email: userEmail,
+                  cart,
+                  total_amount: total,
+                  street,
+                  city,
+                  state,
+                  zip,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  payment_status: "paid"
+                })
+              });
+              const data = await res.json();
+              if (data.success) {
+                alert("Payment & Order placed successfully!");
+                localStorage.removeItem('cart');
+                renderCart();
+              } else {
+                alert("Order failed: " + data.message);
+              }
+            } catch (err) {
+              alert("Order failed: " + err.message);
+            }
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
       } catch (err) {
-        console.error("Order error:", err);
-        alert("Order failed: " + err.message);
+        console.error("Payment error:", err);
+        alert("Payment initialization failed: " + err.message);
       }
     }
 
