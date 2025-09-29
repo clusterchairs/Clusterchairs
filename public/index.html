@@ -2,10 +2,51 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clusterchairs</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="./style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgb(121, 65, 65);
+            padding: 10px 20px;
+            color: #fff;
+            position: relative;
+        }
+
+        .logo img {
+            height: 80px;
+        }
+
+        .location {
+            font-family: "Protest Strike", sans-serif;
+            font-size: 28px;
+            margin-left: 15px;
+            flex-grow: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
         .cart {
             width: 40px;
         }
@@ -15,35 +56,42 @@
             display: none;
             font-size: 32px;
             cursor: pointer;
+            color: #fff;
+        }
+
+        /* Banner placeholder */
+        .banner-image {
+            background: url("./image/banner.jpg") no-repeat center/cover;
+            height: 350px;
+            position: relative;
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .location {
-                font-size: 30px;
-                margin-left: 20px;
+            .logo img {
+                height: 65px;
             }
 
-            .logo img {
-                height: 70px;
+            .location {
+                font-size: 24px;
             }
         }
 
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
-                color: #fff;
             }
 
             .nav-links {
                 display: none;
                 position: absolute;
                 top: 70px;
-                right: 10px;
+                right: 15px;
                 background: rgb(121, 65, 65);
                 flex-direction: column;
                 padding: 10px;
                 border-radius: 8px;
+                width: 200px;
             }
 
             .nav-links.active {
@@ -56,12 +104,7 @@
             }
 
             .location {
-                font-size: 22px;
-                margin-left: 10px;
-            }
-
-            .deals-grid {
-                gap: 40px;
+                font-size: 20px;
             }
         }
 
@@ -89,28 +132,25 @@
 </head>
 
 <body>
-    <script src="/auth.js"></script>
-    <script src="/cart-logic.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./cart-logic.js"></script>
 
     <!-- Navbar -->
     <header class="navbar">
-        <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+        <div class="logo"><img src="./image/logo.png" alt="Logo"></div>
         <div class="location">Cluster Chairs</div>
 
         <!-- Hamburger -->
-        <div class="hamburger" id="hamburger">
-            ☰
-        </div>
+        <div class="hamburger" id="hamburger">☰</div>
 
         <!-- Nav Links -->
         <div class="nav-links" id="nav-links">
-            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
-            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart"
-                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
+            <a href="./login.html" id="account-link">Account & Lists</a>
+            <a href="#" id="logout-link" style="display: none;">Logout</a>
+            <a href="./cart.html">
+                <img src="./image/cartimage.png" class="cart" alt="cart">
                 <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+                    style="color: #fff; border-radius: 50%; padding: 2px 2px; margin-left: 4px; font-size: 18px;">0</span>
             </a>
         </div>
     </header>
@@ -119,23 +159,12 @@
     <section class="banner">
         <div class="banner-content">
             <div class="banner-image">
+                <!-- Hotspot Links -->
                 <div class="banner-link-area">
-                    <a href="/home-furniture.html" class="banner-link couch-link"><span class="banner-tooltip">Go to
-                            Home-furniture Page</span></a>
-                    <a href="/home-furniture.html" class="banner-link tea-link"><span class="banner-tooltip">Go to
-                            Home-furniture Page</span></a>
-                    <a href="/home-furniture.html" class="banner-link teas-link"><span class="banner-tooltip">Go to
-                            Home-furniture Page</span></a>
-                    <a href="/home-furniture.html" class="banner-link table-link"><span class="banner-tooltip">Go to
-                            Home-furniture Page</span></a>
-                    <a href="/gaming-furniture.html" class="banner-link gaming-link"><span class="banner-tooltip">Go to
-                            Gaming-furniture Page</span></a>
-                    <a href="/office-furniture.html" class="banner-link Office-link"><span class="banner-tooltip">Go to
-                            Office-furniture Page</span></a>
-                    <a href="/office-furniture.html" class="banner-link Officee-link"><span class="banner-tooltip">Go to
-                            Office-furniture Page</span></a>
-                    <a href="/computer-furniture.html" class="banner-link Computer-link"><span class="banner-tooltip">Go
-                            to Computer-furniture Page</span></a>
+                    <a href="./home-furniture.html" class="banner-link couch-link"><span class="banner-tooltip">Go to Home-furniture Page</span></a>
+                    <a href="./gaming-furniture.html" class="banner-link gaming-link"><span class="banner-tooltip">Go to Gaming-furniture Page</span></a>
+                    <a href="./office-furniture.html" class="banner-link Office-link"><span class="banner-tooltip">Go to Office-furniture Page</span></a>
+                    <a href="./computer-furniture.html" class="banner-link Computer-link"><span class="banner-tooltip">Go to Computer-furniture Page</span></a>
                 </div>
             </div>
         </div>
@@ -146,58 +175,29 @@
         <div class="deals-main">
             <h3>Types of Furniture</h3>
             <div class="deals-grid">
-                <a href="/cafe-furniture.html">
+                <a href="./cafe-furniture.html">
                     <div class="deal-card">
                         <h3>Cafe Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/cafe-chairs.jpg"><button
+                            <div class="img-wrapper"><img src="./image/cafe-chairs.jpg"><button
                                     class="see-offers-btn">See all offers</button></div>
                         </div>
                     </div>
                 </a>
-                <a href="/dinning-furniture.html">
+                <a href="./dinning-furniture.html">
                     <div class="deal-card">
                         <h3>Dining Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/dinning-furniture.jpg"><button
+                            <div class="img-wrapper"><img src="./image/dinning-furniture.jpg"><button
                                     class="see-offers-btn">See all offers</button></div>
                         </div>
                     </div>
                 </a>
-                <a href="/home-furniture.html">
+                <a href="./home-furniture.html">
                     <div class="deal-card">
                         <h3>Home Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/home-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="deals-grid">
-                <a href="/gaming-furniture.html">
-                    <div class="deal-card">
-                        <h3>Gaming Furniture</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/gaming-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
-                        </div>
-                    </div>
-                </a>
-                <a href="/office-furniture.html">
-                    <div class="deal-card">
-                        <h3>Office Furniture</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/office-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
-                        </div>
-                    </div>
-                </a>
-                <a href="/computer-furniture.html">
-                    <div class="deal-card">
-                        <h3>Computer Furniture</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/computer-furniture.jpg"><button
+                            <div class="img-wrapper"><img src="./image/home-furniture.jpg"><button
                                     class="see-offers-btn">See all offers</button></div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
         // Logout logic
         function handleLogout() {
             localStorage.removeItem('token');
-            window.location.href = 'index.html';
+            window.location.href = './index.html';
         }
 
         function checkLoginStatus() {
@@ -244,5 +244,4 @@
         });
     </script>
 </body>
-
 </html>
