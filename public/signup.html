@@ -5,24 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up | ClusterChairs</title>
   <style>
-    body { background:#f1f2f4; font-family: Arial, sans-serif; }
+    body { 
+      background:#f1f2f4; 
+      font-family: Arial, sans-serif; 
+      margin:0; 
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      display:flex; align-items:center; justify-content:space-between;
+      background:rgb(121,65,65); color:#fff;
+      padding:12px 20px;
+      position:sticky; top:0; z-index:1000;
+    }
+    .navbar .logo {
+      display:flex; align-items:center; gap:10px;
+    }
+    .navbar .logo img {
+      height:45px;
+    }
+    .navbar .logo span {
+      font-size:20px; font-weight:bold;
+    }
+    .nav-links {
+      display:flex; gap:18px; align-items:center;
+    }
+    .nav-links a {
+      color:#fff; text-decoration:none; font-size:16px;
+    }
+    .nav-links a:hover { color:#febd69; }
+
+    /* Hamburger */
+    .hamburger {
+      display:none; flex-direction:column; gap:5px; cursor:pointer;
+    }
+    .hamburger span {
+      width:25px; height:3px; background:#fff; border-radius:2px;
+    }
+    .mobile-menu {
+      display:none; flex-direction:column;
+      background:rgb(121,65,65); padding:15px;
+      position:absolute; right:0; top:60px; width:200px;
+      border-radius:0 0 8px 8px;
+    }
+    .mobile-menu a {
+      color:#fff; padding:10px; text-decoration:none;
+    }
+    .mobile-menu a:hover { background:#a05252; }
+
+    /* ===== Form Container ===== */
     .container {
-      max-width:400px; margin:50px auto; background:#fff;
+      max-width:400px; margin:60px auto; background:#fff;
       padding:32px; border-radius:12px;
       box-shadow:0 2px 12px rgba(0,0,0,0.08);
     }
     h2 { text-align:center; margin-bottom:20px; }
-    input { width:100%; padding:10px; margin-bottom:14px;
-      border:1px solid #ccc; border-radius:6px; }
+    input {
+      width:100%; padding:12px; margin-bottom:14px;
+      border:1px solid #ccc; border-radius:6px; font-size:1em;
+    }
     button {
-      width:100%; padding:10px; border:none; border-radius:6px;
+      width:100%; padding:12px; border:none; border-radius:6px;
       background:#a05252; color:#fff; font-size:1em; cursor:pointer;
     }
     button:hover { background:#7a3d3d; }
-    #message { text-align:center; margin-top:10px; }
+    #message { text-align:center; margin-top:12px; font-size:0.9em; }
+
+    /* ===== Responsive ===== */
+    @media (max-width:768px) {
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      .container { margin:40px 20px; padding:24px; }
+      h2 { font-size:1.4em; }
+      input, button { font-size:0.95em; }
+    }
+    @media (max-width:480px) {
+      .container { margin:30px 15px; padding:20px; }
+      h2 { font-size:1.2em; }
+    }
   </style>
 </head>
 <body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="/image/logo.png" alt="Logo"/>
+      <span>ClusterChairs</span>
+    </div>
+    <nav class="nav-links">
+      <a href="/index.html">Home</a>
+      <a href="/login.html">Login</a>
+      <a href="/cart.html">Cart</a>
+    </nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/index.html">Home</a>
+    <a href="/login.html">Login</a>
+    <a href="/cart.html">Cart</a>
+  </div>
+
+  <!-- Signup Form -->
   <div class="container">
     <h2>Create Account</h2>
     <input type="text" id="name" placeholder="Full Name" required />
@@ -46,6 +131,11 @@
 
     let generatedOTP;
 
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+
     function sendOTP() {
       const name = document.getElementById("name").value;
       const email = document.getElementById("email").value;
@@ -53,7 +143,6 @@
         document.getElementById("message").textContent = "Enter your name and email first!";
         return;
       }
-
       generatedOTP = Math.floor(100000 + Math.random() * 900000);
 
       emailjs.send("service_uun8501", "template_muph04o", {
@@ -75,14 +164,12 @@
       const entered = document.getElementById("otp").value;
       if (parseInt(entered) === generatedOTP) {
         document.getElementById("message").textContent = "✅ OTP Verified. Registering user...";
-
         const user = {
           name: document.getElementById("name").value,
           mobile: document.getElementById("phone").value,
           email: document.getElementById("email").value,
           password: document.getElementById("password").value
         };
-
         fetch("/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -100,7 +187,6 @@
         .catch(() => {
           document.getElementById("message").textContent = "❌ Server error!";
         });
-
       } else {
         document.getElementById("message").textContent = "❌ Invalid OTP!";
       }

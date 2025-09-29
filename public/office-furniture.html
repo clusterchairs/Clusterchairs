@@ -1,80 +1,258 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office-Furniture</title>
-    <link rel="stylesheet" href="/index.js">
-    <link rel="stylesheet" href="/index.html">
-    <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/office.css">
 
     <style>
-        .cart {
-            width: 40px;
+        /* General reset */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f2f4;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 70px;
+            width: auto;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
         }
 
         .location {
-            font-size: 50px;
-            margin-left: 270px;
-            font-family: Protest Strike, sans-serif;
-            line-height: 1.1;
-            letter-spacing: 2px;
+            font-size: 24px;
+            margin-left: 12px;
+            font-family: 'Protest Strike', sans-serif;
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #febd69;
+        }
+
+        .cart {
+            width: 30px;
+            vertical-align: middle;
+        }
+
+        #cart-count {
+            font-size: 14px;
+            margin-left: 4px;
+            color: #fff;
+        }
+
+        /* Hamburger button */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #fff;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Animate hamburger to "X" */
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile nav */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: rgb(121, 65, 65);
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 220px;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .location {
+                font-size: 18px;
+            }
+        }
+
+        /* Deals section */
+        .header {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 2em;
+            font-family: 'Protest Strike', sans-serif;
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Deal card */
+        .deal-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            padding: 16px;
+            transition: transform 0.2s;
+        }
+
+        .deal-card img {
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            border-radius: 10px;
+            margin: 10px auto;
+        }
+
+        .deal-card:hover {
+            transform: scale(1.05);
         }
     </style>
+
 </head>
 
 <body>
     <script src="/auth.js"></script>
+
+    <!-- Navbar -->
     <header class="navbar">
-        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+        <a href="/index.html" class="logo-link">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
-        <div class="nav-links">
-            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
-            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
+
+        <!-- Hamburger button -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="nav-links">
+            <a href="/login.html" id="account-link">Account & Lists</a>
+            <a href="#" id="logout-link" style="display: none;">Logout</a>
             <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart"
-                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
-                <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+                <img src="/image/cartimage.png" class="cart">
+                <span id="cart-count">0</span>
             </a>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main>
         <div class="deals-main">
             <h3 class="header">Types of Furniture</h3>
             <div class="deals-grid">
-                <a href="/officechairs.html" style="text-decoration:none;color:inherit;">
-                    <div class="deal-card">
-                        <h3>Office Chairs</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper">
-                                <img src="/image/chair face.png" alt="cafe-chairs">
-                            </div>
+                <a href="/officechairs.html" class="deal-card">
+                    <h3>Office Chairs</h3>
+                    <div class="deal-items">
+                        <div class="img-wrapper">
+                            <img src="/image/chair face.png" alt="Office Chairs">
                         </div>
                     </div>
                 </a>
 
-                <a href="/officesofa.html" style="text-decoration:none;color:inherit;">
-                    <div class="deal-card">
-                        <h3>Sofa</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper">
-                                <img src="/image/sofa face.png" alt="dinning-furniture">
-                            </div>
+                <a href="/officesofa.html" class="deal-card">
+                    <h3>Sofa</h3>
+                    <div class="deal-items">
+                        <div class="img-wrapper">
+                            <img src="/image/sofa face.png" alt="Sofa">
                         </div>
                     </div>
                 </a>
             </div>
+        </div>
     </main>
+
+    <!-- JS for Hamburger -->
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
+
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("open");
+        });
+    </script>
 </body>
 
 </html>

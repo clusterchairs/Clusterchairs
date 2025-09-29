@@ -6,14 +6,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | ClusterChairs</title>
   <style>
+    /* Reset */
     body {
       background: #f1f2f4;
       font-family: Arial, sans-serif;
+      margin: 0;
     }
 
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgb(121, 65, 65);
+      color: #fff;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #febd69;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 28px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* Mobile Nav */
+    .nav-links.mobile {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: rgb(121, 65, 65);
+      width: 200px;
+      padding: 20px;
+    }
+
+    .nav-links.mobile.show {
+      display: flex;
+    }
+
+    /* Container */
     .container {
       max-width: 400px;
-      margin: 60px auto;
+      margin: 80px auto;
       background: #fff;
       padding: 32px;
       border-radius: 12px;
@@ -31,6 +100,7 @@
       margin-bottom: 14px;
       border: 1px solid #ccc;
       border-radius: 6px;
+      font-size: 1em;
     }
 
     button {
@@ -51,11 +121,44 @@
     #message {
       text-align: center;
       margin-top: 10px;
+      font-size: 0.95em;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        margin: 40px 16px;
+        padding: 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo"><img src="/image/logo.png" alt="ClusterChairs"></div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="/index.html">Home</a>
+      <a href="/signup.html">Sign Up</a>
+      <a href="/cart.html">Cart</a>
+    </div>
+  </header>
+
+  <!-- Login Box -->
   <div class="container">
     <h2>User Login</h2>
     <form id="loginForm">
@@ -68,6 +171,14 @@
   </div>
 
   <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const navLinks = document.getElementById("navLinks");
+      navLinks.classList.toggle("mobile");
+      navLinks.classList.toggle("show");
+    }
+
+    // Login logic
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = document.getElementById("email").value;
@@ -82,7 +193,6 @@
         const data = await res.json();
 
         if (data.success) {
-          // ✅ Save login flag + email (or token if you want to add JWT later)
           localStorage.setItem("isLoggedIn", "true");
           localStorage.setItem("userEmail", email);
 
@@ -96,7 +206,5 @@
       }
     });
   </script>
-
 </body>
-
 </html>
