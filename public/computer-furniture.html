@@ -3,17 +3,11 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer-Furniture</title>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
 
     <style>
-        /*
-        |--------------------------------------------------------------------------
-        | CONSOLIDATED AND UPDATED CSS FOR RESPONSIVENESS (FIXED NAVBAR VISIBILITY)
-        |--------------------------------------------------------------------------
-        | Ensures: Nav links are visible on Desktop/Tablet and hidden via Hamburger on Mobile.
-        */
-
         /* Base and Reset Styles */
         body,
         h1,
@@ -24,6 +18,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -31,7 +26,7 @@
         }
 
         /* ==================================== */
-        /* 1. Navbar Styles */
+        /* 1. Navbar Styles (Desktop Default) */
         /* ==================================== */
         .navbar {
             display: flex;
@@ -59,16 +54,16 @@
         .location {
             font-size: 24px;
             margin-left: 15px;
-            font-family: Protest Strike, sans-serif;
+            font-family: 'Protest Strike', sans-serif;
             line-height: 1.1;
         }
 
         /* Nav links (Desktop/Tablet default: visible and inline) */
         .nav-links {
-            display: flex; /* IMPORTANT: Ensures visibility on desktop/tablet */
+            display: flex;
             align-items: center;
             gap: 20px;
-            transition: all 0.3s; /* Add transition for better look when activated */
+            transition: transform 0.3s ease-in-out;
         }
 
         .nav-links a {
@@ -94,12 +89,32 @@
         }
 
         .hamburger span {
+            display: block;
             height: 3px;
             width: 25px;
             background: #fff;
             margin: 4px 0;
             border-radius: 5px;
-            transition: 0.3s;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hamburger Active State (Icon to 'X') */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Menu Panel */
+        .nav-links {
+            /* Desktop/Tablet - normal flow */
+            transform: translateX(0); 
         }
 
         /* Mobile Menu ACTIVE STATE (Hamburger menu is open) */
@@ -109,18 +124,19 @@
             width: 100%;
             background: rgb(80, 40, 40);
             position: fixed;
-            top: 80px;
+            top: 80px; /* Below navbar */
             left: 0;
-            height: 100vh;
+            height: calc(100vh - 80px); /* Fill remaining viewport */
             padding: 20px 0;
             text-align: center;
             z-index: 999;
-            transform: translateX(0);
+            transform: translateX(0); /* Slide into view */
+            gap: 20px;
         }
         
         .nav-links.active a {
-            font-size: 20px; /* Larger links in mobile menu */
-            margin: 10px 0;
+            font-size: 20px;
+            padding: 10px 0;
         }
 
         /* ==================================== */
@@ -156,35 +172,56 @@
             max-width: 400px;
             box-sizing: border-box;
             transition: transform 0.2s;
-        }
-
-        .deal-card:hover {
-            transform: translateY(-4px);
+            min-height: 250px; /* Ensure better uniformity */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .deal-card h3 {
             margin-bottom: 15px;
         }
 
+        .img-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .img-wrapper img {
             width: 100%;
             height: auto;
             max-width: 350px;
+            max-height: 180px; /* Limit image height */
+            object-fit: contain;
             border-radius: 4px;
             display: block;
-            margin: 0 auto;
         }
 
         /* ==================================== */
         /* 4. Responsive Rules */
         /* ==================================== */
 
+        /* Tablet View (Max 768px) */
+        @media (max-width: 768px) {
+            .location {
+                font-size: 20px;
+            }
+        }
+
         /* Mobile View (Max 600px) */
         @media (max-width: 600px) {
 
             /* HIDE NAV LINKS ON MOBILE (default state) */
             .nav-links {
-                display: none; 
+                position: fixed;
+                top: 80px;
+                right: 0;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgb(80, 40, 40);
+                transform: translateX(100%); /* Start off-screen */
             }
 
             /* SHOW HAMBURGER ICON ON MOBILE */
@@ -201,9 +238,9 @@
                 grid-template-columns: 1fr;
                 max-width: 400px;
                 gap: 20px;
+                padding: 0 10px;
             }
         }
-
     </style>
 </head>
 
@@ -263,14 +300,20 @@
         const navLinks = document.getElementById("nav-links");
 
         hamburger.addEventListener("click", () => {
-            // Toggles the 'active' class to show/hide the menu
+            // Toggles the 'active' class to show/hide the menu panel
             navLinks.classList.toggle("active");
+            // Toggles the 'active' class to animate the hamburger icon to 'X'
+            hamburger.classList.toggle("active");
         });
 
         // Close menu when a link is clicked
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
+                // Only close if the mobile menu is open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
             });
         });
     </script>

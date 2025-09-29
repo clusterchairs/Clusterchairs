@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café-Furniture</title>
     <link rel="stylesheet" href="/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
+        /* Base Reset */
         body,
         h1,
         h2,
@@ -16,13 +18,14 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
             background: #f1f2f4;
         }
 
-        /* Navbar */
+        /* 1. Navbar Styles (Desktop Default) */
         .navbar {
             display: flex;
             align-items: center;
@@ -49,20 +52,21 @@
         .location {
             font-size: 24px;
             margin-left: 15px;
-            font-family: Protest Strike, sans-serif;
+            font-family: 'Protest Strike', sans-serif;
             line-height: 1.1;
         }
 
-        /* Links */
+        /* Nav links (Desktop/Tablet default: visible and inline) */
         .nav-links {
             display: flex;
             align-items: center;
+            gap: 20px; /* Use gap instead of margin-left */
+            transition: all 0.3s ease-in-out;
         }
 
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            margin-left: 20px;
             font-size: 16px;
             transition: color 0.2s;
         }
@@ -71,54 +75,67 @@
             color: #febd69;
         }
 
-        /* Hamburger */
+        /* 2. Hamburger Icon */
         .hamburger {
-            display: none;
+            display: none; /* Hidden on desktop/tablet by default */
             flex-direction: column;
             cursor: pointer;
+            z-index: 1001;
         }
 
         .hamburger span {
+            display: block;
             height: 3px;
             width: 25px;
             background: #fff;
             margin: 4px 0;
             border-radius: 5px;
-            transition: 0.3s;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Hamburger Active State (Icon to 'X') */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
         }
 
-        /* Mobile menu */
-        .nav-links.mobile {
-            display: none;
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Menu Panel (Hidden by default on mobile) */
+        .nav-links.active {
+            display: flex !important; /* Force display to flex on mobile when active */
             flex-direction: column;
             width: 100%;
-            background: rgb(121, 65, 65);
-            position: absolute;
-            top: 70px;
+            background: rgb(80, 40, 40);
+            position: fixed;
+            top: 80px; /* Below navbar */
             left: 0;
+            height: calc(100vh - 80px); 
+            padding: 20px 0;
             text-align: center;
-            padding: 10px 0;
+            z-index: 999;
+            gap: 20px;
+        }
+        
+        .nav-links.active a {
+            font-size: 20px;
         }
 
-        .nav-links.mobile a {
-            margin: 10px 0;
-            font-size: 18px;
-        }
 
-        .nav-links.show {
-            display: flex;
-        }
-
-        /* Card Grid */
+        /* 3. Card Grid Styles */
         .card-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, 1fr); /* Desktop default */
             gap: 24px;
             justify-items: center;
             margin: 40px auto;
             padding: 0 12px;
             max-width: 1200px;
-            box-sizing: border-box;
         }
 
         .card {
@@ -127,39 +144,43 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 280px;
-            min-height: 370px;
+            min-height: 380px; /* Increased min-height for uniform look */
             padding: 14px 10px 18px 10px;
             text-align: center;
-            transition: transform 0.2s;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            box-sizing: border-box;
         }
 
         .card img {
-            width: 200px;
+            width: 100%;
             height: 200px;
+            max-width: 200px;
             object-fit: contain;
-            border-radius: 8px;
             margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            background: #fff;
         }
 
         .card h3 {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+        }
+
+        .card p:not(.price) {
+            flex-grow: 1; /* Pushes the button down */
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
         }
 
         .card .price {
-            margin-bottom: 14px;
-            margin-top: 0;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #c9302c;
+            margin-bottom: 15px;
         }
 
         .card .add-to-cart-btn {
-            margin-top: 10px;
+            width: 100%;
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
@@ -169,28 +190,56 @@
             transition: background 0.2s;
         }
 
-        .card .add-to-cart-btn:hover {
-            background: #a05252;
-        }
+        /* 4. Responsive Rules */
 
-        /* Responsive */
+        /* Tablet View (Max 1024px) */
         @media (max-width: 1024px) {
             .card-container {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr); /* 3 columns on larger tablets */
+                max-width: 900px;
+            }
+        }
+        
+        /* Smaller Tablet View (Max 800px) */
+        @media (max-width: 800px) {
+            .card-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller tablets */
+                gap: 20px;
             }
         }
 
+        /* Mobile View (Max 768px) */
         @media (max-width: 768px) {
+            
+            /* HIDE NAV LINKS ON MOBILE (default state) */
             .nav-links {
                 display: none;
+                position: fixed;
+                top: 80px;
+                right: 0;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgb(80, 40, 40);
+                flex-direction: column;
+                transform: translateX(100%); /* Start off-screen */
+                transition: transform 0.3s ease-in-out;
             }
 
+            /* SHOW HAMBURGER ICON ON MOBILE */
             .hamburger {
                 display: flex;
             }
 
+            /* MOBILE MENU ACTIVATED */
+            .nav-links.active {
+                display: flex !important;
+                transform: translateX(0);
+            }
+
             .card-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* 1 column on mobile */
+                max-width: 400px;
+                margin: 20px auto;
             }
 
             .location {
@@ -203,11 +252,6 @@
         }
 
         @media (max-width: 480px) {
-            .card img {
-                width: 150px;
-                height: 150px;
-            }
-
             .location {
                 font-size: 16px;
             }
@@ -218,31 +262,22 @@
 <body>
     <script src="/auth.js"></script>
     <script src="/cart-logic.js"></script>
-    <!-- Navbar -->
     <header class="navbar">
         <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
 
-        <!-- Hamburger -->
         <div class="hamburger" id="hamburger">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
-
-        <!-- Links -->
         <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link">Account & Lists</a>
             <a href="#" id="logout-link" style="display: none;">Logout</a>
-            <a href="/cart.html">
+            <a href="/cart.html" style="display: flex; align-items: center; text-decoration: none;">
                 <img src="/image/cartimage.png" class="cart" style="height: 30px; vertical-align: middle;">
                 <span id="cart-count" style="color:#fff; font-size:16px;">0</span>
             </a>
@@ -251,91 +286,100 @@
 
     <div class="card-container">
         <div class="card">
-            <img src="/image/chikkan.jpg" alt="Chair 1">
-            <h3>computer table</h3>
+            <img src="/image/chikkan.jpg" alt="Computer Table 1">
+            <h3>Chikkana Computer Table</h3>
             <p class="price">₹15,000</p>
-            <p>Chikkana Compact Space Saving Computer Table SB 008 (SB-008 COMPUTER TABLE)</p>
-            <button class="add-to-cart-btn" data-name="computer table" data-price="15000"
+            <p>Chikkana Compact Space Saving Computer Table SB 008 (SB-008 COMPUTER TABLE)</p>
+            <button class="add-to-cart-btn" data-name="Chikkana table" data-price="15000"
                 data-img="/image/chikkan.jpg">Add to
                 Cart</button>
         </div>
 
         <div class="card">
-            <img src="/image/verner.jpg" alt="Chair 1">
-            <h3>Computer Table</h3>
+            <img src="/image/verner.jpg" alt="Computer Table 2">
+            <h3>Verner Computer Table</h3>
             <p class="price">₹15,000</p>
             <p><strong>Verner Computer Desk | Walnut</strong></p>
-            <button class="add-to-cart-btn" data-name="Computer Table" data-price="15000"
+            <button class="add-to-cart-btn" data-name="Verner Table" data-price="15000"
                 data-img="/image/verner.jpg">Add to
                 Cart</button>
         </div>
 
         <div class="card">
-            <img src="/image/hutch.jpg" alt="Chair 1">
+            <img src="/image/hutch.jpg" alt="Computer Table 3">
             <h3>Hutch Computer Table</h3>
             <p class="price">₹20,000</p>
             <p>Home Office Computer Table with Hutch and Monitor Shelf, Modern Writing Desk with Drawers and Shelves</p>
-            <button class="add-to-cart-btn" data-name="Hutch Computer Table" data-price="20000"
+            <button class="add-to-cart-btn" data-name="Hutch Table" data-price="20000"
                 data-img="/image/hutch.jpg">Add to
                 Cart</button>
         </div>
 
         <div class="card">
-            <img src="/image/gaming desk.jpg" alt="Chair 1">
-            <h3>Gaming Desk</h3>
+            <img src="/image/gaming desk.jpg" alt="Gaming Desk 1">
+            <h3>Gaming Desk (Black)</h3>
             <p class="price">₹12,000</p>
             <p>Gaming desk, black, 160x80 cm (63x31 1/2 ")</p>
-            <button class="add-to-cart-btn" data-name="Gaming Desk" data-price="12000"
+            <button class="add-to-cart-btn" data-name="Gaming Desk Black" data-price="12000"
                 data-img="/image/gaming desk.jpg">Add to
                 Cart</button>
         </div>
 
         <div class="card">
-            <img src="/image/gaming vesk.jpg" alt="Chair 1">
-            <h3>Gaming Table</h3>
+            <img src="/image/gaming vesk.jpg" alt="Gaming Table 2">
+            <h3>Sit/Stand Gaming Table</h3>
             <p class="price">₹40,000</p>
-            <p>Gaming desk sit/stand, electric/black, 120x80 cm (47 1/4x31 1/2 ")</p>
-            <button class="add-to-cart-btn" data-name="Gaming Table" data-price="40000"
+            <p>Gaming desk sit/stand, electric/black, 120x80 cm (47 1/4x31 1/2 ")</p>
+            <button class="add-to-cart-btn" data-name="Sit/Stand Gaming Table" data-price="40000"
                 data-img="/image/gaming vesk.jpg">Add
                 to Cart</button>
         </div>
 
         <div class="card">
-            <img src="/image/computerone.jpg" alt="Chair 1">
-            <h3>Gaming Table</h3>
+            <img src="/image/computerone.jpg" alt="Gaming Table 3">
+            <h3>Computer Desk: Gaming</h3>
             <p class="price">₹40,000</p>
             <p>Computer Desk : Gaming Desk Laptop Table</p>
-            <button class="add-to-cart-btn" data-name="Gaming Table" data-price="40000"
+            <button class="add-to-cart-btn" data-name="Gaming Laptop Table" data-price="40000"
                 data-img="/image/computerone.jpg">Add
                 to Cart</button>
         </div>
 
         <div class="card">
-            <img src="/image/computertwo.jpg" alt="Chair 1">
-            <h3>Gaming Table</h3>
+            <img src="/image/computertwo.jpg" alt="Gaming Table 4">
+            <h3>Gaming Table (Black)</h3>
             <p class="price">₹15,000</p>
             <p>Gaming Table In Black Finish</p>
-            <button class="add-to-cart-btn" data-name="Gaming Table" data-price="15000"
+            <button class="add-to-cart-btn" data-name="Gaming Table Black Finish" data-price="15000"
                 data-img="/image/computertwo.jpg">Add
                 to Cart</button>
         </div>
 
         <div id="cart-popup"
-            style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+            style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
         </div>
 
-        <!-- JS for Hamburger -->
-        <script>
-            const hamburger = document.getElementById("hamburger");
-            const navLinks = document.getElementById("nav-links");
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
-            hamburger.addEventListener("click", () => {
-                navLinks.classList.toggle("show");
-                navLinks.classList.toggle("mobile");
+        hamburger.addEventListener("click", () => {
+            // Toggles the 'active' class on both elements
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
+        
+        // Optional: Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // Only close if the mobile menu is open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
             });
-        </script>
-
-
+        });
+    </script>
 </body>
 
 </html>

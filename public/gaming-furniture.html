@@ -3,8 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming-Furniture</title>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Base Reset */
         body,
@@ -16,6 +18,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -24,7 +27,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | 1. NAVBAR & HEADER STYLES (Default: Desktop/Tablet)
+        | 1. NAVBAR & HEADER STYLES (Default: Desktop)
         |--------------------------------------------------------------------------
         */
         .navbar {
@@ -33,7 +36,6 @@
             background: rgb(121, 65, 65);
             color: #fff;
             padding: 10px 20px;
-            /* Adjusted padding */
             justify-content: space-between;
             position: sticky;
             top: 0;
@@ -45,34 +47,33 @@
             align-items: center;
         }
 
-        /* Reduced logo size for better navbar fit */
         .logo img {
             height: 60px;
             width: auto;
             display: block;
         }
 
-        /* Adjusted location style for desktop/tablet */
         .location {
             font-size: 24px;
             margin-left: 15px;
             font-family: 'Protest Strike', sans-serif;
             line-height: 1.1;
             letter-spacing: 1px;
+            flex-shrink: 0;
         }
 
         /* Desktop Nav Links (Visible by default) */
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 20px; /* Use gap for spacing */
+            gap: 20px;
             transition: all 0.3s;
         }
 
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            font-size: 16px; /* Adjusted font size */
+            font-size: 16px;
             transition: color 0.2s;
         }
 
@@ -80,7 +81,7 @@
             color: #febd69;
         }
 
-        /* Search bar (Adjusted for better desktop placement) */
+        /* Search bar */
         .search {
             position: relative;
             display: flex;
@@ -88,16 +89,18 @@
             background: #fff;
             border-radius: 4px;
             overflow: hidden;
-            flex-grow: 1; /* Allow it to take up space */
-            max-width: 400px; /* Limit search bar width */
+            flex-grow: 1;
+            max-width: 400px;
             margin: 0 40px;
             min-height: 40px;
         }
 
         .search input {
             flex-grow: 1;
-            padding: 8px 8px 8px 40px; /* Padding for icon */
+            padding: 8px 8px 8px 40px;
             border: none;
+            font-size: 14px;
+            outline: none;
         }
 
         .search-input-icon {
@@ -117,6 +120,7 @@
             color: #232f3e;
             cursor: pointer;
             min-height: 40px;
+            font-weight: bold;
         }
 
         /*
@@ -126,13 +130,12 @@
         */
         .card-container {
             display: grid;
-            /* Default to 4 columns on large screens */
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             justify-items: center;
             max-width: 1200px;
             margin: 40px auto;
-            padding: 0 20px; /* Add padding for edges */
+            padding: 0 20px;
         }
 
         .card {
@@ -144,19 +147,34 @@
             width: 100%;
             max-width: 280px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 380px; /* Ensures uniform height */
         }
 
         .card img {
             width: 100%;
             height: auto;
             max-height: 180px;
-            object-fit: contain; /* Use contain to prevent cropping and show full image */
+            object-fit: contain;
             margin-bottom: 15px;
         }
         
-        /* Your existing card button styles */
+        .card p {
+            font-size: 0.9em;
+            color: #555;
+            flex-grow: 1; /* Pushes the button down */
+            margin-bottom: 15px;
+        }
+
+        .card .price {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.2em;
+        }
+
         .card .add-to-cart-btn {
-            margin-top: 10px;
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
@@ -164,6 +182,11 @@
             color: #fff;
             cursor: pointer;
             transition: background 0.2s;
+            width: 100%;
+        }
+
+        .card .add-to-cart-btn:hover {
+            background: #a05252;
         }
 
         /*
@@ -176,7 +199,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
-            z-index: 1001; /* Above mobile menu */
+            z-index: 1001;
         }
 
         .hamburger span {
@@ -203,24 +226,24 @@
 
         /* Mobile Menu ACTIVE STATE (Hamburger open) */
         .nav-links.show {
-            display: flex;
+            display: flex !important; /* Override the display: none in mobile query */
             flex-direction: column;
-            position: fixed; /* Use fixed for better overlay */
-            top: 80px; /* Adjust based on navbar height (60px + 10px padding top/bottom) */
+            position: fixed;
+            top: 80px;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgb(80, 40, 40); /* Slightly darker background for contrast */
+            background: rgb(80, 40, 40);
             padding: 20px 0;
             text-align: center;
             z-index: 999;
+            gap: 30px; /* Increased gap for better mobile tap targets */
         }
 
         .nav-links.show a {
-            margin: 15px 0;
+            margin: 0; /* Remove horizontal margin from list layout */
             font-size: 20px;
         }
-
 
         /*
         |--------------------------------------------------------------------------
@@ -231,10 +254,23 @@
         /* Tablet View (2 columns for cards, 769px to 1024px) */
         @media (max-width: 1024px) {
             .card-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 cards inline */
+                grid-template-columns: repeat(3, 1fr); /* Changed to 3 columns for better use of space */
             }
             .search {
-                max-width: 300px; /* Slightly smaller search bar */
+                max-width: 250px;
+                margin: 0 20px;
+            }
+        }
+        
+        /* Smaller Tablet View (Max 850px) - Adjust to 2 columns */
+        @media (max-width: 850px) {
+            .card-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .search {
+                margin: 0 10px;
+                max-width: 200px;
             }
         }
 
@@ -243,13 +279,16 @@
             /* Navbar adjustments */
             .navbar {
                 padding: 10px 15px;
+                min-height: 70px; /* Ensure space for logo and hamburger */
             }
+            
+            .logo img {
+                height: 50px;
+            }
+
             .location {
                 font-size: 20px;
                 margin-left: 10px;
-            }
-            .logo img {
-                height: 50px;
             }
             
             /* Hide the search bar on mobile */
@@ -259,7 +298,7 @@
 
             /* HIDE NAV LINKS ON MOBILE BY DEFAULT */
             .nav-links {
-                display: none;
+                display: none; /* Hidden by default, shown by .show class */
             }
 
             /* SHOW HAMBURGER ICON ON MOBILE */
@@ -272,24 +311,15 @@
                 grid-template-columns: 1fr;
                 max-width: 400px;
                 margin: 20px auto;
+                padding: 0 15px;
+            }
+            
+            .card {
+                min-height: auto; /* Allow height to adjust for single column */
+                max-width: 100%;
+                padding: 15px;
             }
         }
-        
-        /* Your other styles below are not required for core responsiveness but kept for completeness */
-        /* ... (login, banner, modal, etc. styles) */
-
-        .card h3 {
-            margin-bottom: 12px;
-        }
-
-        .card .price {
-            margin-bottom: 14px;
-            margin-top: 0;
-        }
-
-        /* Other general styles (kept for reference, but check for conflicts) */
-        /* .deals-grid styles, .login-container styles, etc., should be reviewed if they clash */
-
     </style>
 </head>
 
@@ -303,6 +333,12 @@
             <div class="location">Cluster Chairs</div>
         </a>
 
+        <div class="search">
+            <i class="fas fa-search search-input-icon"></i>
+            <input type="text" placeholder="Search products...">
+            <button>Search</button>
+        </div>
+
 
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -313,7 +349,7 @@
         <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link">Account & Lists</a>
             <a href="#" id="logout-link" style="display: none;">Logout</a>
-            <a href="/cart.html">
+            <a href="/cart.html" style="display: flex; align-items: center; text-decoration: none;">
                 <img src="/image/cartimage.png" class="cart" style="height: 30px; vertical-align: middle;">
                 <span id="cart-count" style="color:#fff; font-size:16px;">0</span>
             </a>
@@ -367,7 +403,7 @@
         const navLinks = document.getElementById("nav-links");
 
         hamburger.addEventListener("click", () => {
-            // Toggles the 'show' class to display the mobile menu
+            // Toggles the 'show' class to display the mobile menu overlay
             navLinks.classList.toggle("show");
             // Toggles the 'active' class to animate the hamburger icon to an 'X'
             hamburger.classList.toggle("active");
@@ -376,8 +412,10 @@
         // Optional: Close menu when a link is clicked
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('show');
-                hamburger.classList.remove('active');
+                if (navLinks.classList.contains('show')) {
+                    navLinks.classList.remove('show');
+                    hamburger.classList.remove('active');
+                }
             });
         });
     </script>

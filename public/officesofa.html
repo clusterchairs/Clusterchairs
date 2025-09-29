@@ -4,10 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Officesofa</title>
-    <link rel="stylesheet" href="/office.css">
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <title>Office Sofa Catalog | Cluster Chairs</title>
+    <!-- Using Inter font for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Protest+Strike&display=swap"
+        rel="stylesheet">
     <style>
+        /* Global Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+
         body,
         h1,
         h2,
@@ -16,59 +22,74 @@
         a {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
         }
 
         body {
             background: #f1f2f4;
+            min-height: 100vh;
         }
 
         /* Navbar */
         .navbar {
             display: flex;
             align-items: center;
-            background: rgb(121, 65, 65);
+            /* Deep Red/Maroon Color */
+            background: #794141;
             color: #fff;
             padding: 10px 20px;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
         }
 
         .logo img {
-            height: 60px;
+            height: 48px;
+            width: 48px;
+            border-radius: 8px;
+            object-fit: cover;
         }
 
         .location {
-            font-size: 24px;
+            font-size: 20px;
             font-family: "Protest Strike", sans-serif;
-            margin-left: 12px;
+            margin-left: 10px;
+            white-space: nowrap;
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
         }
 
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
+            padding: 8px 0;
             transition: color 0.2s;
+            font-weight: 600;
         }
 
         .nav-links a:hover {
-            color: #febd69;
+            color: #ff9900; /* Amazon-like highlight color */
         }
 
-        /* Hamburger */
+        /* Hamburger Menu Icon */
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
             gap: 5px;
+            padding: 5px;
         }
 
         .hamburger span {
@@ -76,89 +97,188 @@
             height: 3px;
             background: #fff;
             border-radius: 2px;
+            transition: all 0.3s ease-in-out;
         }
 
-        /* Mobile menu */
+        /* Mobile Menu (Hidden by default) */
         .mobile-menu {
             display: none;
             flex-direction: column;
-            background: rgb(121, 65, 65);
+            background: #a05252; /* Lighter shade for dropdown */
             position: absolute;
-            top: 70px;
-            right: 0;
-            width: 200px;
-            padding: 15px;
-            border-radius: 0 0 8px 8px;
+            top: 68px; /* Below the navbar */
+            right: 15px;
+            width: 180px;
+            padding: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            text-align: right;
         }
 
         .mobile-menu a {
-            padding: 10px;
+            padding: 12px 15px;
             font-size: 16px;
             color: #fff;
             text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
         }
 
         .mobile-menu a:hover {
-            background: #a05252;
+            background: #8b4545;
         }
 
-        /* Cards */
-        .card-container,
+        /* Main Content Grid */
         .special-card {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-            margin: 40px 0;
-            padding: 0 12px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px auto;
+            padding: 15px;
+            max-width: 1400px;
         }
 
-        .card,
-        .cardone {
+        /* Product Card Styles */
+        .cardone, .card {
             background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            padding: 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 16px;
             text-align: center;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .card img,
-        .cardone img {
-            width: 180px;
-            height: 180px;
-            object-fit: contain;
+        .cardone:hover, .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .cardone img, .card img {
+            width: 100%; /* Make image fluid within the card */
+            max-width: 200px; /* Max size for aesthetic control */
+            height: 200px;
+            object-fit: cover;
             border-radius: 8px;
+            margin: 0 auto 15px auto;
+        }
+
+        .cardone h3, .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .cardone .price, .card .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #794141;
             margin-bottom: 10px;
         }
 
-        .card:hover,
-        .cardone:hover {
-            transform: scale(1.05);
+        .cardone p, .card p {
+            font-size: 0.9rem;
+            color: #555;
+            min-height: 40px; /* Ensure description space is reserved */
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
         .add-to-cart-btn {
-            margin-top: 10px;
-            padding: 10px 16px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 4px;
-            background: rgb(121, 65, 65);
+            border-radius: 8px;
+            background: #794141;
             color: #fff;
             cursor: pointer;
-            transition: background 0.2s;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .add-to-cart-btn:hover {
             background: #a05252;
+            transform: translateY(-1px);
         }
 
-        /* Responsive */
+        /* Cart Notification Pop-up Styling */
+        #cart-popup {
+            background: #232f3e;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            font-size: 1.1em;
+            text-align: center;
+            z-index: 9999;
+            transition: opacity 0.3s, transform 0.3s;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            transform: translateX(100%); /* Start off-screen */
+            opacity: 0;
+        }
+
+        .show-popup {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* -------------------------------------- */
+        /* Responsive Media Queries */
+        /* -------------------------------------- */
+
+        /* Tablet & Mobile (Max 768px) */
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                display: none; /* Hide desktop links */
             }
 
             .hamburger {
-                display: flex;
+                display: flex; /* Show hamburger icon */
+            }
+
+            .location {
+                font-size: 18px;
+            }
+
+            .navbar {
+                padding: 8px 15px;
+            }
+            
+            /* Adjust grid for smaller screens (e.g., 2 columns on tablet/landscape mobile) */
+            .special-card {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        /* Mobile Phone (Max 500px) */
+        @media (max-width: 500px) {
+            /* Single column layout for most phones */
+            .special-card {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .location {
+                /* Reduce font size for smaller phones */
+                font-size: 16px;
+            }
+            
+            /* Center the cart popup on mobile */
+            #cart-popup {
+                top: 10px;
+                right: 50%;
+                transform: translateX(50%);
+                width: 90%;
             }
         }
     </style>
@@ -166,336 +286,350 @@
 
 <body>
     <header class="navbar">
-        <div style="display:flex;align-items:center;">
-            <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+        <div class="logo-container">
+            <!-- Placeholder for Logo -->
+            <div class="logo">
+                <img src="https://placehold.co/48x48/794141/ffffff?text=LOGO" alt="Logo">
+            </div>
             <div class="location">Cluster Chairs</div>
         </div>
 
+        <!-- Desktop Navigation Links -->
         <nav class="nav-links">
-            <a href="/login.html">Account & Lists</a>
-            <a href="/cart.html">Cart</a>
+            <a href="#account">Account & Lists</a>
+            <a href="#cart">Cart</a>
         </nav>
 
+        <!-- Hamburger Icon for Mobile -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </div>
     </header>
 
+    <!-- Mobile Menu Dropdown -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="/login.html">Account & Lists</a>
-        <a href="/cart.html">Cart</a>
+        <a href="#account">Account & Lists</a>
+        <a href="#cart">Cart</a>
     </div>
 
+    <!-- Product Grid -->
     <div class="special-card">
-        <div class="AE823">
-            <div class="cardone AE328">
-                <img src="/image/AE 823.png" alt="Chair 1">
-                <h3>AE 823</h3>
-                <p class="price">₹30,000</p>
-                <p>Comfortable wooden chair for cafes.</p>
-                <button class="add-to-cart-btn" data-name="AE 823" data-price="30000" data-img="/image/AE 823.png">Add
-                    to
-                    Cart</button>
-            </div>
-        </div>
+        <!-- Product AE 823 -->
         <div class="cardone">
-            <img src="/image/AE 824.png" alt="Table 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+823" alt="Chair AE 823">
+            <h3>AE 823</h3>
+            <p class="price">₹30,000</p>
+            <p>Comfortable wooden chair for cafes.</p>
+            <button class="add-to-cart-btn" data-name="AE 823" data-price="30000">Add to Cart</button>
+        </div>
+        <!-- Product AE 824 -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+824" alt="Table AE 824">
             <h3>AE 824</h3>
             <p class="price">₹30,000</p>
             <p>Stylish table for your cafe space.</p>
-            <button class="add-to-cart-btn" data-name="AE 824" data-price="30000" data-img="/image/AE 824.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 824" data-price="30000">Add to Cart</button>
         </div>
+        <!-- Product AE 825 -->
         <div class="cardone">
-            <img src="/image/AE 825.png" alt="Chair 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+825" alt="Chair AE 825">
             <h3>AE 825</h3>
             <p class="price">₹30,000</p>
             <p>Comfortable wooden chair for cafes.</p>
-            <button class="add-to-cart-btn" data-name="AE 825" data-price="30000" data-img="/image/AE 825.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 825" data-price="30000">Add to Cart</button>
         </div>
+        <!-- Product AE 826 -->
         <div class="cardone">
-            <img src="/image/AE 826.png" alt="Table 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+826" alt="Table AE 826">
             <h3>AE 826</h3>
             <p class="price">₹30,000</p>
             <p>Stylish table for your cafe space.</p>
-            <button class="add-to-cart-btn" data-name="AE 826" data-price="30000" data-img="/image/AE 826.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 826" data-price="30000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/AE 827.png" alt="Chair 1">
+        <!-- Product AE 827 -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+827" alt="Chair AE 827">
             <h3>AE 827</h3>
             <p class="price">₹30,000</p>
             <p>Comfortable wooden chair for cafes.</p>
-            <button class="add-to-cart-btn" data-name="AE 827" data-price="30000" data-img="/image/AE 827.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 827" data-price="30000">Add to Cart</button>
         </div>
-        <div class="last-row">
-            <div class="cardone ">
-                <img src="/image/AE 828.png" alt="Table 1">
-                <h3>AE 828</h3>
-                <p class="price">₹40,000</p>
-                <p>Stylish table for your cafe space.</p>
-                <button class="add-to-cart-btn" data-name="AE 828" data-price="40000" data-img="/image/AE 828.png">Add
-                    to
-                    Cart</button>
-            </div>
-        </div>
+        <!-- Product AE 828 -->
         <div class="cardone">
-            <img src="/image/New Port.png" alt="Table 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+828" alt="Table AE 828">
+            <h3>AE 828</h3>
+            <p class="price">₹40,000</p>
+            <p>Stylish table for your cafe space.</p>
+            <button class="add-to-cart-btn" data-name="AE 828" data-price="40000">Add to Cart</button>
+        </div>
+        <!-- Product New Port -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=New+Port" alt="Sofa New Port">
             <h3>New Port</h3>
             <p class="price">₹37,000</p>
-            <p>Fabric Sofa | Metal Frame Leg | Wooden Structure
-                THREE 75" x 32"
-            </p>
-            <button class="add-to-cart-btn" data-name="New Port" data-price="37000" data-img="/image/New Port.png">Add
-                to
-                Cart</button>
+            <p>Fabric Sofa | Metal Frame Leg | Wooden Structure THREE 75" x 32"</p>
+            <button class="add-to-cart-btn" data-name="New Port" data-price="37000">Add to Cart</button>
         </div>
 
-        <div class="aldo">
-            <div class="cardone aldo">
-                <img src="/image/aldo.png" alt="Table 1">
-                <h3>Aldo</h3>
-                <p class="price">₹37,000</p>
-                <p>Composite Leather & Fabric | Wooden Frame | Steel Legs
-                    THREE 72" x 30"
-                </p>
-                <button class="add-to-cart-btn" data-name="Aldo" data-price="37000" data-img="/image/aldo.png">Add to
-                    Cart</button>
-            </div>
+        <!-- Product Aldo -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Aldo" alt="Sofa Aldo">
+            <h3>Aldo</h3>
+            <p class="price">₹37,000</p>
+            <p>Composite Leather & Fabric | Wooden Frame | Steel Legs THREE 72" x 30"</p>
+            <button class="add-to-cart-btn" data-name="Aldo" data-price="37000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hamilton.png" alt="Table 1">
-            <h3>hamilton</h3>
+        <!-- Product Hamilton -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Hamilton" alt="Sofa Hamilton">
+            <h3>Hamilton</h3>
             <p class="price">₹41,000</p>
             <p>THREE 78" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Hamilton" data-price="41000" data-img="/image/hamilton.png">Add
-                to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Hamilton" data-price="41000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/neptune.png" alt="Table 1">
+        <!-- Product Neptune -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Neptune" alt="Sofa Neptune">
             <h3>Neptune</h3>
             <p class="price">₹41,000</p>
             <p>THREE 80" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Neptune" data-price="41000" data-img="/image/neptune.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Neptune" data-price="41000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hilton.png" alt="Table 1">
+        <!-- Product Hilton -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Hilton" alt="Sofa Hilton">
             <h3>Hilton</h3>
             <p class="price">₹41,000</p>
-            <p>Composite Leather | Wooden Frame | Wooden Legs
-                THREE 75" x 32"</p>
-            <button class="add-to-cart-btn" data-name="Hilton" data-price="41000" data-img="/image/hilton.png">Add to
-                Cart</button>
+            <p>Composite Leather | Wooden Frame | Wooden Legs THREE 75" x 32"</p>
+            <button class="add-to-cart-btn" data-name="Hilton" data-price="41000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hercules.png" alt="Table 1">
+        <!-- Product Hercules -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Hercules" alt="Sofa Hercules">
             <h3>Hercules</h3>
             <p class="price">₹41,000</p>
-            <p> THREE 80" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Hercules" data-price="41000" data-img="/image/hercules.png">Add
-                to
-                Cart</button>
+            <p>THREE 80" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Hercules" data-price="41000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/nivea.png" alt="Table 1">
+        <!-- Product Nivea -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Nivea" alt="Sofa Nivea">
             <h3>Nivea</h3>
             <p class="price">₹41,000</p>
             <p>THREE 75" x 33"</p>
-            <button class="add-to-cart-btn" data-name="Nivea" data-price="41000" data-img="/image/nivea.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Nivea" data-price="41000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/Athena.png" alt="Table 1">
+        <!-- Product Athena -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Athena" alt="Sofa Athena">
             <h3>Athena</h3>
             <p class="price">₹42,000</p>
             <p>THREE 75" x 33"</p>
-            <button class="add-to-cart-btn" data-name="Athena" data-price="42000" data-img="/image/Athena.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Athena" data-price="42000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/zeus.png" alt="Table 1">
+        <!-- Product Zeus -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Zeus" alt="Sofa Zeus">
             <h3>Zeus</h3>
             <p class="price">₹41,000</p>
             <p>THREE 75" x 32"</p>
-            <button class="add-to-cart-btn" data-name="Zeus" data-price="41000" data-img="/image/Zeus.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Zeus" data-price="41000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/OZI.png" alt="Table 1">
+        <!-- Product OZI -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=OZI" alt="Sofa OZI">
             <h3>OZI</h3>
             <p class="price">₹42,000</p>
             <p>THREE 80" x 34"</p>
-            <button class="add-to-cart-btn" data-name="OZI" data-price="42000" data-img="/image/OZI.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="OZI" data-price="42000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/Kraby.png" alt="Table 1">
+        <!-- Product Kraby -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Kraby" alt="Sofa Kraby">
             <h3>Kraby</h3>
             <p class="price">₹39,000</p>
             <p>THREE 78" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Kraby" data-price="39000" data-img="/image/Kraby.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Kraby" data-price="39000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/grezza.png" alt="Table 1">
+        <!-- Product Grezza -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Grezza" alt="Sofa Grezza">
             <h3>Grezza</h3>
             <p class="price">₹44,000</p>
-            <p> THREE 75" x 32" </p>
-            <button class="add-to-cart-btn" data-name="Grezza" data-price="44000" data-img="/image/Grezza.png">Add to
-                Cart</button>
+            <p>THREE 75" x 32"</p>
+            <button class="add-to-cart-btn" data-name="Grezza" data-price="44000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/dyno.png" alt="Table 1">
+        <!-- Product Dyno -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Dyno" alt="Sofa Dyno">
             <h3>Dyno</h3>
             <p class="price">₹39,000</p>
             <p>THREE 75" x 32"</p>
-            <button class="add-to-cart-btn" data-name="Dyno" data-price="39000" data-img="/image/dyno.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Dyno" data-price="39000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/Roger.png" alt="Table 1">
+        <!-- Product Roger -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Roger" alt="Sofa Roger">
             <h3>Roger</h3>
             <p class="price">₹39,000</p>
-            <p>THREE 75" x 32" </p>
-            <button class="add-to-cart-btn" data-name="Roger" data-price="39000" data-img="/image/Roger.png">Add to
-                Cart</button>
+            <p>THREE 75" x 32"</p>
+            <button class="add-to-cart-btn" data-name="Roger" data-price="39000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/onix.png" alt="Table 1">
+        <!-- Product ONIX -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=ONIX" alt="Sofa ONIX">
             <h3>ONIX</h3>
             <p class="price">₹39,000</p>
             <p>THREE 75" x 32"</p>
-            <button class="add-to-cart-btn" data-name="ONIX" data-price="39000" data-img="/image/onix.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="ONIX" data-price="39000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/crimson.png" alt="Table 1">
+        <!-- Product Crimson -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Crimson" alt="Sofa Crimson">
             <h3>Crimson</h3>
             <p class="price">₹46,000</p>
             <p>THREE 80" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Crimson" data-price="46000" data-img="/image/crimson.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="Crimson" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hawkins.png" alt="Table 1">
+        <!-- Product Hawkins -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Hawkins" alt="Sofa Hawkins">
             <h3>Hawkins</h3>
             <p class="price">₹46,000</p>
-            <p>THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Hawkins" data-price="46000" data-img="/image/hawkins.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Hawkins" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/byron.jpg" alt="Table 1">
+        <!-- Product Byron -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Byron" alt="Sofa Byron">
             <h3>Byron</h3>
             <p class="price">₹42,000</p>
-            <p> THREE 75" x 32" </p>
-            <button class="add-to-cart-btn" data-name="Byron" data-price="42000" data-img="/image/byron.png">Add to
-                Cart</button>
+            <p>THREE 75" x 32"</p>
+            <button class="add-to-cart-btn" data-name="Byron" data-price="42000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/emperor.png" alt="Table 1">
+        <!-- Product Emperor -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Emperor+1" alt="Sofa Emperor">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/Emperor.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Emperor 1" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/sofa1.png" alt="Table 1">
+        <!-- Product Emperor (Sofa 2) -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Emperor+2" alt="Sofa Emperor">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/sofa1.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Emperor 2" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/sofa2.png" alt="Table 1">
+        <!-- Product Emperor (Sofa 3) -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Emperor+3" alt="Sofa Emperor">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/sofa2.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Emperor 3" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/sofa3.png" alt="Table 1">
+        <!-- Product Emperor (Sofa 4) -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Emperor+4" alt="Sofa Emperor">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/sofa3.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Emperor 4" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/sofa4.png" alt="Table 1">
+        <!-- Product Emperor (Sofa 5) -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Emperor+5" alt="Sofa Emperor">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/sofa4.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Emperor 5" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/sofa5.png" alt="Table 1">
+        <!-- Product Emperor (Sofa 6) -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Emperor+6" alt="Sofa Emperor">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/sofa5.png">Add to
-                Cart</button>
+            <p>THREE 84" x 34"</p>
+            <button class="add-to-cart-btn" data-name="Emperor 6" data-price="46000">Add to Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/sofa6.png" alt="Table 1">
-            <h3>Emperor</h3>
-            <p class="price">₹46,000</p>
-            <p> THREE 84" x 34" </p>
-            <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/sofa6.png">Add to
-                Cart</button>
-        </div>
-        <div class="cardone ">
-            <img src="/image/Global 3.png" alt="Table 1">
+        <!-- Product Bajar basvi chair -->
+        <div class="cardone">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=Bajar+basvi" alt="Bajar basvi chair">
             <h3>Bajar basvi chair</h3>
             <p class="price">₹40,000</p>
-            <p>Stylish table for your cafe space.</p>
-            <button class="add-to-cart-btn" data-name="Bajar basvi chair" data-price="40000"
-                data-img="/image/Global 3.png">Add to
-                Cart</button>
+            <p>Stylish chair for your cafe space.</p>
+            <button class="add-to-cart-btn" data-name="Bajar basvi chair" data-price="40000">Add to Cart</button>
         </div>
+        <!-- Product AE 817 -->
         <div class="card">
-            <img src="/image/AE 817.png" alt="Chair 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+817" alt="Chair AE 817">
             <h3>AE 817</h3>
             <p class="price">₹7,000</p>
             <p>Comfortable wooden chair for cafes.</p>
-            <button class="add-to-cart-btn" data-name="AE 817" data-price="7000" data-img="/image/AE 817.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 817" data-price="7000">Add to Cart</button>
         </div>
+        <!-- Product AE 818 -->
         <div class="card">
-            <img src="/image/AE 818.png" alt="Table 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+818" alt="Table AE 818">
             <h3>AE 818</h3>
             <p class="price">₹12,000</p>
             <p>Stylish table for your cafe space.</p>
-            <button class="add-to-cart-btn" data-name="AE 818" data-price="12000" data-img="/image/AE 818.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 818" data-price="12000">Add to Cart</button>
         </div>
+        <!-- Product AE 819 -->
         <div class="card">
-            <img src="/image/AE 819.png" alt="Chair 1">
+            <img src="https://placehold.co/180x180/D6D6D6/4D4D4D?text=AE+819" alt="Chair AE 819">
             <h3>AE 819</h3>
             <p class="price">₹18,000</p>
             <p>Comfortable wooden chair for cafes.</p>
-            <button class="add-to-cart-btn" data-name="AE 819" data-price="18000" data-img="/image/AE 819.png">Add to
-                Cart</button>
+            <button class="add-to-cart-btn" data-name="AE 819" data-price="18000">Add to Cart</button>
         </div>
-        <div id="cart-popup"
-            style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
-        </div>
+    </div>
 
-        <script>
-            function toggleMenu() {
-                const menu = document.getElementById("mobileMenu");
-                menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    <!-- Cart Notification Pop-up -->
+    <div id="cart-popup" class="cart-popup"></div>
+
+    <script>
+        // Hamburger menu toggle logic
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            // Use classes or a proper style toggle for smoother animation if desired, 
+            // but simple display toggle works for required functionality.
+            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+        }
+
+        // Simple Cart Notification Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+            const popup = document.getElementById('cart-popup');
+
+            // Function to display the popup message
+            function showPopup(message) {
+                popup.textContent = message;
+                // Add class for smooth transition (defined in CSS)
+                popup.classList.add('show-popup');
+
+                // Hide the popup after 3 seconds
+                setTimeout(() => {
+                    popup.classList.remove('show-popup');
+                }, 3000);
             }
-        </script>
 
+            // Event listener for all "Add to Cart" buttons
+            cartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const productName = event.target.getAttribute('data-name');
+                    // In a real app, you would add logic here to save to Firestore or localStorage
+                    // For now, we show a success message:
+                    showPopup(`'${productName}' added to cart!`);
+                });
+            });
+        });
+
+    </script>
 </body>
 
 </html>

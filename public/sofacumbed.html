@@ -3,10 +3,19 @@
 
 <head>
     <title>Sofa Cumbed</title>
-    <link rel="stylesheet" href="/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css" /> 
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        /* Base Navbar and Link Styling (for desktop/tablet) */
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* --- NAVBAR STYLES (Desktop Default) --- */
         .navbar {
             display: flex;
             align-items: center;
@@ -20,7 +29,7 @@
         }
 
         .navbar .logo img {
-            height: 60px; /* Standardized logo height */
+            height: 60px;
             max-height: 60px;
         }
 
@@ -28,14 +37,14 @@
             font-size: 30px;
             margin-left: 15px;
             font-family: 'Protest Strike', sans-serif;
+            flex-grow: 1; /* Pushes nav links to the right */
         }
         
-        /* Desktop/Tablet Nav Links: Always Visible and Inline */
         .nav-links {
-            display: flex; /* Ensures links are visible on desktop/tablet */
+            display: flex; /* Ensures desktop links are visible and inline */
             align-items: center;
             gap: 20px;
-            transition: all 0.3s ease-in-out; /* For smooth mobile transition */
+            transition: all 0.3s ease-in-out;
         }
         
         .nav-links a {
@@ -43,60 +52,27 @@
             text-decoration: none;
         }
 
-        /* --- CARD GRID STYLES --- */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            /* Default: 4 columns for large desktop */
-            gap: 24px;
-            justify-items: center;
-            margin: 40px auto;
-            max-width: 1400px; /* Max width to center the grid */
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 400px;
-            min-height: 370px;
-            padding: 14px 10px 18px 10px;
-            text-align: center;
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-sizing: border-box;
-        }
-
-        .card img {
-            width: 200px;
-            height: 200px;
-            object-fit: contain;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            background: #fff;
-        }
-        
-        /* Cart icon size standardization */
         .cart {
             height: 40px;
+            width: 40px;
+            vertical-align: middle;
+        }
+        
+        #cart-count {
+            color: #fff;
+            font-size: 20px; /* Match link font size */
+            margin-left: 4px;
         }
 
         /* --- HAMBURGER MENU STYLES --- */
         .hamburger {
-            display: none;
+            display: none; /* Hidden by default on desktop */
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 10px;
             z-index: 1001;
+            flex-direction: column;
         }
 
         .bar {
@@ -109,41 +85,122 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* --- RESPONSIVENESS AND MOBILE MENU --- */
+        /* Animate hamburger into X */
+        .hamburger.active .bar:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
 
-        /* 💻 Medium Screens/Large Tablets (3 columns) */
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* --- CARD GRID STYLES (Product List) --- */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Desktop: 4 columns */
+            gap: 24px;
+            justify-items: center;
+            margin: 40px auto;
+            max-width: 1400px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 320px; /* Max width to contain cards nicely */
+            min-height: 400px; /* Increased height for content uniformity */
+            padding: 14px 10px 18px 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .card h3 {
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            flex-grow: 1; /* Pushes the button to the bottom */
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .card .price {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.2em;
+        }
+
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .add-to-cart-btn {
+            background: rgb(121, 65, 65);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #a05252;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | MEDIA QUERIES
+        |--------------------------------------------------------------------------
+        */
+
+        /* 💻 Medium Screens/Large Tablets (Max 1200px) - 3 columns */
         @media (max-width: 1200px) {
             .card-container {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        /* 📱 Mobile/Tablet View (Below 768px) - Menu Activation */
+        /* 📱 Tablet/Mobile View (Max 768px) - 2 columns & Mobile Menu */
         @media (max-width: 768px) {
+            /* Navbar */
             .navbar {
                 padding: 10px 15px;
             }
 
             .location {
-                font-size: 20px; /* Reduced font size for mobile */
-                margin-left: 15px;
-                flex-grow: 1;
+                font-size: 24px; /* Reduced font size */
             }
 
             .logo img {
-                height: 50px; /* Smaller logo on mobile */
-                max-height: 50px;
+                height: 50px;
             }
 
-            /* Show the hamburger icon */
+            /* Hamburger */
             .hamburger {
-                display: block;
+                display: flex;
             }
 
-            /* Hide desktop nav links by default and prepare for mobile menu */
+            /* Mobile Menu Overlay */
             .nav-links {
                 position: fixed;
-                top: 70px; /* Adjust based on navbar height (approx 50px logo + padding) */
+                top: 70px; /* Below the navbar */
                 right: 0;
                 width: 100%;
                 height: calc(100vh - 70px);
@@ -152,39 +209,47 @@
                 justify-content: flex-start;
                 align-items: center;
                 gap: 30px;
-                transform: translateX(100%);
-                /* Start off-screen to the right */
-                z-index: 999;
+                transform: translateX(100%); /* Start off-screen */
                 padding-top: 40px;
+                z-index: 999;
             }
 
             .nav-links.active {
-                transform: translateX(0);
-                /* Slide in when active */
+                transform: translateX(0); /* Slide in */
             }
 
             .nav-links a {
                 font-size: 24px !important;
-                margin: 0;
-                padding: 10px 0;
             }
 
-            /* Product Grid Adjustment */
+            /* Product Grid */
             .card-container {
                 grid-template-columns: repeat(2, 1fr); /* Tablet size 2 cards */
                 gap: 16px;
+                padding: 0 15px;
+            }
+            
+            .card {
+                min-height: 380px; /* Adjusted min-height */
             }
         }
 
-        /* 📱 Very Small Screens (Below 480px) */
+        /* 📱 Very Small Mobile (Max 480px) - 1 column */
         @media (max-width: 480px) {
             .card-container {
                 grid-template-columns: 1fr; /* Single column layout */
                 padding: 0 10px;
             }
-
+            
             .card {
                 max-width: 95%;
+                margin: 0 auto;
+                min-height: auto;
+            }
+
+            .card img {
+                width: 150px;
+                height: 150px;
             }
         }
     </style>
@@ -208,11 +273,9 @@
         <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart"
-                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
-                <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+            <a href="/cart.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="/image/cartimage.png" class="cart">
+                <span id="cart-count">0</span>
             </a>
         </div>
     </header>
@@ -281,13 +344,17 @@
                 hamburger.addEventListener('click', () => {
                     // Toggles the 'active' class to slide the mobile menu in/out
                     navLinks.classList.toggle('active');
+                    hamburger.classList.toggle('active'); // Toggles the X animation
                 });
             }
 
-            // Optional: Close menu when a link is clicked
+            // Optional: Close menu when a link is clicked for better mobile UX
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    }
                 });
             });
         });

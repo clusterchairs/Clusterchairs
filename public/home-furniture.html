@@ -3,10 +3,59 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office-Furniture</title>
     <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
+        /* Base Body and Layout Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Adding a light background */
+        }
+
+        /* --- DESKTOP NAVBAR STYLES (REQUIRED FOR DEFAULT VIEW) --- */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo img {
+            height: 70px;
+            width: auto;
+        }
+
+        .location {
+            font-size: 50px; /* Desktop size */
+            margin-left: 20px;
+            font-family: 'Protest Strike', sans-serif;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            flex-grow: 1;
+        }
+
+        .nav-links {
+            display: flex; /* Ensure desktop links are visible and inline */
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
         /* Navbar cart & count */
         .cart {
             width: 40px;
@@ -16,15 +65,70 @@
 
         #cart-count {
             color: #fff;
-            font-size: 16px;
+            font-size: 20px; /* Adjusted to match link size */
             margin-left: 4px;
         }
 
-        /* Hamburger menu */
+        /* --- MAIN CONTENT GRID STYLES --- */
+        .deals-main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .deals-grid {
+            display: grid;
+            /* Default: 2 columns for a clean look */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            justify-content: center;
+        }
+
+        /* Assuming these styles are missing from /office.css */
+        .deal-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .deal-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .img-wrapper {
+            width: 100%;
+            max-width: 250px;
+            height: 200px; /* Fixed height for consistent cards */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* --- HAMBURGER MENU STYLES --- */
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
+            z-index: 1001;
         }
 
         .hamburger span {
@@ -49,27 +153,48 @@
             transform: rotate(-45deg) translate(6px, -6px);
         }
 
-        /* Responsive Navbar */
+        /*
+        |--------------------------------------------------------------------------
+        | MEDIA QUERIES
+        |--------------------------------------------------------------------------
+        */
+
+        /* Tablet view (Max 1024px) */
+        @media (max-width: 1024px) {
+            .deals-grid {
+                /* Confirms 2 columns for tablet */
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .location {
+                font-size: 35px;
+            }
+        }
+
+        /* Mobile View (Max 768px) */
         @media (max-width: 768px) {
+            /* Navbar Layout */
             .nav-links {
-                display: none;
+                display: none; /* Hide default navigation */
                 flex-direction: column;
-                position: absolute;
+                position: fixed; /* Use fixed instead of absolute to cover viewport */
                 top: 70px;
                 left: 0;
                 width: 100%;
-                background: rgb(121, 65, 65);
+                height: 100vh; /* Full viewport height */
+                background: rgb(80, 40, 40); /* Slightly darker background for overlay */
                 padding: 15px 0;
                 text-align: center;
-            }
-
-            .nav-links a {
-                margin: 12px 0;
-                font-size: 18px;
+                gap: 20px; /* Spacing between mobile links */
             }
 
             .nav-links.show {
                 display: flex;
+            }
+
+            .nav-links a {
+                margin: 12px 0;
+                font-size: 20px;
             }
 
             .hamburger {
@@ -77,28 +202,27 @@
             }
 
             .location {
-                font-size: 22px;
+                font-size: 28px;
                 margin-left: 12px;
             }
 
             .logo img {
-                height: 60px;
+                height: 50px;
             }
-
+            
+            /* Content Grid */
             .deals-grid {
+                /* Single column for mobile view */
                 grid-template-columns: 1fr;
             }
 
-            .img-wrapper img {
-                width: 100%;
-                height: auto;
+            .deal-card {
+                max-width: 90%;
+                margin: 0 auto;
             }
-        }
 
-        /* Tablet view */
-        @media (max-width: 1024px) {
-            .deals-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .img-wrapper {
+                height: 150px;
             }
         }
     </style>
@@ -107,32 +231,28 @@
 <body>
     <script src="/auth.js"></script>
 
-    <!-- Navbar -->
     <header class="navbar">
         <a href="/index.html" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
 
-        <!-- Hamburger -->
         <div class="hamburger" id="hamburger">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- Nav Links -->
         <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link">Account & Lists</a>
             <a href="#" id="logout-link" style="display:none;">Logout</a>
-            <a href="/cart.html">
+            <a href="/cart.html" style="display: flex; align-items: center; text-decoration: none;">
                 <img src="/image/cartimage.png" class="cart">
                 <span id="cart-count">0</span>
             </a>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main>
         <div class="deals-main">
             <h3 class="header">Types of Furniture</h3>
@@ -162,14 +282,25 @@
         </div>
     </main>
 
-    <!-- JS -->
     <script>
-        const hamburger = document.getElementById("hamburger");
-        const navLinks = document.getElementById("nav-links");
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
 
-        hamburger.addEventListener("click", () => {
-            navLinks.classList.toggle("show");
-            hamburger.classList.toggle("active");
+            hamburger.addEventListener("click", () => {
+                navLinks.classList.toggle("show");
+                hamburger.classList.toggle("active");
+            });
+
+            // Optional: Close menu when a link is clicked (for better UX on mobile)
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('show')) {
+                        navLinks.classList.remove('show');
+                        hamburger.classList.remove('active');
+                    }
+                });
+            });
         });
     </script>
 </body>

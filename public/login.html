@@ -2,209 +2,286 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login | ClusterChairs</title>
-  <style>
-    /* Reset */
-    body {
-      background: #f1f2f4;
-      font-family: Arial, sans-serif;
-      margin: 0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | ClusterChairs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            background: #f1f2f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Navbar */
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgb(121, 65, 65);
-      color: #fff;
-      padding: 10px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+        /* 1. Navbar Styles */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            min-height: 60px;
+        }
 
-    .logo img {
-      height: 50px;
-      width: auto;
-    }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Placeholder logo image styling for visual consistency */
+        .logo img {
+            height: 40px; 
+            width: 40px; 
+            border-radius: 4px;
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
+        .location {
+            font-size: 24px;
+            margin-left: 15px;
+            font-family: 'Protest Strike', sans-serif;
+            line-height: 1.1;
+        }
 
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-      transition: color 0.3s;
-    }
+        /* Desktop Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease-in-out;
+        }
 
-    .nav-links a:hover {
-      color: #febd69;
-    }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 0;
+            transition: color 0.2s;
+        }
 
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-    }
+        .nav-links a:hover {
+            color: #febd69;
+        }
 
-    .hamburger span {
-      width: 28px;
-      height: 3px;
-      background: #fff;
-      border-radius: 2px;
-      transition: 0.3s;
-    }
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
 
-    /* Mobile Nav */
-    .nav-links.mobile {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: 60px;
-      right: 0;
-      background: rgb(121, 65, 65);
-      width: 200px;
-      padding: 20px;
-    }
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 25px;
+            background: #fff;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Hamburger Active State (Icon to 'X') */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
 
-    .nav-links.mobile.show {
-      display: flex;
-    }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
 
-    /* Container */
-    .container {
-      max-width: 400px;
-      margin: 80px auto;
-      background: #fff;
-      padding: 32px;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        /* 2. Form Container Styles */
+        .container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
-    }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #a05252;
-      color: #fff;
-      font-size: 1em;
-      cursor: pointer;
-    }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box; 
+        }
 
-    button:hover {
-      background: #7a3d3d;
-    }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #a05252;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
 
-    #message {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 0.95em;
-    }
+        button:hover {
+            background: #7a3d3d;
+        }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container {
-        margin: 40px 16px;
-        padding: 24px;
-      }
+        #message {
+            text-align: center;
+            margin-top: 10px;
+            min-height: 1.2em;
+        }
 
-      .nav-links {
-        display: none;
-      }
+        /* 3. Responsive Rules */
 
-      .hamburger {
-        display: flex;
-      }
-    }
-  </style>
+        /* Mobile View (Max 768px) */
+        @media (max-width: 768px) {
+            
+            /* Hide Desktop Nav and Show Hamburger */
+            .nav-links {
+                display: none; 
+                position: fixed;
+                top: 60px; 
+                right: 0;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgb(80, 40, 40);
+                flex-direction: column;
+                transform: translateX(100%); 
+            }
+
+            .nav-links.active {
+                display: flex;
+                transform: translateX(0); 
+                gap: 20px;
+                padding-top: 40px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links.active a {
+                font-size: 20px;
+            }
+
+            .location {
+                font-size: 18px;
+            }
+            
+            /* Form Container Adjustments */
+            .container {
+                margin: 40px auto;
+                max-width: 90%; 
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo"><img src="/image/logo.png" alt="ClusterChairs"></div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+    <header class="navbar">
+        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <div class="logo"><img src="https://placehold.co/60x60/a05252/ffffff?text=C" alt="Logo"></div>
+            <div class="location">Cluster Chairs</div>
+        </a>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="nav-links">
+            <a href="/login.html" id="account-link">Login</a>
+            <a href="/signup.html">Sign Up</a>
+            <a href="/cart.html" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="https://placehold.co/30x30/a05252/ffffff?text=🛒" alt="Cart" style="height: 30px; vertical-align: middle;">
+                <span id="cart-count" style="color:#fff; font-size:16px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>User Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email Address" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="submit">Login</button>
+        </form>
+        <p id="message"></p>
+        <p style="text-align:center;">Don’t have an account? <a href="/signup.html" style="color:#a05252; text-decoration: none; font-weight: bold;">Sign Up</a></p>
     </div>
-    <div class="nav-links" id="navLinks">
-      <a href="/index.html">Home</a>
-      <a href="/signup.html">Sign Up</a>
-      <a href="/cart.html">Cart</a>
-    </div>
-  </header>
 
-  <!-- Login Box -->
-  <div class="container">
-    <h2>User Login</h2>
-    <form id="loginForm">
-      <input type="email" id="email" placeholder="Email Address" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <p id="message"></p>
-    <p style="text-align:center;">Don’t have an account? <a href="/signup.html">Sign Up</a></p>
-  </div>
+    <script>
+        // --- Navbar Toggle Logic ---
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
-  <script>
-    // Hamburger toggle
-    function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("mobile");
-      navLinks.classList.toggle("show");
-    }
-
-    // Login logic
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      try {
-        const res = await fetch("/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
+        hamburger.addEventListener("click", () => {
+            // Toggles the 'active' class on both elements for menu visibility and icon animation
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
         });
-        const data = await res.json();
+        
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        });
 
-        if (data.success) {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userEmail", email);
+        // --- Login Form Logic ---
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-          document.getElementById("message").textContent = "✅ Login Successful!";
-          setTimeout(() => { window.location.href = "/index.html"; }, 1500);
-        } else {
-          document.getElementById("message").textContent = "❌ " + data.message;
-        }
-      } catch (err) {
-        document.getElementById("message").textContent = "❌ Server error!";
-      }
-    });
-  </script>
+            document.getElementById("message").textContent = "Logging in...";
+
+            try {
+                // Mocking the server login call
+                const res = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await res.json();
+
+                if (data.success) {
+                    // ✅ Save login flag + email 
+                    localStorage.setItem("isLoggedIn", "true");
+                    localStorage.setItem("userEmail", email);
+
+                    document.getElementById("message").textContent = "✅ Login Successful! Redirecting...";
+                    setTimeout(() => { window.location.href = "/index.html"; }, 1500);
+                } else {
+                    document.getElementById("message").textContent = "❌ " + (data.message || "Invalid credentials.");
+                }
+            } catch (err) {
+                document.getElementById("message").textContent = "❌ Server error! Could not connect.";
+            }
+        });
+    </script>
+
 </body>
+
 </html>
