@@ -8,16 +8,38 @@
     <link rel="stylesheet" href="/index.html">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        body {
+        /*
+|--------------------------------------------------------------------------
+| FULL CSS FOR DINING FURNITURE PAGE
+|--------------------------------------------------------------------------
+| Merged and cleaned CSS from the Cafe-Furniture page to ensure
+| consistent navbar, card, and responsive behavior (hamburger menu,
+| and 4-2-1 column layout for cards).
+*/
+
+        /* Base and Reset Styles */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a {
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
+        }
+
+        body {
             background: #f1f2f4;
         }
 
-        /* Navbar */
+        /* ==================================== */
+        /* 1. Navbar Styles                     */
+        /* ==================================== */
         .navbar {
             display: flex;
             align-items: center;
+            /* Use flex-wrap on mobile, so no need for 'space-between' on desktop, but keeping it for safety */
             justify-content: space-between;
             background: rgb(121, 65, 65);
             padding: 10px 20px;
@@ -27,8 +49,10 @@
             z-index: 1000;
         }
 
+        /* Logo and Brand Title */
         .logo img {
             height: 70px;
+            /* Base height for logo on large screens */
             width: auto;
         }
 
@@ -38,6 +62,7 @@
             margin-left: 12px;
         }
 
+        /* Navigation Links (Desktop) */
         .nav-links {
             display: flex;
             align-items: center;
@@ -48,6 +73,7 @@
             color: #fff;
             text-decoration: none;
             font-size: 16px;
+            /* Base font size */
             transition: color 0.2s;
         }
 
@@ -55,25 +81,50 @@
             color: #febd69;
         }
 
+        /* Cart Icon */
         .cart {
-            height: 36px;
+            /* The HTML for Dinning Furniture uses an inline style to set height to 40px,
+       but this CSS provides a better-controlled height for the cart image */
+            height: 40px !important;
             vertical-align: middle;
+            margin-top: -10px;
+            /* Compensate for the height increase to align with the text */
         }
 
-        /* Hamburger */
+        /* ==================================== */
+        /* 2. Hamburger Menu Styles             */
+        /* ==================================== */
         .hamburger {
             display: none;
-            font-size: 26px;
+            /* Hidden by default */
             background: none;
             border: none;
             color: #fff;
             cursor: pointer;
+            font-size: 26px;
+            /* Used for the Unicode character on cafe-furniture */
+            /* For the dinning-furniture page, we need to style the .bar spans */
         }
 
-        /* Cards */
+        /* Style for the three bars in the Dinning Furniture HTML */
+        .hamburger .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #fff;
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* ==================================== */
+        /* 3. Product Card Styles               */
+        /* ==================================== */
+
         .card-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            /* Default to 4 columns */
             gap: 20px;
             justify-items: center;
             padding: 20px;
@@ -119,7 +170,11 @@
             background: #a05252;
         }
 
-        /* Responsive Rules */
+        /* ==================================== */
+        /* 4. Responsive Rules                  */
+        /* ==================================== */
+
+        /* Tablet View (Max 992px): 2 columns for cards, slightly smaller logo/text */
         @media (max-width: 992px) {
             .card-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -134,6 +189,7 @@
             }
         }
 
+        /* Mobile View (Max 768px): 1 column for cards, Hamburger Menu activation */
         @media (max-width: 768px) {
             .navbar {
                 flex-wrap: wrap;
@@ -141,22 +197,34 @@
 
             .hamburger {
                 display: block;
+                /* Show the hamburger button */
             }
 
             .nav-links {
                 display: none;
+                /* Hide the links by default */
                 flex-direction: column;
                 width: 100%;
                 background: rgb(121, 65, 65);
                 padding: 12px 0;
+                /* Position the nav-links below the logo/hamburger row */
+                order: 100;
             }
 
             .nav-links.active {
                 display: flex;
+                /* Show the links when 'active' class is added by JS */
+            }
+
+            .nav-links a {
+                padding: 8px 0;
+                font-size: 18px;
+                /* Slightly larger links for tapping */
             }
 
             .card-container {
                 grid-template-columns: 1fr;
+                /* Single column on small screens */
             }
 
             .location {
@@ -164,6 +232,7 @@
             }
         }
 
+        /* Very Small Phone View (Max 480px) */
         @media (max-width: 480px) {
             .logo img {
                 height: 50px;
@@ -176,10 +245,6 @@
             .card img {
                 width: 120px;
                 height: 120px;
-            }
-
-            .nav-links a {
-                font-size: 14px;
             }
         }
     </style>
