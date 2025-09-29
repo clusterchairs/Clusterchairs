@@ -10,6 +10,133 @@
     <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
+        /* Navbar base */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo img {
+            height: 70px;
+            width: auto;
+        }
+
+        .location {
+            font-size: 22px;
+            margin-left: 10px;
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #febd69;
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: rgb(121, 65, 65);
+                position: absolute;
+                top: 70px;
+                right: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .nav-links a {
+                margin: 15px 0;
+                font-size: 18px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .location {
+                font-size: 18px;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+
+            /* Card adjustments */
+            .card-container,
+            .special-card {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+
+            .card,
+            .cardone {
+                max-width: 180px;
+                min-height: 280px;
+                padding: 12px;
+            }
+
+            .card img,
+            .cardone img {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .location {
+                display: none;
+                /* Hide text for very small screens */
+            }
+
+            .card-container,
+            .special-card {
+                grid-template-columns: 1fr;
+            }
+
+            .card,
+            .cardone {
+                max-width: 100%;
+                min-height: auto;
+            }
+
+            .card img,
+            .cardone img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+
         .card img,
         .cardone img {
             width: 250px;
@@ -112,15 +239,15 @@
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
-        <div class="nav-links">
+
+        <!-- Hamburger button -->
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div>
+
+        <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
             <a href="/cart.html">
                 <img src="/image/cartimage.png" class="cart"
                     style="height: 40px; margin-top: -10px; vertical-align: middle;">
@@ -129,6 +256,7 @@
             </a>
         </div>
     </header>
+
 
     <div class="special-card">
         <div class="AE823">
@@ -350,6 +478,16 @@
         <div id="cart-popup"
             style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
         </div>
+
+        <script>
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        </script>
+
 
 </body>
 

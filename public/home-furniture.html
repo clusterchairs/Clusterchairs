@@ -1,54 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Office-Furniture</title>
-    <link rel="stylesheet" href="/index.js">
-    <link rel="stylesheet" href="/index.html">
     <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
-
     <style>
+        /* Navbar cart & count */
         .cart {
             width: 40px;
+            height: auto;
+            vertical-align: middle;
         }
 
-        .location {
-            font-size: 50px;
-            margin-left: 270px;
-            font-family: Protest Strike, sans-serif;
-            line-height: 1.1;
-            letter-spacing: 2px;
+        #cart-count {
+            color: #fff;
+            font-size: 16px;
+            margin-left: 4px;
+        }
+
+        /* Hamburger menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background: #fff;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        /* Animate hamburger into X */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgb(121, 65, 65);
+                padding: 15px 0;
+                text-align: center;
+            }
+
+            .nav-links a {
+                margin: 12px 0;
+                font-size: 18px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .location {
+                font-size: 22px;
+                margin-left: 12px;
+            }
+
+            .logo img {
+                height: 60px;
+            }
+
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .img-wrapper img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        /* Tablet view */
+        @media (max-width: 1024px) {
+            .deals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
-
 </head>
 
 <body>
     <script src="/auth.js"></script>
+
+    <!-- Navbar -->
     <header class="navbar">
-        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+        <a href="/index.html" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
-        <div class="nav-links">
-            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
-            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
+
+        <!-- Hamburger -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Nav Links -->
+        <div class="nav-links" id="nav-links">
+            <a href="/login.html" id="account-link">Account & Lists</a>
+            <a href="#" id="logout-link" style="display:none;">Logout</a>
             <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart"
-                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
-                <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+                <img src="/image/cartimage.png" class="cart">
+                <span id="cart-count">0</span>
             </a>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main>
         <div class="deals-main">
             <h3 class="header">Types of Furniture</h3>
@@ -58,7 +142,7 @@
                         <h3>Sofa Cumbed</h3>
                         <div class="deal-items">
                             <div class="img-wrapper">
-                                <img src="/image/sofacumbed.jpg" alt="cafe-chairs">
+                                <img src="/image/sofacumbed.jpg" alt="Sofa Cumbed">
                             </div>
                         </div>
                     </div>
@@ -69,13 +153,25 @@
                         <h3>Sofa</h3>
                         <div class="deal-items">
                             <div class="img-wrapper">
-                                <img src="/image/sofa face.png" alt="dinning-furniture">
+                                <img src="/image/sofa face.png" alt="Sofa">
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
+        </div>
     </main>
+
+    <!-- JS -->
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
+
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("show");
+            hamburger.classList.toggle("active");
+        });
+    </script>
 </body>
 
 </html>
