@@ -5,336 +5,326 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clusterchairs</title>
-    <link rel="stylesheet" href="./style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-/* ===================== */
-/* RESET & BASE */
-/* ===================== */
-body, h1, h2, h3, p, a {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-body {
-  background: #f1f2f4;
-  line-height: 1.5;
-  color: #232f3e;
-  overflow-x: hidden;
-}
+        body {
+            background: #f1f2f4;
+        }
 
-/* ===================== */
-/* NAVBAR */
-/* ===================== */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgb(121, 65, 65);
-  color: #fff;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+        /* Navbar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-.logo img {
-  height: 80px;
-  width: auto;
-}
+        .logo img {
+            height: 80px;
+            width: auto;
+            display: block;
+        }
 
-.location {
-  font-family: "Protest Strike", sans-serif;
-  font-size: 28px;
-  margin-left: 15px;
-  flex-grow: 1;
-}
+        .location {
+            font-size: 36px;
+            font-family: Protest Strike, sans-serif;
+            line-height: 1.1;
+            letter-spacing: 2px;
+        }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-.nav-links a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-  transition: color 0.2s;
-}
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.2s;
+        }
 
-.nav-links a:hover {
-  color: #febd69;
-}
+        .nav-links a:hover {
+            color: #febd69;
+        }
 
-.cart {
-  width: 36px;
-  height: auto;
-}
+        .cart {
+            width: 40px;
+        }
 
-/* Hamburger */
-.hamburger {
-  display: none;
-  font-size: 32px;
-  cursor: pointer;
-  color: #fff;
-}
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
 
-/* ===================== */
-/* BANNER */
-/* ===================== */
-.banner {
-  width: 100%;
-  position: relative;
-  text-align: center;
-}
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: white;
+        }
 
-.banner-content {
-  background-image: url('image/banner.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 60vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
+        @media (max-width: 768px) {
+            .location {
+                font-size: 24px;
+            }
 
-/* Hotspot area wrapper */
-.banner-link-area {
-  position: absolute;
-  inset: 0;
-}
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background: rgb(121, 65, 65);
+                flex-direction: column;
+                width: 200px;
+                display: none;
+                padding: 20px;
+            }
 
-/* Each hotspot */
-.banner-link {
-  position: absolute;
-  display: block;
-  z-index: 2;
-  pointer-events: auto;
-}
+            .nav-links.active {
+                display: flex;
+            }
 
-/* Tooltip for hotspots */
-.banner-tooltip {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #222;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.9em;
-  white-space: nowrap;
-}
+            .hamburger {
+                display: flex;
+            }
+        }
 
-.banner-link:hover .banner-tooltip {
-  display: block;
-}
+        /* Banner */
+        .banner {
+            text-align: center;
+            position: relative;
+        }
 
-/* Responsive Hotspots (positions in %) */
-.couch-link {
-  left: 25%;
-  top: 30%;
-  width: 20%;
-  height: 15%;
-}
+        .banner-content {
+            background-image: url('image/banner.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: auto;
+            min-height: 400px;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
 
-.gaming-link {
-  left: 55%;
-  top: 10%;
-  width: 25%;
-  height: 20%;
-}
+        .banner-link-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-.Office-link {
-  left: 70%;
-  top: 45%;
-  width: 20%;
-  height: 20%;
-}
+        .banner-link {
+            position: absolute;
+            display: block;
+        }
 
-.Computer-link {
-  left: 5%;
-  top: 10%;
-  width: 25%;
-  height: 20%;
-}
+        /* Hot zones scale with banner */
+        .couch-link {
+            left: 30%;
+            top: 25%;
+            width: 20%;
+            height: 15%;
+        }
 
-/* ===================== */
-/* DEALS SECTION */
-/* ===================== */
-.deals-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  gap: 30px;
-}
+        .table-link {
+            left: 65%;
+            top: 55%;
+            width: 15%;
+            height: 10%;
+        }
 
-.deals-main h3 {
-  font-size: 1.6em;
-  color: #232f3e;
-}
+        .Officee-link {
+            left: 0%;
+            top: 35%;
+            width: 20%;
+            height: 20%;
+        }
 
-.deals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  width: 100%;
-  max-width: 1200px;
-}
+        .Office-link {
+            left: 72%;
+            top: 40%;
+            width: 25%;
+            height: 20%;
+        }
 
-.deal-card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+        .tea-link {
+            left: 35%;
+            top: 48%;
+            width: 20%;
+            height: 12%;
+        }
 
-.deal-card h3 {
-  font-size: 1.2em;
-  margin-bottom: 12px;
-  color: #232f3e;
-}
+        .gaming-link {
+            left: 45%;
+            top: 1%;
+            width: 25%;
+            height: 20%;
+        }
 
-.deal-items {
-  position: relative;
-  width: 100%;
-}
+        .Computer-link {
+            left: 2%;
+            top: 1%;
+            width: 25%;
+            height: 25%;
+        }
 
-.deal-items img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-  object-fit: cover;
-}
+        .teas-link {
+            left: 27%;
+            top: 6%;
+            width: 15%;
+            height: 12%;
+        }
 
-.img-wrapper {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+        .banner-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #222;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
 
-.see-offers-btn {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  color: #111;
-  border: none;
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-size: 0.9em;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
+        .banner-link:hover .banner-tooltip {
+            display: block;
+        }
 
-.img-wrapper:hover .see-offers-btn {
-  opacity: 1;
-  pointer-events: auto;
-}
+        /* Deals section */
+        .deals-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 20px;
+        }
 
-.deal-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+            align-items: stretch;
+            /* ensures equal height across grid */
+        }
 
-/* ===================== */
-/* RESPONSIVE MEDIA QUERIES */
-/* ===================== */
+        @media (max-width: 900px) {
+            .deals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
 
-/* Tablets */
-@media (max-width: 1024px) {
-  .logo img { height: 65px; }
-  .location { font-size: 24px; }
-  .banner-content { min-height: 45vh; }
-}
+        @media (max-width: 600px) {
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-/* Mobiles */
-@media (max-width: 768px) {
-  .hamburger { display: block; }
+        .deal-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+            /* ensures equal height inside grid */
+        }
 
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 15px;
-    background: rgb(121, 65, 65);
-    flex-direction: column;
-    padding: 15px;
-    border-radius: 8px;
-    width: 200px;
-  }
+        .deal-card:hover {
+            transform: scale(1.05);
+            z-index: 2;
+        }
 
-  .nav-links.active { display: flex; }
+        .deal-card h3 {
+            font-size: 1.1em;
+            margin: 12px 0;
+            color: #232f3e;
+        }
 
-  .nav-links a {
-    margin: 10px 0;
-    font-size: 16px;
-  }
+        .deal-items {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            /* fixed height for all images */
+        }
 
-  .location { font-size: 20px; margin-left: 8px; }
+        .deal-items img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* crops nicely */
+            border-radius: 4px;
+            display: block;
+        }
 
-  .banner-content { min-height: 35vh; }
+        .see-offers-btn {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #111;
+            border: 0;
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: 1em;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
 
-  /* Resize hotspots for mobile */
-  .couch-link, .gaming-link, .Office-link, .Computer-link {
-    width: 30%;
-    height: 15%;
-  }
-}
-
-/* Small Phones */
-@media (max-width: 480px) {
-  .logo img { height: 50px; }
-  .location { font-size: 18px; }
-  .banner-content { min-height: 28vh; }
-  .deal-card { max-width: 100%; }
-
-  /* Further scale hotspots */
-  .couch-link, .gaming-link, .Office-link, .Computer-link {
-    width: 35%;
-    height: 15%;
-  }
-}
-
+        .deal-items:hover .see-offers-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
 
 <body>
-    <script src="./auth.js"></script>
-    <script src="./cart-logic.js"></script>
-
     <!-- Navbar -->
     <header class="navbar">
-        <div class="logo"><img src="./image/logo.png" alt="Logo"></div>
+        <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
         <div class="location">Cluster Chairs</div>
-
-        <!-- Hamburger -->
-        <div class="hamburger" id="hamburger">☰</div>
-
-        <!-- Nav Links -->
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         <div class="nav-links" id="nav-links">
-            <a href="./login.html" id="account-link">Account & Lists</a>
+            <a href="/login.html" id="account-link">Account & Lists</a>
             <a href="#" id="logout-link" style="display: none;">Logout</a>
-            <a href="./cart.html">
-                <img src="./image/cartimage.png" class="cart" alt="cart">
-                <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px; margin-left: 4px; font-size: 18px;">0</span>
+            <a href="/cart.html">
+                <img src="/image/cartimage.png" class="cart">
+                <span id="cart-count">0</span>
             </a>
         </div>
     </header>
@@ -342,80 +332,88 @@ body {
     <!-- Banner -->
     <section class="banner">
         <div class="banner-content">
-            <div class="banner-image">
-                <!-- Hotspot Links -->
-                <div class="banner-link-area">
-                    <a href="./home-furniture.html" class="banner-link couch-link"><span class="banner-tooltip">Go to
-                            Home-furniture Page</span></a>
-                    <a href="./gaming-furniture.html" class="banner-link gaming-link"><span class="banner-tooltip">Go to
-                            Gaming-furniture Page</span></a>
-                    <a href="./office-furniture.html" class="banner-link Office-link"><span class="banner-tooltip">Go to
-                            Office-furniture Page</span></a>
-                    <a href="./computer-furniture.html" class="banner-link Computer-link"><span
-                            class="banner-tooltip">Go to Computer-furniture Page</span></a>
-                </div>
+            <div class="banner-link-area">
+                <a href="/home-furniture.html" class="banner-link couch-link"><span class="banner-tooltip">Home
+                        Furniture</span></a>
+                <a href="/home-furniture.html" class="banner-link tea-link"><span class="banner-tooltip">Home
+                        Furniture</span></a>
+                <a href="/home-furniture.html" class="banner-link teas-link"><span class="banner-tooltip">Home
+                        Furniture</span></a>
+                <a href="/home-furniture.html" class="banner-link table-link"><span class="banner-tooltip">Home
+                        Furniture</span></a>
+                <a href="/gaming-furniture.html" class="banner-link gaming-link"><span
+                        class="banner-tooltip">Gaming</span></a>
+                <a href="/office-furniture.html" class="banner-link Office-link"><span
+                        class="banner-tooltip">Office</span></a>
+                <a href="/office-furniture.html" class="banner-link Officee-link"><span
+                        class="banner-tooltip">Office</span></a>
+                <a href="/computer-furniture.html" class="banner-link Computer-link"><span
+                        class="banner-tooltip">Computer</span></a>
             </div>
         </div>
     </section>
 
-    <!-- Furniture Types -->
+    <!-- Deals -->
     <main>
         <div class="deals-main">
             <h3>Types of Furniture</h3>
             <div class="deals-grid">
-                <a href="/cafe-furniture.html">
+                <a href="/cafe-furniture.html" style="text-decoration:none;color:inherit;">
                     <div class="deal-card">
                         <h3>Cafe Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/cafe-chairs.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
+                            <img src="/image/cafe-chairs.jpg" alt="cafe">
+                            <button class="see-offers-btn">See all offers</button>
                         </div>
                     </div>
                 </a>
-                <a href="/dinning-furniture.html">
+
+                <a href="/dinning-furniture.html" style="text-decoration:none;color:inherit;">
                     <div class="deal-card">
                         <h3>Dining Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/dinning-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
+                            <img src="/image/dinning-furniture.jpg" alt="dining">
+                            <button class="see-offers-btn">See all offers</button>
                         </div>
                     </div>
                 </a>
-                <a href="/home-furniture.html">
+
+                <a href="/home-furniture.html" style="text-decoration:none;color:inherit;">
                     <div class="deal-card">
                         <h3>Home Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/home-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
+                            <img src="/image/home-furniture.jpg" alt="home">
+                            <button class="see-offers-btn">See all offers</button>
                         </div>
                     </div>
                 </a>
-            </div>
-            <div class="deals-grid">
-                <a href="/gaming-furniture.html">
+
+                <a href="/gaming-furniture.html" style="text-decoration:none;color:inherit;">
                     <div class="deal-card">
                         <h3>Gaming Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/gaming-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
+                            <img src="/image/gaming-furniture.jpg" alt="gaming">
+                            <button class="see-offers-btn">See all offers</button>
                         </div>
                     </div>
                 </a>
-                <a href="/office-furniture.html">
+
+                <a href="/office-furniture.html" style="text-decoration:none;color:inherit;">
                     <div class="deal-card">
                         <h3>Office Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/office-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
+                            <img src="/image/office-furniture.jpg" alt="office">
+                            <button class="see-offers-btn">See all offers</button>
                         </div>
                     </div>
                 </a>
-                <a href="/computer-furniture.html">
+
+                <a href="/computer-furniture.html" style="text-decoration:none;color:inherit;">
                     <div class="deal-card">
                         <h3>Computer Furniture</h3>
                         <div class="deal-items">
-                            <div class="img-wrapper"><img src="/image/computer-furniture.jpg"><button
-                                    class="see-offers-btn">See all offers</button></div>
+                            <img src="/image/computer-furniture.jpg" alt="computer">
+                            <button class="see-offers-btn">See all offers</button>
                         </div>
                     </div>
                 </a>
@@ -424,22 +422,23 @@ body {
     </main>
 
     <script>
-        // Toggle Hamburger
-        document.getElementById('hamburger').addEventListener('click', function () {
-            document.getElementById('nav-links').classList.toggle('active');
+        // Hamburger toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
         });
 
         // Logout logic
         function handleLogout() {
             localStorage.removeItem('token');
-            window.location.href = './index.html';
+            window.location.href = 'index.html';
         }
 
         function checkLoginStatus() {
             const token = localStorage.getItem('token');
             const accountLink = document.getElementById('account-link');
             const logoutLink = document.getElementById('logout-link');
-
             if (token) {
                 accountLink.style.display = 'none';
                 logoutLink.style.display = 'inline';
@@ -448,6 +447,10 @@ body {
                 accountLink.style.display = 'inline';
                 logoutLink.style.display = 'none';
             }
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = localStorage.getItem('cartCount') || 0;
         }
 
         window.addEventListener('load', () => {
