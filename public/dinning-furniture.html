@@ -4,18 +4,19 @@
 <head>
     <title>Dinning-Furniture</title>
     <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/index.js">
-    <link rel="stylesheet" href="/index.html">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
+        /* Base Card Container Styles */
         .card-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            /* Default: 4 columns for desktop */
             gap: 24px;
             justify-items: center;
-            margin: 40px 0;
-            padding: 0 12px;
+            margin: 40px auto; /* Center the container on the page */
+            padding: 0 20px; /* Adjusted padding for better fit */
             box-sizing: border-box;
+            max-width: 1200px; /* Optional: limit max width */
         }
 
         .card {
@@ -24,7 +25,6 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 320px;
-            min-width: 0;
             min-height: 340px;
             padding: 14px 10px 18px 10px;
             text-align: center;
@@ -47,8 +47,122 @@
             background: #fff;
         }
 
+        /* Responsive Navbar Styles (Assuming general navbar styles are in /style.css) */
+        /* If navbar styles are missing, you should include them here */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo img {
+            height: 60px; /* Standardize logo size */
+        }
+
+        .location {
+            font-size: 24px;
+            margin-left: 15px;
+            font-family: 'Protest Strike', sans-serif;
+        }
+        
+        /* Desktop Nav Links (Visible by default) */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+        }
+
         .cart {
-            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+
+
+        /* Hamburger Menu Styles (Hidden by default on Desktop/Tablet) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background: #fff;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        /* Mobile Menu ACTIVE STATE */
+        .nav-links.show {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 80px; /* Adjust based on navbar height */
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgb(80, 40, 40);
+            padding: 20px 0;
+            text-align: center;
+            z-index: 999;
+        }
+
+        .nav-links.show a {
+            margin: 15px 0;
+            font-size: 20px;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MEDIA QUERIES
+        |--------------------------------------------------------------------------
+        */
+
+        /* Tablet View (Max 1024px) */
+        @media (max-width: 1024px) {
+            .card-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 cards inline */
+                gap: 20px;
+            }
+        }
+
+        /* Mobile View (Max 768px) */
+        @media (max-width: 768px) {
+            /* Hide desktop nav links */
+            .nav-links {
+                display: none;
+            }
+
+            /* Show hamburger icon */
+            .hamburger {
+                display: flex;
+            }
+
+            .location {
+                font-size: 20px;
+            }
+
+            /* Mobile: 1 card inline */
+            .card-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 20px auto;
+            }
         }
     </style>
 
@@ -57,21 +171,21 @@
 <body>
     <script src="/auth.js"></script>
     <script src="/cart-logic.js"></script>
-    <!-- Top Navigation Bar -->
     <header class="navbar">
         <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
-        <div class="nav-links">
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
             <a href="/cart.html">
                 <img src="/image/cartimage.png" class="cart"
                     style="height: 40px; margin-top: -10px; vertical-align: middle;">
@@ -86,7 +200,7 @@
             <img src="/image/Fancy.jpg" alt="Chair 1">
             <h3>Fancy</h3>
             <p class="price">₹25,000</p>
-            <p>Fancy & CRAFTS Solid Sheesham Wood 6 Seater Dining Table with 6 Chairs for Living Room | Walnut Finish
+            <p>Fancy & CRAFTS Solid Sheesham Wood 6 Seater Dining Table with 6 Chairs for Living Room | Walnut Finish
             </p>
             <button class="add-to-cart-btn" data-name="Fancy" data-price="25000" data-img="/image/Fancy.jpg">Add to
                 Cart</button>
@@ -96,7 +210,7 @@
             <h3>IAFA</h3>
             <p class="price">₹7,000</p>
             <p>IAFA FURNITURE Ergolux Ergonomic Premium Office Chair | Mesh Desk Chair with Adjustable Armrests & Lumbar
-                Support | Tilt Lock Mechanism | Breathable Fabric | Comfortable & Stylish (Black)</p>
+                Support | Tilt Lock Mechanism | Breathable Fabric | Comfortable & Stylish (Black)</p>
             <button class="add-to-cart-btn" data-name="IAFA" data-price="7000" data-img="/image/IAFA.jpg">Add to
                 Cart</button>
         </div>
@@ -104,6 +218,7 @@
             <img src="/image/AS 203.png" alt="Chair 1">
             <h3>AS 203</h3>
             <p class="price">₹6,000</p>
+            <p>AS 203 High-Back Mesh Office Chair with Adjustable Headrest and Lumbar Support.</p>
             <button class="add-to-cart-btn" data-name="AS 203" data-price="6000" data-img="/image/AS 203.png">Add to
                 Cart</button>
         </div>
@@ -111,16 +226,35 @@
             <img src="/image/AS 204.png" alt="Table 1">
             <h3>AS 204</h3>
             <p class="price">₹3,500</p>
+            <p>AS 204 Mid-Back Executive Chair with PU Leather Upholstery and Chrome Base.</p>
             <button class="add-to-cart-btn" data-name="AS 204" data-price="3500" data-img="/image/AS 204.png">Add to
                 Cart</button>
         </div>
     </div>
 
     <div id="cart-popup"
-        style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+        style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
     </div>
 
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
+        hamburger.addEventListener("click", () => {
+            // Toggles the 'show' class to display the mobile menu
+            navLinks.classList.toggle("show");
+            // Optional: You can add a class to the hamburger for an 'X' animation if desired
+            // hamburger.classList.toggle("active");
+        });
+
+        // Optional: Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('show');
+                // hamburger.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 
 </html>
