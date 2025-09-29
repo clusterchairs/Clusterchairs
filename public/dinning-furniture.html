@@ -8,74 +8,46 @@
     <link rel="stylesheet" href="/index.html">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        /* Base and Reset Styles */
-        body,
-        h1,
-        h2,
-        h3,
-        p,
-        a {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
             background: #f1f2f4;
         }
 
-        /* ==================================== */
-        /* Navbar styles (Desktop Default)      */
-        /* ==================================== */
+        /* Navbar */
         .navbar {
             display: flex;
             align-items: center;
-            background: rgb(121, 65, 65);
-            color: #fff;
-            padding: 10px 30px;
             justify-content: space-between;
+            background: rgb(121, 65, 65);
+            padding: 10px 20px;
+            color: #fff;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .navbar a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .navbar .logo {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
         .logo img {
-            height: 100px;
-            max-height: 100px;
+            height: 70px;
             width: auto;
-            display: block;
         }
 
         .location {
-            font-size: 50px;
-            margin-left: 270px;
-            font-family: 'Protest Strike', sans-serif;
-            line-height: 1.1;
-            letter-spacing: 2px;
+            font-size: 28px;
+            font-family: "Protest Strike", sans-serif;
+            margin-left: 12px;
         }
 
         .nav-links {
             display: flex;
             align-items: center;
+            gap: 16px;
         }
 
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            margin-left: 20px;
-            font-size: 14px;
-            /* Default size, overridden inline in HTML to 20px */
+            font-size: 16px;
             transition: color 0.2s;
         }
 
@@ -83,233 +55,133 @@
             color: #febd69;
         }
 
-        /* Cart Icon */
         .cart {
-            width: 40px;
-            /* Style is also set inline in HTML, but here for completeness */
+            height: 36px;
+            vertical-align: middle;
         }
 
-        /* ==================================== */
-        /* Hamburger Menu Styles                */
-        /* ==================================== */
+        /* Hamburger */
         .hamburger {
             display: none;
-            /* Hidden by default on desktop */
-            background: transparent;
+            font-size: 26px;
+            background: none;
             border: none;
+            color: #fff;
             cursor: pointer;
-            padding: 10px;
-            z-index: 1001;
         }
 
-        .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            background-color: #fff;
-            border-radius: 3px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* ==================================== */
-        /* Product Card Styles (Desktop Default: 4 columns) */
-        /* ==================================== */
-
+        /* Cards */
         .card-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            gap: 20px;
             justify-items: center;
-            margin: 40px 0;
-            padding: 0 12px;
-            box-sizing: border-box;
+            padding: 20px;
         }
 
         .card {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 320px;
-            min-width: 0;
-            min-height: 340px;
-            padding: 14px 10px 18px 10px;
+            padding: 14px;
             text-align: center;
+            max-width: 280px;
+            width: 100%;
             transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-sizing: border-box;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
         }
 
         .card img {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             object-fit: contain;
-            border-radius: 8px;
             margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            background: #fff;
         }
 
-        .card h3 {
-            margin-bottom: 12px;
+        .price {
+            font-weight: bold;
+            margin: 8px 0;
         }
 
-        .card .price {
-            margin-bottom: 14px;
-            margin-top: 0;
-        }
-
-        .card .add-to-cart-btn {
-            margin-top: 10px;
+        .add-to-cart-btn {
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
             background: rgb(121, 65, 65);
             color: #fff;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .card .add-to-cart-btn:hover {
+        .add-to-cart-btn:hover {
             background: #a05252;
         }
 
-
-        /* ==================================== */
-        /* Media Queries (Responsiveness)       */
-        /* ==================================== */
-
-        /* 💻 Tablet View (Max 1200px): 3 columns */
-        @media (max-width: 1200px) {
-            .card-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        /* 📱 Mobile/Tablet View (Max 768px): 2 columns & Mobile Menu Activation */
-        @media (max-width: 768px) {
-
-            /* Product Grid: 2 Columns */
+        /* Responsive Rules */
+        @media (max-width: 992px) {
             .card-container {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
-
-            /* Navbar Adjustments */
-            .navbar {
-                padding: 10px 15px;
-                justify-content: space-between;
-            }
-
-            .location {
-                /* Shrink and adjust location text */
-                font-size: 30px;
-                margin-left: 10px;
             }
 
             .logo img {
-                height: 80px;
-                max-height: 80px;
+                height: 60px;
             }
 
-            /* Show the hamburger menu button */
+            .location {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
             .hamburger {
                 display: block;
-                order: 3;
             }
 
-            /* Navigation Links - Mobile Menu (Hidden Off-Screen) */
             .nav-links {
-                position: fixed;
-                top: 100px;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgb(80, 40, 40);
+                display: none;
                 flex-direction: column;
-                align-items: center;
-                gap: 30px;
-                transform: translateX(100%);
-                /* Start hidden off-screen */
-                transition: transform 0.3s ease-in-out;
-                z-index: 999;
-                padding-top: 20px;
+                width: 100%;
+                background: rgb(121, 65, 65);
+                padding: 12px 0;
             }
 
             .nav-links.active {
-                transform: translateX(0);
-                /* Slide menu in */
-            }
-
-            .nav-links a {
-                font-size: 24px !important;
-                margin: 0;
-                padding: 10px 0;
-            }
-
-            .nav-links a:last-child {
                 display: flex;
-                align-items: center;
             }
-        }
 
-        /* 📱 Smallest Phone View (Max 480px): 1 column */
-        @media (max-width: 480px) {
             .card-container {
                 grid-template-columns: 1fr;
             }
+
+            .location {
+                font-size: 20px;
+            }
         }
 
-        /* ==================================== */
-        /* Other Styles (from original context) */
-        /* ==================================== */
+        @media (max-width: 480px) {
+            .logo img {
+                height: 50px;
+            }
 
-        .search {
-            position: relative;
-            flex: 1;
-            display: flex;
-            margin-top: 0;
-            margin: right 30px;
-            margin-left: 80px;
-            border-radius: 80px;
-            overflow: hidden;
-            min-height: 45px !important;
-            align-items: center;
-            background: #fff;
+            .location {
+                font-size: 18px;
+            }
+
+            .card img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
         }
-
-        .search input {
-            margin-left: 50px;
-            width: 100%;
-            padding: 8px;
-            border: none;
-            border-radius: 4px 0 0 4px;
-        }
-
-        .search-input-icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-        }
-
-        .search button {
-            padding: 8px 16px;
-            border: none;
-            min-height: 45px !important;
-            background: gold;
-            color: #232f3e;
-            cursor: pointer;
-        }
-
-        /* Add any other specific styles you might have in other parts of your original style.css here */
     </style>
 
 </head>
@@ -382,15 +254,8 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const hamburger = document.getElementById('hamburger');
-            const navLinks = document.getElementById('nav-links');
-
-            if (hamburger && navLinks) {
-                hamburger.addEventListener('click', () => {
-                    navLinks.classList.toggle('active');
-                });
-            }
+        document.getElementById("hamburger").addEventListener("click", () => {
+            document.getElementById("nav-links").classList.toggle("active");
         });
     </script>
 
