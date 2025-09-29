@@ -1,80 +1,217 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>Computer-Furniture</title>
-    <link rel="stylesheet" href="/index.js">
-    <link rel="stylesheet" href="/index.html">
-    <link rel="stylesheet" href="/office.css">
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&amp;display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>Computer-Furniture</title>
+  <link rel="stylesheet" href="/office.css">
+  <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
 
-    <style>
-        .cart {
-            width: 40px;
-        }
+  <style>
+    body,
+    h1,
+    h2,
+    h3,
+    p,
+    a {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-        .location {
-            font-size: 50px;
-            margin-left: 270px;
-            font-family: Protest Strike, sans-serif;
-            line-height: 1.1;
-            letter-spacing: 2px;
-        }
-    </style>
+    body {
+      background: #f1f2f4;
+    }
+
+    /* Navbar styles */
+    .navbar {
+      display: flex;
+      align-items: center;
+      background: rgb(121, 65, 65);
+      color: #fff;
+      padding: 10px 20px;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 60px;
+      width: auto;
+      display: block;
+    }
+
+    .location {
+      font-size: 24px;
+      margin-left: 15px;
+      font-family: Protest Strike, sans-serif;
+      line-height: 1.1;
+    }
+
+    /* Nav links */
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #febd69;
+    }
+
+    /* Hamburger icon */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      height: 3px;
+      width: 25px;
+      background: #fff;
+      margin: 4px 0;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    /* Mobile Menu (hidden by default) */
+    .nav-links.mobile {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      background: rgb(121, 65, 65);
+      position: absolute;
+      top: 70px;
+      left: 0;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .nav-links.mobile a {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    .nav-links.show {
+      display: flex;
+    }
+
+    /* Deals grid responsive */
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .img-wrapper img {
+      width: 100%;
+      height: auto;
+      max-width: 350px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .deals-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .location {
+        font-size: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <script src="/auth.js"></script>
-    <header class="navbar">
-        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-            <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
-            <div class="location">Cluster Chairs</div>
-        </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
-        <div class="nav-links">
-            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
-            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
-            <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart"
-                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
-                <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
-            </a>
-        </div>
-    </header>
+  <script src="/auth.js"></script>
 
-    <main>
-        <div class="deals-main">
-            <h3 class="header">Types of Furniture</h3>
-            <div class="deals-grid">
-                <a href="/studysection.html" style="text-decoration:none;color:inherit;">
-                    <div class="deal-card">
-                        <h3>Study chair</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper">
-                                <img src="/image/face study.jpg" alt="cafe-chairs">
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="/computertable.html" style="text-decoration:none;color:inherit;">
-                    <div class="deal-card">
-                        <h3>Computer Table</h3>
-                        <div class="deal-items">
-                            <div class="img-wrapper">
-                                <img src="/image/face computer table.jpg" alt="computer-table">
-                            </div>
-                        </div>
-                    </div>
-                </a>
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+      <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+      <div class="location">Cluster Chairs</div>
+    </a>
+
+    <!-- Hamburger icon -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Nav links -->
+    <div class="nav-links" id="nav-links">
+      <a href="/login.html" id="account-link">Account & Lists</a>
+      <a href="#" id="logout-link" style="display: none;">Logout</a>
+      <a href="/cart.html">
+        <img src="/image/cartimage.png" class="cart" style="height: 30px; vertical-align: middle;">
+        <span id="cart-count" style="color:#fff; font-size:16px;">0</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <div class="deals-main">
+      <h3 class="header">Types of Furniture</h3>
+      <div class="deals-grid">
+        <a href="/studysection.html" style="text-decoration:none;color:inherit;">
+          <div class="deal-card">
+            <h3>Study chair</h3>
+            <div class="deal-items">
+              <div class="img-wrapper">
+                <img src="/image/face study.jpg" alt="cafe-chairs">
+              </div>
             </div>
-    </main>
+          </div>
+        </a>
+        <a href="/computertable.html" style="text-decoration:none;color:inherit;">
+          <div class="deal-card">
+            <h3>Computer Table</h3>
+            <div class="deal-items">
+              <div class="img-wrapper">
+                <img src="/image/face computer table.jpg" alt="computer-table">
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- JS for Hamburger -->
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("nav-links");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("show");
+      navLinks.classList.toggle("mobile");
+    });
+  </script>
+
 </body>
 
 </html>

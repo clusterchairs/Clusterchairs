@@ -7,6 +7,7 @@
   <title>ClusterChairs - Cart</title>
   <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <style>
     body {
       background: #f1f2f4;
@@ -15,14 +16,15 @@
       padding: 0;
     }
 
+    /* Navbar */
     .navbar {
       background: #7d4b4b;
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 48px;
-      height: 120px;
+      padding: 0 24px;
+      height: 80px;
     }
 
     .navbar-left {
@@ -31,53 +33,40 @@
     }
 
     .logo-img {
-      height: 120px;
-      margin-right: 16px;
+      height: 60px;
+      margin-right: 12px;
     }
 
     .brand-text {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      margin-top: 10px;
     }
 
-    .cluster {
-      font-size: 2.2em;
+    .location {
+      font-size: 26px;
+      font-family: Protest Strike, sans-serif;
+      line-height: 1.1;
       color: #fff;
-      line-height: 1.1;
-      letter-spacing: 1px;
-      font-family: Protest Strike, sans-serif !important;
-      margin-bottom: -18px;
-    }
-
-    .chairs {
-      font-size: 2.2em;
-      color: #ffd700;
-      line-height: 1.1;
-      letter-spacing: 1px;
-      font-family: Protest Strike, sans-serif !important;
     }
 
     .navbar-right {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 16px;
     }
 
     .user-email {
-      color: #fff;
-      font-size: 1.1em;
-      margin-right: 10px;
+      font-size: 1em;
+      margin-right: 6px;
     }
 
     .logout-link {
       color: #fff;
-      font-size: 1.1em;
+      font-size: 1em;
       text-decoration: none;
-      margin-right: 18px;
-      transition: color 0.2s;
       cursor: pointer;
+      transition: color 0.2s;
     }
 
     .logout-link:hover {
@@ -87,42 +76,52 @@
     .cart-link {
       display: flex;
       align-items: center;
-      position: relative;
       color: #ffd700;
       text-decoration: none;
-      font-size: 1.2em;
+      font-size: 1.1em;
     }
 
     .cart-icon {
-      height: 32px;
-      filter: brightness(1.2) sepia(1) hue-rotate(-30deg) saturate(5);
+      height: 28px;
+      margin-right: 6px;
     }
 
+    #cart-count {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Floating text */
     .floating-text {
-      /* position: fixed; */
-      width: 195.3%;
-      bottom: 435px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.2em;
+      width: 100%;
+      font-size: 1em;
       background: #7d4b4b;
       color: #ffd700;
-      padding: 10px 32px;
-      font-weight: bold;
-      z-index: 9999;
-      overflow: hidden;
+      padding: 8px;
       text-align: center;
+      font-weight: bold;
+      overflow: hidden;
     }
 
     .floating-text span {
       display: inline-block;
       white-space: nowrap;
-      animation: floatTextLeft 12s linear infinite;
+      animation: floatTextLeft 15s linear infinite;
     }
 
     @keyframes floatTextLeft {
       0% {
-        transform: translateX(350%);
+        transform: translateX(100%);
       }
 
       100% {
@@ -130,53 +129,45 @@
       }
     }
 
-
-    #cart-count {
-      color: #ffd700;
-      font-weight: bold;
-      margin-left: 6px;
-      font-size: 1.2em;
-    }
-
+    /* Cart */
     .cart-container {
       background: #fff;
       max-width: 600px;
-      margin: 40px auto 0 auto;
+      margin: 20px auto;
       border-radius: 12px;
       box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-      padding: 32px 24px;
+      padding: 24px;
     }
 
     .cart-container h2 {
-      margin-top: 0;
-      font-size: 2em;
-      color: #232f3e;
+      margin: 0 0 16px;
       text-align: center;
+      font-size: 1.6em;
     }
 
     .cart-item {
       display: flex;
       align-items: center;
       border-bottom: 1px solid #eee;
-      padding: 16px 0;
+      padding: 12px 0;
+      flex-wrap: wrap;
     }
 
     .cart-item img {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
       object-fit: cover;
-      border-radius: 8px;
-      margin-right: 18px;
-      background: #f1f2f4;
+      border-radius: 6px;
+      margin-right: 12px;
     }
 
     .cart-item .details {
       flex: 1;
+      min-width: 180px;
     }
 
     .cart-item .name {
       font-weight: bold;
-      font-size: 1.1em;
       margin-bottom: 4px;
     }
 
@@ -185,10 +176,9 @@
       color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 8px 16px;
+      padding: 6px 12px;
       cursor: pointer;
-      font-size: 0.95em;
-      transition: background 0.2s;
+      font-size: 0.9em;
     }
 
     .remove-btn:hover {
@@ -197,45 +187,73 @@
 
     #cart-total {
       text-align: right;
-      font-size: 1.2em;
+      font-size: 1.1em;
       font-weight: bold;
-      margin-top: 18px;
-      color: #232f3e;
+      margin-top: 14px;
     }
 
+    /* Address */
     .address-container {
-      margin-top: 32px;
+      margin-top: 20px;
       background: #f9f9f9;
-      padding: 18px 16px;
+      padding: 14px;
       border-radius: 8px;
     }
 
+    .address-container h3 {
+      margin: 0 0 12px;
+    }
+
+    #address-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+
+    /* Pay Button */
+    .pay-btn {
+      width: 100%;
+      background: #232f3e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+
+    .pay-btn:hover {
+      background: #1a222c;
+    }
+
+    /* WhatsApp */
     .whatsapp-float {
       position: fixed;
-      bottom: 32px;
-      right: 32px;
+      bottom: 20px;
+      right: 20px;
       z-index: 9999;
     }
 
     .whatsapp-icon {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       background: #25d366;
       border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: box-shadow 0.2s;
     }
 
     .whatsapp-icon::before {
       content: "";
-      display: block;
-      width: 32px;
-      height: 32px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg') no-repeat center center;
+      width: 28px;
+      height: 28px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg') no-repeat center;
       background-size: contain;
     }
 
@@ -245,73 +263,82 @@
       bottom: 70px;
       right: 0;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-      padding: 14px 18px;
-      min-width: 160px;
-      font-size: 1.08em;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      padding: 10px;
+      font-size: 0.95em;
     }
 
     .whatsapp-popup a {
+      display: block;
       color: #25d366;
       text-decoration: none;
-      display: block;
-      margin-bottom: 8px;
+      margin: 6px 0;
       font-weight: bold;
-    }
-
-    .whatsapp-popup a:last-child {
-      margin-bottom: 0;
     }
 
     .whatsapp-float:hover .whatsapp-popup {
       display: block;
     }
 
-    .address-container h3 {
-      margin-top: 0;
-      color: #232f3e;
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 16px;
+      }
+
+      .logo-img {
+        height: 50px;
+      }
+
+      .location {
+        font-size: 20px;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .navbar-right {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+        background: #7d4b4b;
+        padding: 10px 0;
+      }
+
+      .navbar-right.active {
+        display: flex;
+      }
+
+      .cart-container {
+        margin: 10px;
+        padding: 16px;
+      }
     }
 
-    #address-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
-      background: #fff;
-    }
+    @media (max-width: 480px) {
+      .location {
+        font-size: 18px;
+      }
 
-    .pay-btn {
-      width: 100%;
-      background: #232f3e;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 0;
-      font-size: 1.1em;
-      font-weight: bold;
-      margin-top: 24px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+      .cart-item img {
+        width: 50px;
+        height: 50px;
+      }
 
-    .pay-btn:hover {
-      background: #1a222c;
-    }
-
-    .location {
-      font-size: 50px;
-      margin-left: 270px;
-      font-family: Protest Strike, sans-serif;
-      line-height: 1.1;
-      letter-spacing: 2px;
+      .cart-item .details {
+        min-width: 140px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-left">
       <img src="/image/logo.png" alt="Cluster Logo" class="logo-img" />
@@ -319,7 +346,10 @@
         <div class="location">Cluster Chairs</div>
       </div>
     </div>
-    <div class="navbar-right">
+
+    <button class="hamburger" id="hamburger">&#9776;</button>
+
+    <div class="navbar-right" id="navbar-right">
       <span class="user-email" id="user-email"></span>
       <a href="#" id="logout-link" class="logout-link">Logout</a>
       <a href="/cart.html" class="cart-link">
@@ -328,16 +358,19 @@
       </a>
     </div>
   </header>
-  <div class="floating-text"><span>Contact for better prices if you are buying in bulk!</span></div>
 
+  <div class="floating-text"><span>📞 Contact us for better prices if buying in bulk!</span></div>
+
+  <!-- WhatsApp -->
   <div class="whatsapp-float">
     <div class="whatsapp-icon"></div>
     <div class="whatsapp-popup">
-      <a href="https://wa.me/919969566885" target="_blank">Amol Mhaske</a><br>
+      <a href="https://wa.me/919969566885" target="_blank">Amol Mhaske</a>
       <a href="https://wa.me/918149231317" target="_blank">Swayam Divekar</a>
     </div>
   </div>
 
+  <!-- Cart -->
   <div class="cart-container">
     <h2>Your Cart</h2>
     <div id="cart-items"></div>
@@ -357,6 +390,10 @@
   </div>
 
   <script>
+    // ✅ Toggle mobile menu
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navbar-right').classList.toggle('active');
+    });
     // Set your hosted backend URL here!
     const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
 
