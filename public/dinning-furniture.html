@@ -8,280 +8,47 @@
     <link rel="stylesheet" href="/index.html">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        /*
-|--------------------------------------------------------------------------
-| FULL CSS FOR DINING FURNITURE PAGE (UPDATED FOR 2-COLUMN MOBILE VIEW)
-|--------------------------------------------------------------------------
-| Ensures the card layout is 2 columns wide on standard mobile screens (768px down)
-| and maintains the hamburger menu and 4-2-1 responsive pattern.
-*/
-
-        /* Base and Reset Styles */
-        body,
-        h1,
-        h2,
-        h3,
-        p,
-        a {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f1f2f4;
-        }
-
-        /* ==================================== */
-        /* 1. Navbar Styles                     */
-        /* ==================================== */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgb(121, 65, 65);
-            padding: 10px 20px;
-            color: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        /* Logo and Brand Title */
-        .logo img {
-            height: 70px;
-            /* Base height for logo on large screens */
-            width: auto;
-        }
-
-        .location {
-            font-size: 28px;
-            font-family: "Protest Strike", sans-serif;
-            margin-left: 12px;
-        }
-
-        /* Navigation Links (Desktop) */
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 20px;
-            /* Match the inline style you had for Account/Logout */
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #febd69;
-        }
-
-        /* Cart Icon */
-        .cart {
-            height: 40px !important;
-            vertical-align: middle;
-            margin-top: -10px;
-        }
-
-        /* ==================================== */
-        /* 2. Hamburger Menu Styles             */
-        /* ==================================== */
-        .hamburger {
-            display: none;
-            /* Hidden by default on desktop */
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 1001;
-        }
-
-        /* Styles for the three bar spans used in Dinning Furniture HTML */
-        .hamburger .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            background-color: #fff;
-            border-radius: 3px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* ==================================== */
-        /* 3. Product Card Styles               */
-        /* ==================================== */
-
         .card-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            /* Default to 4 columns */
-            gap: 20px;
+            gap: 24px;
             justify-items: center;
-            padding: 20px;
+            margin: 40px 0;
+            padding: 0 12px;
             box-sizing: border-box;
-            /* Ensure padding is included in width */
         }
 
         .card {
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            padding: 14px;
-            text-align: center;
-            max-width: 320px;
-            /* Slightly wider max-width for better look on large screens */
             width: 100%;
+            max-width: 320px;
+            min-width: 0;
             min-height: 340px;
-            /* Prevent cards from collapsing if content is short */
+            padding: 14px 10px 18px 10px;
+            text-align: center;
             transition: transform 0.2s;
             display: flex;
-            /* Use flex to control internal alignment */
             flex-direction: column;
             align-items: center;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
+            box-sizing: border-box;
         }
 
         .card img {
             width: 180px;
-            /* Larger image size for better presentation */
             height: 180px;
             object-fit: contain;
+            border-radius: 8px;
             margin-bottom: 10px;
             display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background: #fff;
         }
 
-        .card p {
-            margin-bottom: 10px;
-            /* Add margin to text description */
-        }
-
-        .price {
-            font-weight: bold;
-            margin: 8px 0;
-        }
-
-        .add-to-cart-btn {
-            margin-top: auto;
-            /* Push button to the bottom */
-            padding: 10px 16px;
-            border: none;
-            border-radius: 4px;
-            background: rgb(121, 65, 65);
-            color: #fff;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .add-to-cart-btn:hover {
-            background: #a05252;
-        }
-
-        /* ==================================== */
-        /* 4. Responsive Rules                  */
-        /* ==================================== */
-
-        /* Tablet View (Max 1200px): 3 columns */
-        @media (max-width: 1200px) {
-            .card-container {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        /* Tablet/Large Mobile View (Max 768px): 2 columns & Mobile Menu Activation */
-        @media (max-width: 768px) {
-
-            /* *** CARD LAYOUT: 2 COLUMNS (Matching Cafe Furniture image) *** */
-            .card-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-                /* Slightly reduced gap */
-            }
-
-            /* Navbar Adjustments */
-            .navbar {
-                padding: 10px 15px;
-                flex-wrap: wrap;
-                /* Allows wrapping on smaller screens */
-            }
-
-            .logo img {
-                height: 60px;
-                max-height: 60px;
-            }
-
-            .location {
-                font-size: 20px;
-                margin-left: 10px;
-            }
-
-            /* Show the hamburger menu button */
-            .hamburger {
-                display: block;
-                order: 3;
-                /* Positions it to the right */
-            }
-
-            /* Navigation Links - Mobile Menu (Hidden Off-Screen) */
-            .nav-links {
-                /* Full-screen overlay behavior for the menu */
-                position: fixed;
-                top: 80px;
-                /* Adjust based on new navbar height (~80px) */
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: rgb(80, 40, 40);
-                /* Darker background for menu */
-                flex-direction: column;
-                align-items: center;
-                gap: 30px;
-                transform: translateX(100%);
-                /* Start hidden off-screen */
-                transition: transform 0.3s ease-in-out;
-                z-index: 999;
-                padding-top: 20px;
-                display: flex;
-                /* Must be visible to slide in/out */
-            }
-
-            .nav-links.active {
-                transform: translateX(0);
-                /* Slide menu in */
-            }
-
-            .nav-links a {
-                font-size: 24px !important;
-                margin: 0;
-                padding: 10px 0;
-            }
-
-            /* Ensure cart/count is also properly styled in the mobile menu */
-            .nav-links a:last-child {
-                display: flex;
-                align-items: center;
-            }
-        }
-
-        /* Smallest Phone View (Max 480px): 1 column */
-        @media (max-width: 480px) {
-            .card-container {
-                grid-template-columns: 1fr;
-                /* Single column for very small phones */
-            }
-
-            .logo img {
-                height: 50px;
-            }
-
-            .location {
-                font-size: 18px;
-            }
+        .cart {
+            width: 40px;
         }
     </style>
 
@@ -296,16 +63,15 @@
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-
-        <button class="hamburger" id="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-
-        <div class="nav-links" id="nav-links">
+        <!-- <div class="search">
+            <img src="image/search.png" alt="Search" class="search-input-icon">
+            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
+            <button>Search</button>
+        </div> -->
+        <div class="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
             <a href="/cart.html">
                 <img src="/image/cartimage.png" class="cart"
                     style="height: 40px; margin-top: -10px; vertical-align: middle;">
@@ -353,12 +119,6 @@
     <div id="cart-popup"
         style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
     </div>
-
-    <script>
-        document.getElementById("hamburger").addEventListener("click", () => {
-            document.getElementById("nav-links").classList.toggle("active");
-        });
-    </script>
 
 
 </body>
