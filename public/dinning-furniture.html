@@ -8,6 +8,114 @@
     <link rel="stylesheet" href="/index.html">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
+        /* Base and Reset Styles */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f2f4;
+        }
+
+        /* ==================================== */
+        /* Navbar styles (Desktop Default)      */
+        /* ==================================== */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 30px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo img {
+            height: 100px;
+            max-height: 100px;
+            width: auto;
+            display: block;
+        }
+
+        .location {
+            font-size: 50px;
+            margin-left: 270px;
+            font-family: 'Protest Strike', sans-serif;
+            line-height: 1.1;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+            /* Default size, overridden inline in HTML to 20px */
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #febd69;
+        }
+
+        /* Cart Icon */
+        .cart {
+            width: 40px;
+            /* Style is also set inline in HTML, but here for completeness */
+        }
+
+        /* ==================================== */
+        /* Hamburger Menu Styles                */
+        /* ==================================== */
+        .hamburger {
+            display: none;
+            /* Hidden by default on desktop */
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #fff;
+            border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* ==================================== */
+        /* Product Card Styles (Desktop Default: 4 columns) */
+        /* ==================================== */
+
         .card-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -47,107 +155,87 @@
             background: #fff;
         }
 
-        .cart {
-            width: 40px;
+        .card h3 {
+            margin-bottom: 12px;
         }
 
-        /* Card Container Responsiveness */
-        .card-container {
-            /* Keep existing desktop styles */
-            grid-template-columns: repeat(4, 1fr);
-            /* ... other styles ... */
+        .card .price {
+            margin-bottom: 14px;
+            margin-top: 0;
         }
 
-        /* 💻 Desktop/Tablet View - Medium Breakpoint */
+        .card .add-to-cart-btn {
+            margin-top: 10px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .card .add-to-cart-btn:hover {
+            background: #a05252;
+        }
+
+
+        /* ==================================== */
+        /* Media Queries (Responsiveness)       */
+        /* ==================================== */
+
+        /* 💻 Tablet View (Max 1200px): 3 columns */
         @media (max-width: 1200px) {
             .card-container {
-                /* Switch to 3 columns on smaller screens */
                 grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        /* 📱 Mobile/Tablet View - Small Breakpoint */
+        /* 📱 Mobile/Tablet View (Max 768px): 2 columns & Mobile Menu Activation */
         @media (max-width: 768px) {
+
+            /* Product Grid: 2 Columns */
+            .card-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            /* Navbar Adjustments */
+            .navbar {
+                padding: 10px 15px;
+                justify-content: space-between;
+            }
+
             .location {
-                /* Hide or shrink the large brand name on mobile */
+                /* Shrink and adjust location text */
                 font-size: 30px;
                 margin-left: 10px;
             }
 
             .logo img {
-                /* Shrink logo on mobile */
                 height: 80px;
                 max-height: 80px;
             }
 
-            .card-container {
-                /* Switch to 2 columns on mobile */
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
-        }
-
-        /* 📱 Very Small Screens */
-        @media (max-width: 480px) {
-            .card-container {
-                /* Switch to a single column for very small phones */
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* HAMBURGER MENU STYLES */
-
-        .hamburger {
-            display: none;
-            /* Hidden by default on desktop */
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            z-index: 1001;
-            /* Must be above the navbar for clicks */
-        }
-
-        .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            background-color: #fff;
-            transition: all 0.3s ease-in-out;
-        }
-
-        /* Mobile Layout for Navbar */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 10px 15px;
-                /* Adjust padding for mobile */
-                /* Ensure space for the hamburger button and logo */
-                justify-content: space-between;
-            }
-
+            /* Show the hamburger menu button */
             .hamburger {
                 display: block;
-                /* Show the hamburger button */
                 order: 3;
-                /* Position it to the right */
             }
 
+            /* Navigation Links - Mobile Menu (Hidden Off-Screen) */
             .nav-links {
-                /* Mobile menu: initially hidden, full screen overlay */
                 position: fixed;
                 top: 100px;
-                /* Below the navbar */
                 left: 0;
                 width: 100%;
                 height: 100vh;
                 background: rgb(80, 40, 40);
-                /* Slightly different background for menu */
                 flex-direction: column;
                 align-items: center;
                 gap: 30px;
                 transform: translateX(100%);
-                /* Start off-screen to the right */
+                /* Start hidden off-screen */
                 transition: transform 0.3s ease-in-out;
                 z-index: 999;
                 padding-top: 20px;
@@ -155,7 +243,7 @@
 
             .nav-links.active {
                 transform: translateX(0);
-                /* Slide in */
+                /* Slide menu in */
             }
 
             .nav-links a {
@@ -164,12 +252,64 @@
                 padding: 10px 0;
             }
 
-            /* Move cart icon/count into the flow for mobile menu */
             .nav-links a:last-child {
                 display: flex;
                 align-items: center;
             }
         }
+
+        /* 📱 Smallest Phone View (Max 480px): 1 column */
+        @media (max-width: 480px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ==================================== */
+        /* Other Styles (from original context) */
+        /* ==================================== */
+
+        .search {
+            position: relative;
+            flex: 1;
+            display: flex;
+            margin-top: 0;
+            margin: right 30px;
+            margin-left: 80px;
+            border-radius: 80px;
+            overflow: hidden;
+            min-height: 45px !important;
+            align-items: center;
+            background: #fff;
+        }
+
+        .search input {
+            margin-left: 50px;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .search-input-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
+
+        .search button {
+            padding: 8px 16px;
+            border: none;
+            min-height: 45px !important;
+            background: gold;
+            color: #232f3e;
+            cursor: pointer;
+        }
+
+        /* Add any other specific styles you might have in other parts of your original style.css here */
     </style>
 
 </head>
@@ -183,20 +323,16 @@
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
+
         <button class="hamburger" id="hamburger">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
-        <div class="nav-links">
+
+        <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
             <a href="/cart.html">
                 <img src="/image/cartimage.png" class="cart"
                     style="height: 40px; margin-top: -10px; vertical-align: middle;">
