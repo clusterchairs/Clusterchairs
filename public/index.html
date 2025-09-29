@@ -8,126 +8,310 @@
     <link rel="stylesheet" href="./style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
+/* ===================== */
+/* RESET & BASE */
+/* ===================== */
+body, h1, h2, h3, p, a {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
-        /* Navbar */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgb(121, 65, 65);
-            padding: 10px 20px;
-            color: #fff;
-            position: relative;
-        }
+body {
+  background: #f1f2f4;
+  line-height: 1.5;
+  color: #232f3e;
+  overflow-x: hidden;
+}
 
-        .logo img {
-            height: 80px;
-        }
+/* ===================== */
+/* NAVBAR */
+/* ===================== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgb(121, 65, 65);
+  color: #fff;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-        .location {
-            font-family: "Protest Strike", sans-serif;
-            font-size: 28px;
-            margin-left: 15px;
-            flex-grow: 1;
-        }
+.logo img {
+  height: 80px;
+  width: auto;
+}
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+.location {
+  font-family: "Protest Strike", sans-serif;
+  font-size: 28px;
+  margin-left: 15px;
+  flex-grow: 1;
+}
 
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 20px;
-        }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
-        .cart {
-            width: 40px;
-        }
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.2s;
+}
 
-        /* Hamburger */
-        .hamburger {
-            display: none;
-            font-size: 32px;
-            cursor: pointer;
-            color: #fff;
-        }
+.nav-links a:hover {
+  color: #febd69;
+}
 
-        /* Banner placeholder */
-        .banner-image {
-            background: url("./image/banner.jpg") no-repeat center/cover;
-            height: 350px;
-            position: relative;
-        }
+.cart {
+  width: 36px;
+  height: auto;
+}
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .logo img {
-                height: 65px;
-            }
+/* Hamburger */
+.hamburger {
+  display: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #fff;
+}
 
-            .location {
-                font-size: 24px;
-            }
-        }
+/* ===================== */
+/* BANNER */
+/* ===================== */
+.banner {
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
 
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
+.banner-content {
+  background-image: url('image/banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 70px;
-                right: 15px;
-                background: rgb(121, 65, 65);
-                flex-direction: column;
-                padding: 10px;
-                border-radius: 8px;
-                width: 200px;
-            }
+/* Hotspot area wrapper */
+.banner-link-area {
+  position: absolute;
+  inset: 0;
+}
 
-            .nav-links.active {
-                display: flex;
-            }
+/* Each hotspot */
+.banner-link {
+  position: absolute;
+  display: block;
+  z-index: 2;
+  pointer-events: auto;
+}
 
-            .nav-links a {
-                margin: 10px 0;
-                font-size: 18px;
-            }
+/* Tooltip for hotspots */
+.banner-tooltip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #222;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
 
-            .location {
-                font-size: 20px;
-            }
-        }
+.banner-link:hover .banner-tooltip {
+  display: block;
+}
 
-        @media (max-width: 480px) {
-            .logo img {
-                height: 50px;
-            }
+/* Responsive Hotspots (positions in %) */
+.couch-link {
+  left: 25%;
+  top: 30%;
+  width: 20%;
+  height: 15%;
+}
 
-            .location {
-                font-size: 18px;
-                margin-left: 5px;
-            }
+.gaming-link {
+  left: 55%;
+  top: 10%;
+  width: 25%;
+  height: 20%;
+}
 
-            .deal-card {
-                width: 90%;
-                height: auto;
-            }
+.Office-link {
+  left: 70%;
+  top: 45%;
+  width: 20%;
+  height: 20%;
+}
 
-            .deal-items img {
-                width: 100% !important;
-                height: auto !important;
-            }
-        }
+.Computer-link {
+  left: 5%;
+  top: 10%;
+  width: 25%;
+  height: 20%;
+}
+
+/* ===================== */
+/* DEALS SECTION */
+/* ===================== */
+.deals-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 30px;
+}
+
+.deals-main h3 {
+  font-size: 1.6em;
+  color: #232f3e;
+}
+
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.deal-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.deal-card h3 {
+  font-size: 1.2em;
+  margin-bottom: 12px;
+  color: #232f3e;
+}
+
+.deal-items {
+  position: relative;
+  width: 100%;
+}
+
+.deal-items img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.img-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.see-offers-btn {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.9em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.img-wrapper:hover .see-offers-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.deal-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* ===================== */
+/* RESPONSIVE MEDIA QUERIES */
+/* ===================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .logo img { height: 65px; }
+  .location { font-size: 24px; }
+  .banner-content { min-height: 45vh; }
+}
+
+/* Mobiles */
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 15px;
+    background: rgb(121, 65, 65);
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 8px;
+    width: 200px;
+  }
+
+  .nav-links.active { display: flex; }
+
+  .nav-links a {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .location { font-size: 20px; margin-left: 8px; }
+
+  .banner-content { min-height: 35vh; }
+
+  /* Resize hotspots for mobile */
+  .couch-link, .gaming-link, .Office-link, .Computer-link {
+    width: 30%;
+    height: 15%;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .logo img { height: 50px; }
+  .location { font-size: 18px; }
+  .banner-content { min-height: 28vh; }
+  .deal-card { max-width: 100%; }
+
+  /* Further scale hotspots */
+  .couch-link, .gaming-link, .Office-link, .Computer-link {
+    width: 35%;
+    height: 15%;
+  }
+}
+
     </style>
 </head>
 
