@@ -81,48 +81,7 @@
             color: #febd69;
         }
 
-        /* Search bar */
-        .search {
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border-radius: 4px;
-            overflow: hidden;
-            flex-grow: 1;
-            max-width: 400px;
-            margin: 0 40px;
-            min-height: 40px;
-        }
-
-        .search input {
-            flex-grow: 1;
-            padding: 8px 8px 8px 40px;
-            border: none;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .search-input-icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            color: #232f3e;
-        }
-
-        .search button {
-            padding: 8px 16px;
-            border: none;
-            background: gold;
-            color: #232f3e;
-            cursor: pointer;
-            min-height: 40px;
-            font-weight: bold;
-        }
-
+        
         /*
         |--------------------------------------------------------------------------
         | 2. CARD CONTAINER STYLES
@@ -256,10 +215,7 @@
             .card-container {
                 grid-template-columns: repeat(3, 1fr); /* Changed to 3 columns for better use of space */
             }
-            .search {
-                max-width: 250px;
-                margin: 0 20px;
-            }
+
         }
         
         /* Smaller Tablet View (Max 850px) - Adjust to 2 columns */
@@ -268,10 +224,7 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }
-            .search {
-                margin: 0 10px;
-                max-width: 200px;
-            }
+
         }
 
         /* Mobile View (1 column for cards, Hamburger visible, 768px and below) */
@@ -291,10 +244,7 @@
                 margin-left: 10px;
             }
             
-            /* Hide the search bar on mobile */
-            .search {
-                display: none;
-            }
+
 
             /* HIDE NAV LINKS ON MOBILE BY DEFAULT */
             .nav-links {
@@ -332,12 +282,6 @@
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-
-        <div class="search">
-            <i class="fas fa-search search-input-icon"></i>
-            <input type="text" placeholder="Search products...">
-            <button>Search</button>
-        </div>
 
 
         <div class="hamburger" id="hamburger">
