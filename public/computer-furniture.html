@@ -2,215 +2,278 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>Computer-Furniture</title>
-  <link rel="stylesheet" href="/office.css">
-  <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Computer-Furniture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
 
-  <style>
-    body,
-    h1,
-    h2,
-    h3,
-    p,
-    a {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+    <style>
+        /*
+        |--------------------------------------------------------------------------
+        | CONSOLIDATED AND UPDATED CSS FOR RESPONSIVENESS (FIXED NAVBAR VISIBILITY)
+        |--------------------------------------------------------------------------
+        | Ensures: Nav links are visible on Desktop/Tablet and hidden via Hamburger on Mobile.
+        */
 
-    body {
-      background: #f1f2f4;
-    }
+        /* Base and Reset Styles */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-    /* Navbar styles */
-    .navbar {
-      display: flex;
-      align-items: center;
-      background: rgb(121, 65, 65);
-      color: #fff;
-      padding: 10px 20px;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+        body {
+            background: #f1f2f4;
+        }
 
-    .navbar .logo {
-      display: flex;
-      align-items: center;
-    }
+        /* ==================================== */
+        /* 1. Navbar Styles */
+        /* ==================================== */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    .logo img {
-      height: 60px;
-      width: auto;
-      display: block;
-    }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
 
-    .location {
-      font-size: 24px;
-      margin-left: 15px;
-      font-family: Protest Strike, sans-serif;
-      line-height: 1.1;
-    }
+        .logo img {
+            height: 60px;
+            width: auto;
+            display: block;
+        }
 
-    /* Nav links */
-    .nav-links {
-      display: flex;
-      align-items: center;
-    }
+        .location {
+            font-size: 24px;
+            margin-left: 15px;
+            font-family: Protest Strike, sans-serif;
+            line-height: 1.1;
+        }
 
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 16px;
-      transition: color 0.2s;
-    }
+        /* Nav links (Desktop/Tablet default: visible and inline) */
+        .nav-links {
+            display: flex; /* IMPORTANT: Ensures visibility on desktop/tablet */
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s; /* Add transition for better look when activated */
+        }
 
-    .nav-links a:hover {
-      color: #febd69;
-    }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
 
-    /* Hamburger icon */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
+        .nav-links a:hover {
+            color: #febd69;
+        }
 
-    .hamburger span {
-      height: 3px;
-      width: 25px;
-      background: #fff;
-      margin: 4px 0;
-      border-radius: 5px;
-      transition: 0.3s;
-    }
+        /* ==================================== */
+        /* 2. Hamburger Menu Styles */
+        /* ==================================== */
+        .hamburger {
+            display: none; /* Hidden on desktop/tablet by default */
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
 
-    /* Mobile Menu (hidden by default) */
-    .nav-links.mobile {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      background: rgb(121, 65, 65);
-      position: absolute;
-      top: 70px;
-      left: 0;
-      text-align: center;
-      padding: 10px 0;
-    }
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background: #fff;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
 
-    .nav-links.mobile a {
-      margin: 10px 0;
-      font-size: 18px;
-    }
+        /* Mobile Menu ACTIVE STATE (Hamburger menu is open) */
+        .nav-links.active {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background: rgb(80, 40, 40);
+            position: fixed;
+            top: 80px;
+            left: 0;
+            height: 100vh;
+            padding: 20px 0;
+            text-align: center;
+            z-index: 999;
+            transform: translateX(0);
+        }
+        
+        .nav-links.active a {
+            font-size: 20px; /* Larger links in mobile menu */
+            margin: 10px 0;
+        }
 
-    .nav-links.show {
-      display: flex;
-    }
+        /* ==================================== */
+        /* 3. Product Grid Styles */
+        /* ==================================== */
+        .deals-main {
+            padding: 20px;
+        }
 
-    /* Deals grid responsive */
-    .deals-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-      margin: 32px 0;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
 
-    .img-wrapper img {
-      width: 100%;
-      height: auto;
-      max-width: 350px;
-    }
+        /* DESKTOP/TABLET: Default is 2 cards inline */
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 32px auto;
+            justify-items: center;
+        }
 
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
+        .deal-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            transition: transform 0.2s;
+        }
 
-      .hamburger {
-        display: flex;
-      }
+        .deal-card:hover {
+            transform: translateY(-4px);
+        }
 
-      .deals-grid {
-        grid-template-columns: 1fr;
-      }
+        .deal-card h3 {
+            margin-bottom: 15px;
+        }
 
-      .location {
-        font-size: 18px;
-      }
-    }
-  </style>
+        .img-wrapper img {
+            width: 100%;
+            height: auto;
+            max-width: 350px;
+            border-radius: 4px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* ==================================== */
+        /* 4. Responsive Rules */
+        /* ==================================== */
+
+        /* Mobile View (Max 600px) */
+        @media (max-width: 600px) {
+
+            /* HIDE NAV LINKS ON MOBILE (default state) */
+            .nav-links {
+                display: none; 
+            }
+
+            /* SHOW HAMBURGER ICON ON MOBILE */
+            .hamburger {
+                display: flex;
+            }
+
+            .location {
+                font-size: 18px;
+            }
+
+            /* MOBILE: 1 card inline */
+            .deals-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                gap: 20px;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
-  <script src="/auth.js"></script>
-
-  <!-- Navbar -->
-  <header class="navbar">
-    <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-      <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
-      <div class="location">Cluster Chairs</div>
-    </a>
-
-    <!-- Hamburger icon -->
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-
-    <!-- Nav links -->
-    <div class="nav-links" id="nav-links">
-      <a href="/login.html" id="account-link">Account & Lists</a>
-      <a href="#" id="logout-link" style="display: none;">Logout</a>
-      <a href="/cart.html">
-        <img src="/image/cartimage.png" class="cart" style="height: 30px; vertical-align: middle;">
-        <span id="cart-count" style="color:#fff; font-size:16px;">0</span>
-      </a>
-    </div>
-  </header>
-
-  <!-- Main -->
-  <main>
-    <div class="deals-main">
-      <h3 class="header">Types of Furniture</h3>
-      <div class="deals-grid">
-        <a href="/studysection.html" style="text-decoration:none;color:inherit;">
-          <div class="deal-card">
-            <h3>Study chair</h3>
-            <div class="deal-items">
-              <div class="img-wrapper">
-                <img src="/image/face study.jpg" alt="cafe-chairs">
-              </div>
-            </div>
-          </div>
+    <header class="navbar">
+        <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+            <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+            <div class="location">Cluster Chairs</div>
         </a>
-        <a href="/computertable.html" style="text-decoration:none;color:inherit;">
-          <div class="deal-card">
-            <h3>Computer Table</h3>
-            <div class="deal-items">
-              <div class="img-wrapper">
-                <img src="/image/face computer table.jpg" alt="computer-table">
-              </div>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="nav-links">
+            <a href="/login.html" id="account-link">Account & Lists</a>
+            <a href="#" id="logout-link" style="display: none;">Logout</a>
+            <a href="/cart.html">
+                <img src="/image/cartimage.png" class="cart" style="height: 30px; vertical-align: middle;">
+                <span id="cart-count" style="color:#fff; font-size:16px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="deals-main">
+            <h3 class="header">Types of Furniture</h3>
+            <div class="deals-grid">
+                <a href="/studysection.html" style="text-decoration:none;color:inherit;">
+                    <div class="deal-card">
+                        <h3>Study chair</h3>
+                        <div class="deal-items">
+                            <div class="img-wrapper">
+                                <img src="/image/face study.jpg" alt="Study chair">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="/computertable.html" style="text-decoration:none;color:inherit;">
+                    <div class="deal-card">
+                        <h3>Computer Table</h3>
+                        <div class="deal-items">
+                            <div class="img-wrapper">
+                                <img src="/image/face computer table.jpg" alt="Computer Table">
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </main>
+        </div>
+    </main>
 
-  <!-- JS for Hamburger -->
-  <script>
-    const hamburger = document.getElementById("hamburger");
-    const navLinks = document.getElementById("nav-links");
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
-    hamburger.addEventListener("click", () => {
-      navLinks.classList.toggle("show");
-      navLinks.classList.toggle("mobile");
-    });
-  </script>
+        hamburger.addEventListener("click", () => {
+            // Toggles the 'active' class to show/hide the menu
+            navLinks.classList.toggle("active");
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
 
 </body>
 
