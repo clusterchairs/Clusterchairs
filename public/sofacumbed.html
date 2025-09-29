@@ -4,21 +4,55 @@
 <head>
     <title>Sofa Cumbed</title>
     <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/index.js">
-    <link rel="stylesheet" href="/index.html">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        .cart {
-            width: 40px;
+        /* Base Navbar and Link Styling (for desktop/tablet) */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
+        .navbar .logo img {
+            height: 60px; /* Standardized logo height */
+            max-height: 60px;
+        }
+
+        .location {
+            font-size: 30px;
+            margin-left: 15px;
+            font-family: 'Protest Strike', sans-serif;
+        }
+        
+        /* Desktop/Tablet Nav Links: Always Visible and Inline */
+        .nav-links {
+            display: flex; /* Ensures links are visible on desktop/tablet */
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease-in-out; /* For smooth mobile transition */
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* --- CARD GRID STYLES --- */
         .card-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            /* Default: 4 columns for large desktop */
             gap: 24px;
             justify-items: center;
-            margin: 40px 0;
-            padding: 0 12px;
+            margin: 40px auto;
+            max-width: 1400px; /* Max width to center the grid */
+            padding: 0 20px;
             box-sizing: border-box;
         }
 
@@ -28,7 +62,6 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 400px;
-            min-width: 0;
             min-height: 370px;
             padding: 14px 10px 18px 10px;
             text-align: center;
@@ -50,11 +83,15 @@
             margin-right: auto;
             background: #fff;
         }
+        
+        /* Cart icon size standardization */
+        .cart {
+            height: 40px;
+        }
 
         /* --- HAMBURGER MENU STYLES --- */
         .hamburger {
             display: none;
-            /* Hidden by default on desktop */
             background: transparent;
             border: none;
             cursor: pointer;
@@ -85,21 +122,17 @@
         @media (max-width: 768px) {
             .navbar {
                 padding: 10px 15px;
-                /* Adjust padding for mobile */
             }
 
             .location {
-                /* Shrink the brand name and pull it left */
-                font-size: 30px;
+                font-size: 20px; /* Reduced font size for mobile */
                 margin-left: 15px;
                 flex-grow: 1;
-                /* Allows it to take up available space */
             }
 
             .logo img {
-                /* Shrink logo on mobile */
-                height: 70px;
-                max-height: 70px;
+                height: 50px; /* Smaller logo on mobile */
+                max-height: 50px;
             }
 
             /* Show the hamburger icon */
@@ -107,15 +140,13 @@
                 display: block;
             }
 
+            /* Hide desktop nav links by default and prepare for mobile menu */
             .nav-links {
-                /* Mobile menu: initially hidden, full screen overlay */
                 position: fixed;
-                top: 90px;
-                /* Adjust based on navbar height (100px logo + padding) */
+                top: 70px; /* Adjust based on navbar height (approx 50px logo + padding) */
                 right: 0;
                 width: 100%;
-                height: calc(100vh - 90px);
-                /* Full height below the navbar */
+                height: calc(100vh - 70px);
                 background: rgb(80, 40, 40);
                 flex-direction: column;
                 justify-content: flex-start;
@@ -123,7 +154,6 @@
                 gap: 30px;
                 transform: translateX(100%);
                 /* Start off-screen to the right */
-                transition: transform 0.3s ease-in-out;
                 z-index: 999;
                 padding-top: 40px;
             }
@@ -141,7 +171,7 @@
 
             /* Product Grid Adjustment */
             .card-container {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr); /* Tablet size 2 cards */
                 gap: 16px;
             }
         }
@@ -149,13 +179,12 @@
         /* 📱 Very Small Screens (Below 480px) */
         @media (max-width: 480px) {
             .card-container {
-                /* Single column layout */
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Single column layout */
+                padding: 0 10px;
             }
 
             .card {
-                max-width: 90%;
-                /* Allow cards to stretch */
+                max-width: 95%;
             }
         }
     </style>
@@ -164,27 +193,21 @@
 <body>
     <script src="/auth.js"></script>
     <script src="/cart-logic.js"></script>
-    <!-- Top Navigation Bar -->
     <header class="navbar">
         <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        <!-- <div class="search">
-            <img src="image/search.png" alt="Search" class="search-input-icon">
-            <input type="text" img placeholder="Search Grocery Mart" class="search-input">
-            <button>Search</button>
-        </div> -->
+        
         <button class="hamburger" id="hamburger">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
-        <div class="nav-links">
+        
+        <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
-            <!-- <a href="#" style="font-size: 20px;">Returns & Orders</a> -->
             <a href="/cart.html">
                 <img src="/image/cartimage.png" class="cart"
                     style="height: 40px; margin-top: -10px; vertical-align: middle;">
@@ -196,63 +219,57 @@
 
     <div class="card-container">
         <div class="card">
-            <img src="/image/flipper Sofa Cum Bed.jpg" alt="Chair 1">
+            <img src="/image/flipper Sofa Cum Bed.jpg" alt="Flipper Sofa Cum Bed">
             <h3>Flipper Sofa Cumbed</h3>
             <p class="price">₹11,000</p>
-            <p>Three Seater (6'x5') Feet- WarpKnit Grey
-            </p>
-            <button class="add-to-cart-btn" data-name="Fancy" data-price="11000"
-                data-img="/image/flipper Sofa Cum Bed.jpg">Add to
-                Cart</button>
+            <p>Three Seater (6'x5') Feet- WarpKnit Grey</p>
+            <button class="add-to-cart-btn" data-name="Flipper Sofa Cumbed" data-price="11000"
+                data-img="/image/flipper Sofa Cum Bed.jpg">Add to Cart</button>
         </div>
         <div class="card">
-            <img src="/image/Friheten.jpg" alt="Table 1">
+            <img src="/image/Friheten.jpg" alt="Friheten Sofa">
             <h3>Friheten</h3>
             <p class="price">₹54,000</p>
-            <p>Corner sofa-bed with storage, Faringe light grey</p>
-            <button class="add-to-cart-btn" data-name="IAFA" data-price="54000" data-img="/image/Friheten.jpg">Add to
+            <p>Corner sofa-bed with storage, Faringe light grey</p>
+            <button class="add-to-cart-btn" data-name="Friheten" data-price="54000" data-img="/image/Friheten.jpg">Add to
                 Cart</button>
         </div>
         <div class="card">
-            <img src="/image/Skonaback.jpg" alt="Chair 1">
+            <img src="/image/Skonaback.jpg" alt="Skonaback Sofa">
             <h3>Skonaback</h3>
             <p class="price">₹42,000</p>
-            <p>Skonaback 2 seat sofa bed knisa dark grey</p>
+            <p>Skonaback 2 seat sofa bed knisa dark grey</p>
             <button class="add-to-cart-btn" data-name="Skonaback" data-price="42000" data-img="/image/Skonaback.jpg">Add
-                to
-                Cart</button>
+                to Cart</button>
         </div>
         <div class="card">
-            <img src="/image/milan.jpg" alt="Table 1">
+            <img src="/image/milan.jpg" alt="Milan Sofa">
             <h3>Milan Sofa Cumbed</h3>
             <p class="price">₹40,000</p>
-            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
+            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
             <button class="add-to-cart-btn" data-name="Milan Sofa Cumbed" data-price="40000"
-                data-img="/image/Milan Sofa Cumbed.jpg">Add to
-                Cart</button>
+                data-img="/image/milan.jpg">Add to Cart</button>
         </div>
         <div class="card">
-            <img src="/image/upholstered.jpg" alt="Table 1">
+            <img src="/image/upholstered.jpg" alt="Upholstered Sofa Bed">
             <h3>Upholstered Sofa Bed</h3>
             <p class="price">₹70,000</p>
-            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
+            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
             <button class="add-to-cart-btn" data-name="Upholstered Sofa Bed" data-price="70000"
-                data-img="/image/Upholstered Sofa Bed.jpg">Add to
-                Cart</button>
+                data-img="/image/upholstered.jpg">Add to Cart</button>
         </div>
         <div class="card">
-            <img src="/image/Marisa 4 seat.jpg" alt="Table 1">
+            <img src="/image/Marisa 4 seat.jpg" alt="Marisa 4 Seat Sofa Bed">
             <h3>Marisa 4 Seater Sofa Bed</h3>
             <p class="price">₹40,000</p>
-            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
+            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
             <button class="add-to-cart-btn" data-name="Marisa 4 Seater Sofa Bed" data-price="40000"
-                data-img="/image/Marisa 4 seat.jpg">Add to
-                Cart</button>
+                data-img="/image/Marisa 4 seat.jpg">Add to Cart</button>
         </div>
     </div>
 
     <div id="cart-popup"
-        style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
+        style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
     </div>
 
     <script>
@@ -262,10 +279,17 @@
 
             if (hamburger && navLinks) {
                 hamburger.addEventListener('click', () => {
-                    // Toggles the 'active' class on the nav links for CSS styling
+                    // Toggles the 'active' class to slide the mobile menu in/out
                     navLinks.classList.toggle('active');
                 });
             }
+
+            // Optional: Close menu when a link is clicked
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
         });
     </script>
 
