@@ -5,12 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>homesofa</title>
-    <link rel="stylesheet" href="/index.js">
-    <link rel="stylesheet" href="/index.html">
     <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
-        /* Navbar base */
+        /* BASE STYLES (Desktop First) */
         .navbar {
             display: flex;
             align-items: center;
@@ -29,115 +27,78 @@
         }
 
         .location {
-            font-size: 22px;
-            margin-left: 10px;
+            font-size: 50px; /* Large size for desktop */
+            margin-left: 20px; /* Reduced margin from 270px for better centering/flow */
+            font-family: 'Protest Strike', sans-serif;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            flex-grow: 1; /* Allows it to push the nav links to the right */
         }
 
-        /* Nav links */
+        /* Nav links (Desktop Default: Row) */
         .nav-links {
             display: flex;
             align-items: center;
+            gap: 20px; /* Use gap for spacing instead of margin-left on every link */
+            transition: all 0.3s ease-in-out;
         }
 
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
+            font-size: 20px; /* Standardizing desktop link size */
             transition: color 0.2s;
+            margin-left: 0; /* Resetting unnecessary margin-left */
         }
 
         .nav-links a:hover {
             color: #febd69;
         }
 
-        /* Hamburger */
+        .cart {
+            width: 40px;
+            vertical-align: middle;
+            margin-top: 0 !important; /* Fixing inline style clash */
+        }
+
+        /* Hamburger (Hidden by default) */
         .hamburger {
             display: none;
             font-size: 28px;
             cursor: pointer;
+            color: #fff;
+            padding: 5px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                background: rgb(121, 65, 65);
-                position: absolute;
-                top: 70px;
-                right: 0;
-                width: 100%;
-                padding: 20px;
-            }
-
-            .nav-links a {
-                margin: 15px 0;
-                font-size: 18px;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .location {
-                font-size: 18px;
-            }
-
-            .logo img {
-                height: 50px;
-            }
-
-            /* Card adjustments */
-            .card-container,
-            .special-card {
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            }
-
-            .card,
-            .cardone {
-                max-width: 180px;
-                min-height: 280px;
-                padding: 12px;
-            }
-
-            .card img,
-            .cardone img {
-                width: 140px;
-                height: 140px;
-            }
+        /* --- CARD GRID STYLES --- */
+        .card-container,
+        .special-card {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Setting a clear desktop default: 4 columns */
+            gap: 24px;
+            justify-items: center;
+            margin: 40px auto;
+            max-width: 1400px; /* Optional max width for large screens */
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
-        @media (max-width: 480px) {
-            .location {
-                display: none;
-                /* Hide text for very small screens */
-            }
-
-            .card-container,
-            .special-card {
-                grid-template-columns: 1fr;
-            }
-
-            .card,
-            .cardone {
-                max-width: 100%;
-                min-height: auto;
-            }
-
-            .card img,
-            .cardone img {
-                width: 120px;
-                height: 120px;
-            }
+        .cardone {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 400px;
+            min-height: 380px; /* Ensure cards have similar height */
+            padding: 14px 10px 18px 10px;
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
         }
 
-
-        .card img,
         .cardone img {
             width: 250px;
             height: 250px;
@@ -145,66 +106,13 @@
             border-radius: 8px;
             margin-bottom: 10px;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
             background: #fff;
         }
 
-        .card-container,
-        .special-card {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            justify-items: center;
-            margin: 40px 0;
-            padding: 0 12px;
-            box-sizing: border-box;
-        }
-
-        .card,
-        .cardone {
-            max-width: 400px;
-            width: 100%;
-            min-width: 0;
-        }
-
-        .cart {
-            width: 40px;
-            /* height: 50px; */
-        }
-
-        .card h3 {
-            margin-bottom: 12px;
-        }
-
-        .card .price {
-            margin-bottom: 14px;
-            margin-top: 0;
-        }
-
-        .card .add-to-cart-btn {
-            margin-top: 10px;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 4px;
-            background: rgb(121, 65, 65);
-            color: #fff;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .card .add-to-cart-btn:hover {
-            background: #a05252;
-        }
-
-        .cardone h3 {
-            margin-bottom: 12px;
-        }
-
-        .cardone .price {
-            margin-bottom: 14px;
-            margin-top: 0;
-        }
+        /* The styles below are for the action buttons/text, which are fine */
+        .cardone h3 { margin-bottom: 12px; }
+        .cardone .price { margin-bottom: 14px; margin-top: 0; }
+        .cardone p { flex-grow: 1; } /* Added to push the button down */
 
         .cardone .add-to-cart-btn {
             margin-top: 10px;
@@ -220,13 +128,112 @@
         .cardone .add-to-cart-btn:hover {
             background: #a05252;
         }
+        
+        /* Clearing up unnecessary/duplicate classes in HTML by styling the containers directly */
+        .AE823, .last-row, .aldo {
+            /* These wrappers aren't needed for the grid flow but are harmless if kept */
+            width: 100%;
+            display: contents; /* Allows the children to participate directly in the grid */
+        }
 
-        .location {
-            font-size: 50px;
-            margin-left: 270px;
-            font-family: Protest Strike, sans-serif;
-            line-height: 1.1;
-            letter-spacing: 2px;
+
+        /*
+        |--------------------------------------------------------------------------
+        | MEDIA QUERIES
+        |--------------------------------------------------------------------------
+        */
+
+        /* Tablet View (Max 1024px) */
+        @media (max-width: 1024px) {
+            .card-container,
+            .special-card {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns on tablet */
+                gap: 16px;
+            }
+            .location {
+                font-size: 35px;
+            }
+        }
+
+        /* Mobile View (Max 768px) */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .location {
+                font-size: 20px;
+                margin-left: 10px;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+
+            /* Show the hamburger icon and hide default links */
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                /* Mobile menu overlay */
+                position: fixed;
+                top: 70px;
+                right: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgb(80, 40, 40);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                transform: translateX(100%); /* Hidden off-screen */
+                padding-top: 40px;
+            }
+
+            .nav-links.active {
+                display: flex; /* Override display: none from initial mobile state */
+                transform: translateX(0); /* Slide in */
+            }
+
+            .nav-links a {
+                font-size: 20px;
+                margin: 15px 0;
+            }
+
+            /* Product Grid: 2 columns on mobile/small tablets */
+            .card-container,
+            .special-card {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 0 10px;
+            }
+
+            .cardone {
+                min-height: 320px;
+                padding: 10px;
+            }
+
+            .cardone img {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        /* Very Small Mobile View (Max 480px) */
+        @media (max-width: 480px) {
+            .location {
+                display: none; /* Hide text for very small screens, keeping only logo */
+            }
+
+            /* Product Grid: 1 column */
+            .card-container,
+            .special-card {
+                grid-template-columns: 1fr;
+            }
+
+            .cardone {
+                max-width: 95%; /* Allow full width */
+            }
         }
     </style>
 </head>
@@ -240,38 +247,33 @@
             <div class="location">Cluster Chairs</div>
         </a>
 
-        <!-- Hamburger button -->
         <div class="hamburger" id="hamburger">
             ☰
         </div>
 
         <div class="nav-links" id="nav-links">
-            <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
-            <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
+            <a href="/login.html" id="account-link">Account & Lists</a>
+            <a href="#" id="logout-link" style="display: none;">Logout</a>
             <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart"
-                    style="height: 40px; margin-top: -10px; vertical-align: middle;">
+                <img src="/image/cartimage.png" class="cart">
                 <span id="cart-count"
-                    style="color: #fff; border-radius: 50%; padding: 2px 2px 2px 2px; margin-left: 4px; font-size: 20px;">0</span>
+                    style="color: #fff; border-radius: 50%; padding: 2px; margin-left: 4px; font-size: 20px;">0</span>
             </a>
         </div>
     </header>
 
 
     <div class="special-card">
-        <div class="AE823">
-            <div class="cardone AE328">
-                <img src="/image/AE 823.png" alt="Chair 1">
-                <h3>AE 823</h3>
-                <p class="price">₹30,000</p>
-                <p>Comfortable wooden chair for cafes.</p>
-                <button class="add-to-cart-btn" data-name="AE 823" data-price="30000" data-img="/image/AE 823.png">Add
-                    to
-                    Cart</button>
-            </div>
+        <div class="cardone">
+            <img src="/image/AE 823.png" alt="AE 823 Sofa">
+            <h3>AE 823</h3>
+            <p class="price">₹30,000</p>
+            <p>Comfortable wooden chair for cafes.</p>
+            <button class="add-to-cart-btn" data-name="AE 823" data-price="30000" data-img="/image/AE 823.png">Add to
+                Cart</button>
         </div>
         <div class="cardone">
-            <img src="/image/AE 824.png" alt="Table 1">
+            <img src="/image/AE 824.png" alt="AE 824 Sofa">
             <h3>AE 824</h3>
             <p class="price">₹30,000</p>
             <p>Stylish table for your cafe space.</p>
@@ -279,7 +281,7 @@
                 Cart</button>
         </div>
         <div class="cardone">
-            <img src="/image/AE 825.png" alt="Chair 1">
+            <img src="/image/AE 825.png" alt="AE 825 Sofa">
             <h3>AE 825</h3>
             <p class="price">₹30,000</p>
             <p>Comfortable wooden chair for cafes.</p>
@@ -287,208 +289,210 @@
                 Cart</button>
         </div>
         <div class="cardone">
-            <img src="/image/AE 826.png" alt="Table 1">
+            <img src="/image/AE 826.png" alt="AE 826 Sofa">
             <h3>AE 826</h3>
             <p class="price">₹30,000</p>
             <p>Stylish table for your cafe space.</p>
             <button class="add-to-cart-btn" data-name="AE 826" data-price="30000" data-img="/image/AE 826.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/AE 827.png" alt="Chair 1">
+        <div class="cardone">
+            <img src="/image/AE 827.png" alt="AE 827 Sofa">
             <h3>AE 827</h3>
             <p class="price">₹30,000</p>
             <p>Comfortable wooden chair for cafes.</p>
             <button class="add-to-cart-btn" data-name="AE 827" data-price="30000" data-img="/image/AE 827.png">Add to
                 Cart</button>
         </div>
-        <div class="last-row">
-            <div class="cardone ">
-                <img src="/image/AE 828.png" alt="Table 1">
-                <h3>AE 828</h3>
-                <p class="price">₹40,000</p>
-                <p>Stylish table for your cafe space.</p>
-                <button class="add-to-cart-btn" data-name="AE 828" data-price="40000" data-img="/image/AE 828.png">Add
-                    to
-                    Cart</button>
-            </div>
-        </div>
         <div class="cardone">
-            <img src="/image/New Port.png" alt="Table 1">
-            <h3>New Port</h3>
-            <p class="price">₹37,000</p>
-            <p>Fabric Sofa | Metal Frame Leg | Wooden Structure
-                THREE 75" x 32"
-            </p>
-            <button class="add-to-cart-btn" data-name="New Port" data-price="37000" data-img="/image/New Port.png">Add
-                to
+            <img src="/image/AE 828.png" alt="AE 828 Sofa">
+            <h3>AE 828</h3>
+            <p class="price">₹40,000</p>
+            <p>Stylish table for your cafe space.</p>
+            <button class="add-to-cart-btn" data-name="AE 828" data-price="40000" data-img="/image/AE 828.png">Add to
                 Cart</button>
         </div>
-        <div class="aldo">
-            <div class="cardone aldo">
-                <img src="/image/aldo.png" alt="Table 1">
-                <h3>Aldo</h3>
-                <p class="price">₹37,000</p>
-                <p>Composite Leather & Fabric | Wooden Frame | Steel Legs
-                    THREE 72" x 30"
-                </p>
-                <button class="add-to-cart-btn" data-name="Aldo" data-price="37000" data-img="/image/aldo.png">Add to
-                    Cart</button>
-            </div>
+        <div class="cardone">
+            <img src="/image/New Port.png" alt="New Port Sofa">
+            <h3>New Port</h3>
+            <p class="price">₹37,000</p>
+            <p>Fabric Sofa | Metal Frame Leg | Wooden Structure THREE 75" x 32"</p>
+            <button class="add-to-cart-btn" data-name="New Port" data-price="37000" data-img="/image/New Port.png">Add to
+                Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hamilton.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/aldo.png" alt="Aldo Sofa">
+            <h3>Aldo</h3>
+            <p class="price">₹37,000</p>
+            <p>Composite Leather & Fabric | Wooden Frame | Steel Legs THREE 72" x 30"</p>
+            <button class="add-to-cart-btn" data-name="Aldo" data-price="37000" data-img="/image/aldo.png">Add to
+                Cart</button>
+        </div>
+        <div class="cardone">
+            <img src="/image/hamilton.png" alt="Hamilton Sofa">
             <h3>hamilton</h3>
             <p class="price">₹41,000</p>
             <p>THREE 78" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Hamilton" data-price="41000" data-img="/image/hamilton.png">Add
-                to
+            <button class="add-to-cart-btn" data-name="Hamilton" data-price="41000" data-img="/image/hamilton.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/neptune.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/neptune.png" alt="Neptune Sofa">
             <h3>Neptune</h3>
             <p class="price">₹41,000</p>
             <p>THREE 80" x 34"</p>
             <button class="add-to-cart-btn" data-name="Neptune" data-price="41000" data-img="/image/neptune.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hilton.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/hilton.png" alt="Hilton Sofa">
             <h3>Hilton</h3>
             <p class="price">₹41,000</p>
-            <p>Composite Leather | Wooden Frame | Wooden Legs
-                THREE 75" x 32"</p>
+            <p>Composite Leather | Wooden Frame | Wooden Legs THREE 75" x 32"</p>
             <button class="add-to-cart-btn" data-name="Hilton" data-price="41000" data-img="/image/hilton.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hercules.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/hercules.png" alt="Hercules Sofa">
             <h3>Hercules</h3>
             <p class="price">₹41,000</p>
             <p> THREE 80" x 34"</p>
-            <button class="add-to-cart-btn" data-name="Hercules" data-price="41000" data-img="/image/hercules.png">Add
-                to
+            <button class="add-to-cart-btn" data-name="Hercules" data-price="41000" data-img="/image/hercules.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/nivea.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/nivea.png" alt="Nivea Sofa">
             <h3>Nivea</h3>
             <p class="price">₹41,000</p>
             <p>THREE 75" x 33"</p>
             <button class="add-to-cart-btn" data-name="Nivea" data-price="41000" data-img="/image/nivea.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/Athena.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/Athena.png" alt="Athena Sofa">
             <h3>Athena</h3>
             <p class="price">₹42,000</p>
             <p>THREE 75" x 33"</p>
             <button class="add-to-cart-btn" data-name="Athena" data-price="42000" data-img="/image/Athena.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/zeus.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/zeus.png" alt="Zeus Sofa">
             <h3>Zeus</h3>
             <p class="price">₹41,000</p>
             <p>THREE 75" x 32"</p>
             <button class="add-to-cart-btn" data-name="Zeus" data-price="41000" data-img="/image/Zeus.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/OZI.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/OZI.png" alt="OZI Sofa">
             <h3>OZI</h3>
             <p class="price">₹42,000</p>
             <p>THREE 80" x 34"</p>
             <button class="add-to-cart-btn" data-name="OZI" data-price="42000" data-img="/image/OZI.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/Kraby.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/Kraby.png" alt="Kraby Sofa">
             <h3>Kraby</h3>
             <p class="price">₹39,000</p>
             <p>THREE 78" x 34"</p>
             <button class="add-to-cart-btn" data-name="Kraby" data-price="39000" data-img="/image/Kraby.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/grezza.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/grezza.png" alt="Grezza Sofa">
             <h3>Grezza</h3>
             <p class="price">₹44,000</p>
             <p> THREE 75" x 32" </p>
             <button class="add-to-cart-btn" data-name="Grezza" data-price="44000" data-img="/image/Grezza.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/dyno.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/dyno.png" alt="Dyno Sofa">
             <h3>Dyno</h3>
             <p class="price">₹39,000</p>
             <p>THREE 75" x 32"</p>
             <button class="add-to-cart-btn" data-name="Dyno" data-price="39000" data-img="/image/dyno.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/Roger.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/Roger.png" alt="Roger Sofa">
             <h3>Roger</h3>
             <p class="price">₹39,000</p>
             <p>THREE 75" x 32" </p>
             <button class="add-to-cart-btn" data-name="Roger" data-price="39000" data-img="/image/Roger.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/onix.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/onix.png" alt="ONIX Sofa">
             <h3>ONIX</h3>
             <p class="price">₹39,000</p>
             <p>THREE 75" x 32"</p>
             <button class="add-to-cart-btn" data-name="ONIX" data-price="39000" data-img="/image/onix.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/crimson.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/crimson.png" alt="Crimson Sofa">
             <h3>Crimson</h3>
             <p class="price">₹46,000</p>
             <p>THREE 80" x 34"</p>
             <button class="add-to-cart-btn" data-name="Crimson" data-price="46000" data-img="/image/crimson.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/hawkins.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/hawkins.png" alt="Hawkins Sofa">
             <h3>Hawkins</h3>
             <p class="price">₹46,000</p>
             <p>THREE 84" x 34" </p>
             <button class="add-to-cart-btn" data-name="Hawkins" data-price="46000" data-img="/image/hawkins.png">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/byron.jpg" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/byron.jpg" alt="Byron Sofa">
             <h3>Byron</h3>
             <p class="price">₹42,000</p>
             <p> THREE 75" x 32" </p>
-            <button class="add-to-cart-btn" data-name="Byron" data-price="42000" data-img="/image/byron.png">Add to
+            <button class="add-to-cart-btn" data-name="Byron" data-price="42000" data-img="/image/byron.jpg">Add to
                 Cart</button>
         </div>
-        <div class="cardone ">
-            <img src="/image/emperor.png" alt="Table 1">
+        <div class="cardone">
+            <img src="/image/emperor.png" alt="Emperor Sofa">
             <h3>Emperor</h3>
             <p class="price">₹46,000</p>
             <p> THREE 84" x 34" </p>
             <button class="add-to-cart-btn" data-name="Emperor" data-price="46000" data-img="/image/Emperor.png">Add to
                 Cart</button>
         </div>
-        <div id="cart-popup"
-            style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
-        </div>
+    </div>
+    
+    <div id="cart-popup"
+        style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
+    </div>
 
-        <script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.getElementById('nav-links');
 
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-        </script>
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    // Toggles the 'active' class to slide the mobile menu in/out
+                    navLinks.classList.toggle('active');
+                });
 
-
+                // Optional: Close menu when a link is clicked
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        // Only close if the menu is active (mobile view)
+                        if (navLinks.classList.contains('active')) {
+                            navLinks.classList.remove('active');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
