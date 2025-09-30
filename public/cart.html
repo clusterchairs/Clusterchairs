@@ -2,730 +2,744 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ClusterChairs - Cart</title>
-  <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <style>
-    /* Base Reset */
-    body,
-    h1,
-    h2,
-    h3,
-    p,
-    a,
-    input,
-    button {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Arial, sans-serif;
-    }
-
-    body {
-      background: #f1f2f4;
-    }
-
-    /* 1. Navbar Styles (Desktop Default) */
-    .navbar {
-      background: rgb(121, 65, 65);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 48px;
-      min-height: 80px;
-      /* Reduced height for better screen usage */
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navbar-left {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Logo and Brand Text */
-    .logo-img {
-      height: 60px;
-      /* Adjusted size */
-      margin-right: 16px;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-top: 0;
-      /* Align text better */
-    }
-
-    .cluster,
-    .chairs {
-      font-size: 2.2em;
-      color: #fff;
-      line-height: 1.1;
-      letter-spacing: 1px;
-      font-family: 'Protest Strike', sans-serif !important;
-    }
-
-    .cluster {
-      margin-bottom: -10px;
-      color: #fff;
-    }
-
-    .chairs {
-      color: #ffd700;
-    }
-
-    .location {
-      margin-left: 0;
-    }
-
-    /* Reset desktop positioning */
-
-    /* Navbar Right (Links) */
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .user-email,
-    .logout-link {
-      color: #fff;
-      font-size: 1.0em;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .logout-link:hover {
-      color: #ffd700;
-    }
-
-    .cart-link {
-      display: flex;
-      align-items: center;
-      color: #ffd700;
-      text-decoration: none;
-      font-size: 1.2em;
-    }
-
-    .cart-icon {
-      height: 32px;
-      filter: brightness(1.2) sepia(1) hue-rotate(-30deg) saturate(5);
-    }
-
-    #cart-count {
-      color: #ffd700;
-      font-weight: bold;
-      margin-left: 6px;
-      font-size: 1.2em;
-    }
-
-    /* Hamburger Menu (Hidden by default) */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .hamburger span {
-      display: block;
-      height: 3px;
-      width: 25px;
-      background: #fff;
-      margin: 4px 0;
-      border-radius: 5px;
-      transition: all 0.3s ease-in-out;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-
-    /* 2. Floating Text Banner */
-    .floating-text {
-      position: relative;
-      width: 100%;
-      font-size: 1.2em;
-      background: #7d4b4b;
-      color: #ffd700;
-      padding: 10px 0;
-      font-weight: bold;
-      text-align: center;
-      overflow: hidden;
-      border-bottom: 2px solid #a05252;
-    }
-
-    .floating-text span {
-      display: inline-block;
-      white-space: nowrap;
-      animation: floatTextLeft 12s linear infinite;
-    }
-
-    @keyframes floatTextLeft {
-      0% {
-        transform: translateX(100%);
-      }
-
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-
-    /* 3. Main Content & Cart */
-    .cart-container {
-      background: #fff;
-      max-width: 600px;
-      margin: 40px auto 40px auto;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-      padding: 32px 24px;
-    }
-
-    .cart-container h2 {
-      font-size: 2em;
-      color: #232f3e;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .cart-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #eee;
-      padding: 16px 0;
-    }
-
-    .cart-item img {
-      width: 70px;
-      height: 70px;
-      min-width: 70px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-right: 15px;
-      background: #f1f2f4;
-    }
-
-    .cart-item .details {
-      flex-grow: 1;
-      margin-right: 15px;
-    }
-
-    .cart-item .name {
-      font-weight: bold;
-      font-size: 1.1em;
-      margin-bottom: 4px;
-      word-break: break-word;
-    }
-
-    .remove-btn {
-      background: #ff4d4f;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-
-    #cart-total {
-      text-align: right;
-      font-size: 1.3em;
-      font-weight: bold;
-      margin-top: 18px;
-      padding-top: 10px;
-      border-top: 1px solid #ddd;
-      color: #232f3e;
-    }
-
-    .address-container {
-      margin-top: 32px;
-      background: #f9f9f9;
-      padding: 18px 16px;
-      border-radius: 8px;
-    }
-
-    #address-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
-      background: #fff;
-      box-sizing: border-box;
-    }
-
-    .pay-btn {
-      width: 100%;
-      background: #232f3e;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 0;
-      font-size: 1.1em;
-      font-weight: bold;
-      margin-top: 24px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    /* 4. WhatsApp Float */
-    .whatsapp-float {
-      position: fixed;
-      bottom: 380px;
-      right: 32px;
-      z-index: 9999;
-    }
-
-    .whatsapp-popup.active {
-      display: block;
-    }
-
-    .whatsapp-popup {
-      display: none;
-      position: absolute;
-      bottom: 70px;
-      right: 0;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-      padding: 14px 18px;
-      min-width: 160px;
-      font-size: 1.08em;
-      white-space: nowrap;
-
-    }
-
-    .whatsapp-popup a {
-      color: #25d366;
-      text-decoration: none;
-      font-weight: bolder;
-    }
-
-    .whatsapp-icon {
-      width: 56px;
-      height: 56px;
-      background: #25d366;
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: box-shadow 0.2s;
-    }
-
-    .whatsapp-icon::before {
-      /* Using a more modern method or placeholder for WhatsApp icon */
-      content: "📞";
-      font-size: 1.5em;
-      color: white;
-      /* Placeholder background image removed for simplicity/portability */
-    }
-
-
-    /* 5. Media Queries */
-
-    /* Tablet View (Max 1024px) */
-    @media (max-width: 1024px) {
-      .navbar {
-        padding: 10px 20px;
-      }
-
-      .cluster,
-      .chairs {
-        font-size: 1.8em;
-      }
-
-      .navbar-right {
-        gap: 15px;
-      }
-    }
-
-    /* Mobile View (Max 768px) */
-    @media (max-width: 768px) {
-      .navbar {
-        padding: 10px 15px;
-        min-height: 50px;
-      }
-
-      /* Show Hamburger and Hide Nav Links by Default */
-      .hamburger {
-        display: flex;
-      }
-
-      .navbar-right {
-        display: none;
-        /* Hide default nav links */
-        flex-direction: column;
-        position: fixed;
-        top: 70px;
-        /* Below navbar */
-        right: 0;
-        width: 70%;
-        max-width: 300px;
-        height: 100vh;
-        background: rgb(80, 40, 40);
-        padding: 20px;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-      }
-
-      .navbar-right.active {
-        display: flex;
-        transform: translateX(0);
-        gap: 20px;
-        align-items: flex-start;
-      }
-
-      .user-email,
-      .logout-link,
-      .cart-link {
-        width: 100%;
-        font-size: 1.2em;
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .logo-img {
-        height: 40px;
-      }
-
-      .cluster,
-      .chairs {
-        font-size: 1.5em;
-      }
-
-      /* Main Content adjustments */
-      .cart-container {
-        margin: 20px auto;
-        max-width: 95%;
-        padding: 15px;
-      }
-
-      .cart-item {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 0;
-        text-align: left;
-      }
-
-      .cart-item img {
-        margin-bottom: 10px;
-      }
-
-      .cart-item .details {
-        margin-right: 0;
-        margin-bottom: 10px;
-      }
-
-      .remove-btn {
-        align-self: flex-end;
-        padding: 6px 10px;
-      }
-
-      /* Floating Text Banner */
-      .floating-text {
-        font-size: 1em;
-      }
-
-      /* WhatsApp Float adjustments */
-      .whatsapp-float {
-        bottom: 550px;
-        right: 20px;
-      }
-
-      .whatsapp-icon {
-        width: 48px;
-        height: 48px;
-      }
-
-      .whatsapp-popup {
-        bottom: 60px;
-        right: 10px;
-        padding: 10px 14px;
-        font-size: 0.9em;
-
-      }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClusterChairs - Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        /* Base Reset */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        a,
+        input,
+        button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f2f4;
+        }
+
+        /* 1. Navbar Styles (Desktop Default) */
+        .navbar {
+            background: rgb(121, 65, 65);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 48px;
+            min-height: 80px;
+            /* Reduced height for better screen usage */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Logo and Brand Text */
+        .logo-img {
+            height: 60px;
+            /* Adjusted size */
+            margin-right: 16px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 0;
+            /* Align text better */
+        }
+
+        .cluster,
+        .chairs {
+            font-size: 2.2em;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: 1px;
+            font-family: 'Protest Strike', sans-serif !important;
+        }
+
+        .cluster {
+            margin-bottom: -10px;
+            color: #fff;
+        }
+
+        .chairs {
+            color: #ffd700;
+        }
+
+        .location {
+            margin-left: 0;
+        }
+
+        /* Reset desktop positioning */
+
+        /* Navbar Right (Links) */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .user-email,
+        .logout-link {
+            color: #fff;
+            font-size: 1.0em;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logout-link:hover {
+            color: #ffd700;
+        }
+
+        .cart-link {
+            display: flex;
+            align-items: center;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .cart-icon {
+            height: 32px;
+            filter: brightness(1.2) sepia(1) hue-rotate(-30deg) saturate(5);
+        }
+
+        #cart-count {
+            color: #ffd700;
+            font-weight: bold;
+            margin-left: 6px;
+            font-size: 1.2em;
+        }
+
+        /* Hamburger Menu (Hidden by default) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 25px;
+            background: #fff;
+            margin: 4px 0;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* 2. Floating Text Banner */
+        .floating-text {
+            position: relative;
+            width: 100%;
+            font-size: 1.2em;
+            background: #7d4b4b;
+            color: #ffd700;
+            padding: 10px 0;
+            font-weight: bold;
+            text-align: center;
+            overflow: hidden;
+            border-bottom: 2px solid #a05252;
+        }
+
+        .floating-text span {
+            display: inline-block;
+            white-space: nowrap;
+            animation: floatTextLeft 12s linear infinite;
+        }
+
+        @keyframes floatTextLeft {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* 3. Main Content & Cart */
+        .cart-container {
+            background: #fff;
+            max-width: 600px;
+            margin: 40px auto 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            padding: 32px 24px;
+        }
+
+        .cart-container h2 {
+            font-size: 2em;
+            color: #232f3e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding: 16px 0;
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+            background: #f1f2f4;
+        }
+
+        .cart-item .details {
+            flex-grow: 1;
+            margin-right: 15px;
+        }
+
+        .cart-item .name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .remove-btn {
+            background: #ff4d4f;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        #cart-total {
+            text-align: right;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 18px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            color: #232f3e;
+        }
+
+        .address-container {
+            margin-top: 32px;
+            background: #f9f9f9;
+            padding: 18px 16px;
+            border-radius: 8px;
+        }
+
+        .address-container h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #address-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .pay-btn {
+            width: 100%;
+            background: #232f3e;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        /* 4. WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 9999;
+        }
+
+        .whatsapp-popup.active {
+            display: block;
+        }
+
+        .whatsapp-popup {
+            display: none;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+            padding: 14px 18px;
+            min-width: 160px;
+            font-size: 1.08em;
+            white-space: nowrap;
+        }
+
+        .whatsapp-popup a {
+            color: #25d366;
+            text-decoration: none;
+            font-weight: bolder;
+            display: block; /* Make links block for better click area */
+            margin: 5px 0;
+        }
+
+        .whatsapp-icon {
+            width: 56px;
+            height: 56px;
+            background: #25d366;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+
+        .whatsapp-icon::before {
+            /* Using a more modern method or placeholder for WhatsApp icon */
+            content: "📞";
+            font-size: 1.5em;
+            color: white;
+            /* Placeholder background image removed for simplicity/portability */
+        }
+
+
+        /* 5. Media Queries */
+
+        /* Tablet View (Max 1024px) */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 10px 20px;
+            }
+
+            .cluster,
+            .chairs {
+                font-size: 1.8em;
+            }
+
+            .navbar-right {
+                gap: 15px;
+            }
+        }
+
+        /* Mobile View (Max 768px) */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 15px;
+                min-height: 50px;
+            }
+
+            /* Show Hamburger and Hide Nav Links by Default */
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar-right {
+                display: none;
+                /* Hide default nav links */
+                flex-direction: column;
+                position: fixed;
+                top: 70px;
+                /* Below navbar */
+                right: 0;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgb(80, 40, 40);
+                padding: 20px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .navbar-right.active {
+                display: flex;
+                transform: translateX(0);
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .user-email,
+            .logout-link,
+            .cart-link {
+                width: 100%;
+                font-size: 1.2em;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .logo-img {
+                height: 40px;
+            }
+
+            .cluster,
+            .chairs {
+                font-size: 1.5em;
+            }
+
+            /* Main Content adjustments */
+            .cart-container {
+                margin: 20px auto;
+                max-width: 95%;
+                padding: 15px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 0;
+                text-align: left;
+            }
+
+            .cart-item img {
+                margin-bottom: 10px;
+            }
+
+            .cart-item .details {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .remove-btn {
+                align-self: flex-end;
+                padding: 6px 10px;
+            }
+
+            /* Floating Text Banner */
+            .floating-text {
+                font-size: 1em;
+            }
+
+            /* WhatsApp Float adjustments */
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .whatsapp-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .whatsapp-popup {
+                bottom: 60px;
+                right: 10px;
+                padding: 10px 14px;
+                font-size: 0.9em;
+
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <header class="navbar">
-    <a href="/index.html" class="navbar-left" style="text-decoration: none; color: inherit;">
-      <img src="/image/logo.png" alt="Cluster Logo" class="logo-img" />
-      <div class="brand-text">
-        <div class="cluster location">Cluster</div>
-        <div class="chairs location">Chairs</div>
-      </div>
-    </a>
+    <header class="navbar">
+        <a href="/index.html" class="navbar-left" style="text-decoration: none; color: inherit;">
+            <img src="/image/logo.png" alt="Cluster Logo" class="logo-img" />
+            <div class="brand-text">
+                <div class="cluster location">Cluster</div>
+                <div class="chairs location">Chairs</div>
+            </div>
+        </a>
 
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="navbar-right" id="nav-links">
+            <span class="user-email" id="user-email"></span>
+            <a href="#" id="logout-link" class="logout-link">Logout</a>
+            <a href="/cart.html" class="cart-link">
+                <img src="/image/cartimage.png" class="cart-icon" alt="Cart" />
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+    <div class="floating-text"><span>Contact for better prices if you are buying in bulk!</span></div>
+
+    <div class="whatsapp-float">
+        <div class="whatsapp-icon" id="whatsapp-icon"></div>
+        <div class="whatsapp-popup" id="whatsapp-popup">
+            <a href="https://wa.me/919969566885" target="_blank">Amol Mhaske</a>
+            <a href="https://wa.me/918149231317" target="_blank">Swayam Divekar</a>
+        </div>
     </div>
 
-    <div class="navbar-right" id="nav-links">
-      <span class="user-email" id="user-email"></span>
-      <a href="#" id="logout-link" class="logout-link">Logout</a>
-      <a href="/cart.html" class="cart-link">
-        <img src="/image/cartimage.png" class="cart-icon" alt="Cart" />
-        <span id="cart-count">0</span>
-      </a>
-    </div>
-  </header>
-  <div class="floating-text"><span>Contact for better prices if you are buying in bulk!</span></div>
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
 
-  <div class="whatsapp-float">
-    <div class="whatsapp-icon" id="whatsapp-icon"></div>
-    <div class="whatsapp-popup" id="whatsapp-popup">
-      <a href="https://wa.me/919969566885" target="_blank">Amol Mhaske</a><br>
-      <a href="https://wa.me/918149231317" target="_blank">Swayam Divekar</a>
-    </div>
-  </div>
+        <div class="address-container">
+            <h3>Shipping Address</h3>
+            <form id="address-form">
+                <input type="text" id="street" placeholder="Street Address" required>
+                <input type="text" id="city" placeholder="City" required>
+                <input type="text" id="state" placeholder="State" required>
+                <input type="text" id="zip" placeholder="Zip Code" required>
+            </form>
+        </div>
 
-  <div class="cart-container">
-    <h2>Your Cart</h2>
-    <div id="cart-items"></div>
-    <div id="cart-total"></div>
-
-    <div class="address-container">
-      <h3>Shipping Address</h3>
-      <form id="address-form">
-        <input type="text" id="street" placeholder="Street Address" required>
-        <input type="text" id="city" placeholder="City" required>
-        <input type="text" id="state" placeholder="State" required>
-        <input type="text" id="zip" placeholder="Zip Code" required>
-      </form>
+        <button class="pay-btn" id="pay-now-btn">Pay Now</button>
     </div>
 
-    <button class="pay-btn" id="pay-now-btn">Pay Now</button>
-  </div>
+    <script>
+        // --- Navbar Toggle Logic ---
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
-  <script>
-    // --- Navbar Toggle Logic ---
-    const hamburger = document.getElementById("hamburger");
-    const navLinks = document.getElementById("nav-links");
-
-    hamburger.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-      hamburger.classList.toggle("active");
-    });
-
-    // Close menu when a link is clicked
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (navLinks.classList.contains('active')) {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
-        }
-      });
-    });
-
-    // Set your hosted backend URL here!
-    const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const email = localStorage.getItem('userEmail');
-      document.getElementById('user-email').textContent = email ? email : '';
-
-      document.getElementById('logout-link').addEventListener('click', function (e) {
-        e.preventDefault();
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('cart');
-        window.location.href = '/login.html';
-      });
-
-      renderCart();
-    });
-
-    function renderCart() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const cartItemsDiv = document.getElementById('cart-items');
-      const cartTotalDiv = document.getElementById('cart-total');
-      const payButton = document.getElementById('pay-now-btn');
-      document.getElementById('cart-count').textContent = cart.length;
-
-      if (cart.length === 0) {
-        cartItemsDiv.innerHTML = '<p style="text-align: center; font-size: 1.1em; padding: 20px;">Your cart is empty.</p>';
-        cartTotalDiv.textContent = '';
-        payButton.style.display = 'none';
-        document.querySelector('.address-container').style.display = 'none'; // Hide address form if cart is empty
-        return;
-      }
-
-      document.querySelector('.address-container').style.display = 'block';
-      payButton.style.display = 'block';
-      cartItemsDiv.innerHTML = '';
-
-      let total = 0;
-      cart.forEach(item => {
-        const itemTotal = Number(item.price) * item.quantity;
-        total += itemTotal;
-        cartItemsDiv.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.img}" alt="${item.name}">
-                        <div class="details">
-                            <div class="name">${item.name}</div>
-                            <div>₹${Number(item.price).toLocaleString()} x ${item.quantity} = ₹${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                        </div>
-                        <button class="remove-btn" onclick="removeFromCart('${item.name}','${item.price}')">Remove</button>
-                    </div>
-                `;
-      });
-      cartTotalDiv.textContent = `Total: ₹${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
-
-    function removeFromCart(name, price) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      // Find the index of the first item matching both name and price
-      const idx = cart.findIndex(item => item.name === name && item.price.toString() === price.toString());
-
-      if (idx > -1) {
-        if (cart[idx].quantity > 1) {
-          cart[idx].quantity -= 1;
-        } else {
-          cart.splice(idx, 1);
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        renderCart();
-      }
-    }
-
-    // Razorpay payment and order save
-    async function payNow() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-      }
-
-      const street = document.getElementById('street').value;
-      const city = document.getElementById('city').value;
-      const state = document.getElementById('state').value;
-      const zip = document.getElementById('zip').value;
-
-      if (!street || !city || !state || !zip) {
-        alert("Please fill in your complete shipping address.");
-        return;
-      }
-
-      const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
-      const userEmail = localStorage.getItem('userEmail');
-
-      try {
-        // 1. Create Razorpay order on backend
-        const orderRes = await fetch(`${HOSTED_BACKEND_URL}/create-order`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: total })
+        hamburger.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
         });
-        const order = await orderRes.json();
-        if (!order.id) {
-          alert("Order creation failed: " + (order.message || "Unknown error"));
-          return;
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        });
+
+        // Set your hosted backend URL here!
+        const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const email = localStorage.getItem('userEmail');
+            document.getElementById('user-email').textContent = email ? email : '';
+
+            document.getElementById('logout-link').addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('cart');
+                window.location.href = '/login.html';
+            });
+
+            renderCart();
+        });
+
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsDiv = document.getElementById('cart-items');
+            const cartTotalDiv = document.getElementById('cart-total');
+            const payButton = document.getElementById('pay-now-btn');
+            document.getElementById('cart-count').textContent = cart.length;
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p style="text-align: center; font-size: 1.1em; padding: 20px;">Your cart is empty.</p>';
+                cartTotalDiv.textContent = '';
+                payButton.style.display = 'none';
+                document.querySelector('.address-container').style.display = 'none'; // Hide address form if cart is empty
+                return;
+            }
+
+            document.querySelector('.address-container').style.display = 'block';
+            payButton.style.display = 'block';
+            cartItemsDiv.innerHTML = '';
+
+            let total = 0;
+            cart.forEach(item => {
+                const itemTotal = Number(item.price) * item.quantity;
+                total += itemTotal;
+                cartItemsDiv.innerHTML += `
+                                <div class="cart-item">
+                                    <img src="${item.img}" alt="${item.name}">
+                                    <div class="details">
+                                        <div class="name">${item.name}</div>
+                                        <div>₹${Number(item.price).toLocaleString()} x ${item.quantity} = ₹${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                    </div>
+                                    <button class="remove-btn" onclick="removeFromCart('${item.name}','${item.price}')">Remove</button>
+                                </div>
+                            `;
+            });
+            cartTotalDiv.textContent = `Total: ₹${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         }
 
-        // 1.5 Fetch Razorpay key from backend
-        const keyRes = await fetch(`${HOSTED_BACKEND_URL}/config/razorpay`);
-        const { key } = await keyRes.json();
-        console.log("Razorpay Key being used:", key);
+        function removeFromCart(name, price) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Find the index of the first item matching both name and price
+            const idx = cart.findIndex(item => item.name === name && item.price.toString() === price.toString());
 
-        // 2. Open Razorpay payment modal
-        const options = {
-          key,
-          amount: order.amount,
-          currency: order.currency,
-          name: "ClusterChairs",
-          description: "Order Payment",
-          order_id: order.id,
-          handler: async function (response) {
-
-            // 3. On payment success, save order in DB
-            try {
-              const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  user_email: userEmail,
-                  cart,
-                  total_amount: total,
-                  street,
-                  city,
-                  state,
-                  zip,
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                  payment_status: "paid"
-                })
-              });
-              const data = await res.json();
-              if (data.success) {
-                alert("Payment & Order placed successfully!");
-                localStorage.removeItem('cart');
+            if (idx > -1) {
+                if (cart[idx].quantity > 1) {
+                    cart[idx].quantity -= 1;
+                } else {
+                    cart.splice(idx, 1);
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
                 renderCart();
-              } else {
-                alert("Order failed: " + data.message);
-              }
-            } catch (err) {
-              alert("Order failed: " + err.message);
             }
-          }
-        };
+        }
 
-        const rzp = new Razorpay(options);
-        rzp.open();
-      } catch (err) {
-        console.error("Payment error:", err);
-        alert("Payment initialization failed: " + err.message);
-      }
-    }
+        // Razorpay payment and order save
+        async function payNow() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
 
-    document.getElementById('pay-now-btn').addEventListener('click', payNow);
+            const street = document.getElementById('street').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const zip = document.getElementById('zip').value;
 
-    const whatsappIcon = document.getElementById('whatsapp-icon');
-    const whatsappPopup = document.getElementById('whatsapp-popup');
+            if (!street || !city || !state || !zip) {
+                alert("Please fill in your complete shipping address.");
+                return;
+            }
 
-    whatsappIcon.addEventListener('click', function (e) {
-      e.stopPropagation();
-      whatsappPopup.classList.toggle('active');
-    });
+            // Calculate total amount in base currency (INR)
+            const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+            const userEmail = localStorage.getItem('userEmail');
 
-    // Hide popup when clicking outside
-    document.addEventListener('click', function (e) {
-      if (whatsappPopup.classList.contains('active')) {
-        whatsappPopup.classList.remove('active');
-      }
-    });
+            try {
+                // 1. Create Razorpay order on backend
+                const orderRes = await fetch(`${HOSTED_BACKEND_URL}/create-order`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount: total }) // send amount in INR
+                });
 
-    // Prevent popup from closing when clicking inside
-    whatsappPopup.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+                // Get the full response object: { order: {...}, key_id: '...' }
+                const responseData = await orderRes.json(); 
 
-  </script>
+                // Check for server-side error (500)
+                if (!responseData.order || !responseData.order.id) {
+                    alert("Order creation failed. Please check server logs for 500 error details.");
+                    console.error("Server response:", responseData);
+                    return;
+                }
+                
+                // Destructure the necessary variables
+                const order = responseData.order;
+                const key_id = responseData.key_id;
+
+
+                // 2. Open Razorpay payment modal
+                const options = {
+                    key: key_id, // ✅ CORRECT: Use key_id from backend
+                    amount: order.amount, // ✅ CORRECT: Amount in paise from backend
+                    currency: order.currency, // ✅ CORRECT: Currency from backend
+                    name: "ClusterChairs",
+                    description: "Order Payment",
+                    order_id: order.id, // ✅ CORRECT: Order ID from backend
+                    handler: async function (response) {
+                        // 3. On payment success, save order in DB
+                        try {
+                            const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    user_email: userEmail,
+                                    cart,
+                                    total_amount: total, // send total in INR
+                                    street,
+                                    city,
+                                    state,
+                                    zip,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    payment_status: "paid"
+                                })
+                            });
+                            const data = await res.json();
+                            if (data.success) {
+                                alert("Payment & Order placed successfully!");
+                                localStorage.removeItem('cart');
+                                renderCart();
+                            } else {
+                                alert("Order failed: " + data.message);
+                            }
+                        } catch (err) {
+                            alert("Order failed: " + err.message);
+                        }
+                    },
+                    prefill: {
+                        // Optional prefill details for better conversion
+                        email: userEmail // Assuming userEmail is the logged-in user's email
+                    }
+                };
+
+                const rzp = new Razorpay(options);
+                rzp.open();
+            } catch (err) {
+                console.error("Payment initialization error:", err);
+                alert("Payment initialization failed: " + err.message);
+            }
+        }
+
+        document.getElementById('pay-now-btn').addEventListener('click', payNow);
+
+        const whatsappIcon = document.getElementById('whatsapp-icon');
+        const whatsappPopup = document.getElementById('whatsapp-popup');
+
+        whatsappIcon.addEventListener('click', function (e) {
+            e.stopPropagation();
+            whatsappPopup.classList.toggle('active');
+        });
+
+        // Hide popup when clicking outside
+        document.addEventListener('click', function (e) {
+            if (whatsappPopup.classList.contains('active')) {
+                whatsappPopup.classList.remove('active');
+            }
+        });
+
+        // Prevent popup from closing when clicking inside
+        whatsappPopup.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+
+    </script>
 </body>
 
 </html>
