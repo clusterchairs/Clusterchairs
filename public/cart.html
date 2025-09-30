@@ -7,6 +7,7 @@
   <title>ClusterChairs - Cart</title>
   <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <style>
     /* Base Reset */
     body,
@@ -310,8 +311,9 @@
       min-width: 160px;
       font-size: 1.08em;
       white-space: nowrap;
-      
+
     }
+
     .whatsapp-popup a {
       color: #25d366;
       text-decoration: none;
@@ -461,7 +463,7 @@
         right: 10px;
         padding: 10px 14px;
         font-size: 0.9em;
-        
+
       }
     }
   </style>
@@ -645,15 +647,20 @@
           return;
         }
 
+        // 1.5 Fetch Razorpay key from backend
+        const keyRes = await fetch(`${HOSTED_BACKEND_URL}/config/razorpay`);
+        const { key } = await keyRes.json();
+
         // 2. Open Razorpay payment modal
         const options = {
-          key: "RAZORPAY_KEY_ID", // Replace with your actual Razorpay key!
+          key, // Replace with your actual Razorpay key!
           amount: order.amount,
           currency: order.currency,
           name: "ClusterChairs",
           description: "Order Payment",
           order_id: order.id,
           handler: async function (response) {
+            
             // 3. On payment success, save order in DB
             try {
               const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {

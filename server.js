@@ -6,8 +6,6 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const Razorpay = require("razorpay");
-const crypto = require("crypto");
-
 
 const app = express();
 app.use(cors());
@@ -30,6 +28,8 @@ let db;
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+// ================= USER AUTH =================
 
 // Register User
 app.post("/register", async (req, res) => {
@@ -73,24 +73,16 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Add Order (no payment)
+// ================= ORDER MANAGEMENT =================
 app.post("/add-order", async (req, res) => {
-  const {
-    user_email,
-    cart,
-    total_amount,
-    street,
-    city,
-    state,
-    zip
-  } = req.body;
+  const { user_email, cart, total_amount, street, city, state, zip } = req.body;
 
   if (!user_email || !cart || !total_amount || !street || !city || !state || !zip) {
     return res.status(400).json({ success: false, message: "All fields required" });
   }
 
   try {
-    // Get user id from email
+    // Get user id
     const [rows] = await db.query("SELECT id FROM users WHERE email = ?", [user_email]);
     if (rows.length === 0) {
       return res.status(400).json({ success: false, message: "User not found" });
@@ -105,7 +97,7 @@ app.post("/add-order", async (req, res) => {
       (user_id, order_id, payment_id, items, total_amount, status, street, city, state, zip) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        user_id, // use numeric id, not email!
+        user_id,
         order_id,
         payment_id,
         JSON.stringify(cart),
@@ -114,7 +106,7 @@ app.post("/add-order", async (req, res) => {
         street,
         city,
         state,
-        zip
+        zip,
       ]
     );
     res.json({ success: true, message: "Order stored!" });
@@ -124,19 +116,20 @@ app.post("/add-order", async (req, res) => {
   }
 });
 
-// / Add this after your other routes
+// ================= RAZORPAY =================
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+// Endpoint to create Razorpay order
 app.post("/create-order", async (req, res) => {
   try {
     const { amount } = req.body;
     if (!amount) return res.status(400).json({ success: false, message: "Amount is required" });
 
     const options = {
-      amount: amount * 100, // Razorpay expects amount in paise
+      amount: amount * 100, // paise
       currency: "INR",
       receipt: "rcpt_" + Date.now(),
     };
@@ -147,6 +140,11 @@ app.post("/create-order", async (req, res) => {
     console.error("❌ Razorpay error:", err);
     res.status(500).json({ success: false, message: "Payment order failed" });
   }
+});
+
+// Expose Razorpay public key
+app.get("/config/razorpay", (req, res) => {
+  res.json({ key: process.env.RAZORPAY_KEY_ID });
 });
 
 const PORT = process.env.PORT || 5000;
