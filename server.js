@@ -123,24 +123,45 @@ const razorpay = new Razorpay({
 });
 
 // Endpoint to create Razorpay order
+// app.post("/create-order", async (req, res) => {
+//   try {
+//     const { amount } = req.body;
+//     if (!amount) return res.status(400).json({ success: false, message: "Amount is required" });
+
+//     const options = {
+//       amount: amount * 100, // paise
+//       currency: "INR",
+//       receipt: "rcpt_" + Date.now(),
+//     };
+
+//     const order = await razorpay.orders.create(options);
+//     res.json(order);
+//   } catch (err) {
+//     console.error("❌ Razorpay error:", err);
+//     res.status(500).json({ success: false, message: "Payment order failed" });
+//   }
+// });
 app.post("/create-order", async (req, res) => {
+  const { totalAmount } = req.body;
+
+  const options = {
+    amount: totalAmount * 100, // paise
+    currency: "INR",
+  };
+
   try {
-    const { amount } = req.body;
-    if (!amount) return res.status(400).json({ success: false, message: "Amount is required" });
-
-    const options = {
-      amount: amount * 100, // paise
-      currency: "INR",
-      receipt: "rcpt_" + Date.now(),
-    };
-
     const order = await razorpay.orders.create(options);
-    res.json(order);
-  } catch (err) {
-    console.error("❌ Razorpay error:", err);
-    res.status(500).json({ success: false, message: "Payment order failed" });
+    res.json({
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      key: process.env.RAZORPAY_KEY_ID   // 👈 send key to frontend
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
+
 
 // Expose Razorpay public key
 app.get("/config/razorpay", (req, res) => {

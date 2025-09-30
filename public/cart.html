@@ -650,17 +650,18 @@
         // 1.5 Fetch Razorpay key from backend
         const keyRes = await fetch(`${HOSTED_BACKEND_URL}/config/razorpay`);
         const { key } = await keyRes.json();
+        console.log("Razorpay Key being used:", key);
 
         // 2. Open Razorpay payment modal
         const options = {
-          key, // Replace with your actual Razorpay key!
+          key : RAZORPAY_KEY_ID,
           amount: order.amount,
           currency: order.currency,
           name: "ClusterChairs",
           description: "Order Payment",
           order_id: order.id,
           handler: async function (response) {
-            
+
             // 3. On payment success, save order in DB
             try {
               const res = await fetch(`${HOSTED_BACKEND_URL}/add-order`, {
