@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClusterChairs - My Orders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <style>
+        /* Paste all your CSS from cart.html's <style> block here. */
+        /* To keep it concise, I'll only show the new/modified styles: */
+
+        /* Base Reset (etc. from cart.html) */
+
+        /* New/Modified Styles for Orders Page */
+        .orders-container {
+            max-width: 900px;
+            /* Wider container for more order detail */
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            padding: 32px 24px;
+        }
+
+        .orders-container h2 {
+            font-size: 2em;
+            color: #232f3e;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .order-header div {
+            font-size: 1em;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #7d4b4b;
+        }
+
+        .order-status {
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: #ffd700;
+            /* Default highlight */
+            color: #232f3e;
+        }
+
+        /* Status Colors */
+        .status-shipped {
+            background: #64b5f6;
+            color: #fff;
+        }
+
+        .status-delivered {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        .status-paid {
+            background: #ffd700;
+            color: #232f3e;
+        }
+
+
+        .order-item-list {
+            margin-top: 10px;
+            padding-left: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .order-item-list li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .orders-container {
+                max-width: 95%;
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-header div {
+                margin-bottom: 5px;
+            }
+        }
+
+        /* [PASTE ALL YOUR OTHER CSS FROM cart.html HERE] */
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="/index.html" class="navbar-left" style="text-decoration: none; color: inherit;">
+            <img src="/image/logo.png" alt="Cluster Logo" class="logo-img" />
+            <div class="brand-text">
+                <div class="cluster location">Cluster</div>
+                <div class="chairs location">Chairs</div>
+            </div>
+        </a>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="navbar-right" id="nav-links">
+            <span class="user-email" id="user-email"></span>
+            <a href="/orders.html" class="logout-link">My Orders</a>
+            <a href="#" id="logout-link" class="logout-link">Logout</a>
+            <a href="/cart.html" class="cart-link">
+                <img src="/image/cartimage.png" class="cart-icon" alt="Cart" />
+                <span id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+    <div class="floating-text"><span>Contact for better prices if you are buying in bulk!</span></div>
+
+    <div class="whatsapp-float">
+        <div class="whatsapp-icon" id="whatsapp-icon"></div>
+        <div class="whatsapp-popup" id="whatsapp-popup">
+            <a href="https://wa.me/919969566885" target="_blank">Amol Mhaske</a>
+            <a href="https://wa.me/918149231317" target="_blank">Swayam Divekar</a>
+        </div>
+    </div>
+
+    <div class="orders-container">
+        <h2>My Orders</h2>
+        <div id="orders-list">
+            <p style="text-align: center; font-size: 1.1em; padding: 20px;">Loading orders...</p>
+        </div>
+    </div>
+
+    <script>
+        // Set your hosted backend URL here!
+        const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
+
+        // --- Navbar Toggle Logic (Copied from cart.html) ---
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
+
+        if (hamburger && navLinks) {
+            hamburger.addEventListener("click", () => {
+                navLinks.classList.toggle("active");
+                hamburger.classList.toggle("active");
+            });
+
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+
+        // --- Core Order Logic ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // NOTE: Using 'loggedInUserEmail' as established in previous responses,
+            // rather than 'userEmail', for consistency with a typical login flow.
+            const email = localStorage.getItem('loggedInUserEmail');
+
+            // This is a simpler check, if the email is present, assume logged in.
+            if (!email) {
+                window.location.href = '/login.html'; // Redirect if not logged in
+                return;
+            }
+
+            // Display user email (if you have an element with id="user-email")
+            const userEmailEl = document.getElementById('user-email');
+            if (userEmailEl) {
+                userEmailEl.textContent = email;
+            }
+
+            // Update cart count
+            const cartCountEl = document.getElementById('cart-count');
+            if (cartCountEl) {
+                cartCountEl.textContent = (JSON.parse(localStorage.getItem('cart')) || []).length;
+            }
+
+
+            // Setup Logout
+            const logoutLink = document.getElementById('logout-link');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    localStorage.removeItem('loggedInUserEmail'); // Use the same key as above
+                    localStorage.removeItem('cart');
+                    alert('Logged out successfully.');
+                    window.location.href = '/login.html';
+                });
+            }
+
+            // Fetch and display orders
+            fetchOrders(email);
+        });
+
+        /**
+         * Fetches orders for the given email from the backend.
+         */
+        async function fetchOrders(email) {
+            const ordersListDiv = document.getElementById('orders-list');
+            ordersListDiv.innerHTML = '<p style="text-align: center; font-size: 1.1em; padding: 20px;">Fetching your order history...</p>';
+
+            try {
+                const res = await fetch(`${HOSTED_BACKEND_URL}/get-orders?email=${encodeURIComponent(email)}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const data = await res.json();
+
+                if (!res.ok || !data.success) {
+                    // Throw the error message provided by the server
+                    throw new Error(data.message || 'Failed to fetch orders from server.');
+                }
+
+                // The server returns data.orders, which is the array we need
+                const orders = data.orders;
+
+                if (orders.length === 0) {
+                    ordersListDiv.innerHTML = '<p style="text-align: center; font-size: 1.1em; padding: 20px;">You haven\'t placed any orders yet. <a href="index.html">Start shopping!</a></p>';
+                    return;
+                }
+
+                renderOrders(orders, ordersListDiv);
+
+            } catch (error) {
+                console.error("Error fetching orders:", error);
+                ordersListDiv.innerHTML = `<p style="text-align: center; color: red; font-size: 1.1em; padding: 20px;">Error loading orders: ${error.message}</p>`;
+            }
+        }
+
+        /**
+         * Renders the array of order objects into the designated container.
+         */
+        function renderOrders(orders, container) {
+            container.innerHTML = ''; // Clear loading message
+
+            orders.forEach(order => {
+                // Ensure status is defined and lowercase for class matching
+                const statusText = order.status ? order.status.toUpperCase() : 'PENDING';
+                const statusClass = order.status ? 'status-' + order.status.toLowerCase() : 'status-pending';
+
+                // Format Order Date
+                const orderDate = new Date(order.order_date).toLocaleDateString('en-IN', {
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                // Build the list of items inside the cart
+                const itemDetails = (order.cart || []).map(item =>
+                    `<li>${item.name} (${item.quantity} x ₹${Number(item.price).toLocaleString('en-IN', { minimumFractionDigits: 0 })})</li>`
+                ).join('');
+
+                container.innerHTML += `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-id">Order ID: **${order.order_id.slice(-8).toUpperCase()}**</div>
+                        <div class="order-date">Placed On: ${orderDate}</div>
+                    </div>
+                    <div class="order-summary">
+                         <div class="order-total">Total: **₹${Number(order.total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}**</div>
+                        <div class="order-status ${statusClass}">${statusText}</div>
+                    </div>
+                    <p><strong>Shipping to:</strong> ${order.street}, ${order.city}, ${order.state} - ${order.zip}</p>
+                    <ul class="order-item-list">
+                        ${itemDetails}
+                    </ul>
+                </div>
+            `;
+            });
+        }
+
+        // --- WhatsApp Float Logic (Copied from cart.html) ---
+        const whatsappIcon = document.getElementById('whatsapp-icon');
+        const whatsappPopup = document.getElementById('whatsapp-popup');
+
+        if (whatsappIcon && whatsappPopup) {
+            whatsappIcon.addEventListener('click', function (e) {
+                e.stopPropagation();
+                whatsappPopup.classList.toggle('active');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (whatsappPopup.classList.contains('active')) {
+                    whatsappPopup.classList.remove('active');
+                }
+            });
+
+            whatsappPopup.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    </script>
+</body>
+
+</html>

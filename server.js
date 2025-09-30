@@ -74,6 +74,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Add Order (no payment)
+// Add Order (supports both paid and pending orders)
 app.post("/add-order", async (req, res) => {
   const {
     user_email,
@@ -82,35 +83,47 @@ app.post("/add-order", async (req, res) => {
     street,
     city,
     state,
-    zip
+    zip,
+    // NEW: Fields sent by the frontend after a successful Razorpay payment
+    razorpay_order_id,
+    razorpay_payment_id,
+    payment_status // expecting "paid"
   } = req.body;
 
+  // Basic validation (All fields from the address form are required)
   if (!user_email || !cart || !total_amount || !street || !city || !state || !zip) {
-    return res.status(400).json({ success: false, message: "All fields required" });
+    return res.status(400).json({ success: false, message: "All required fields are missing" });
   }
 
+  // --- Determine Order Details based on payment status ---
+  const isPaidOrder = !!razorpay_order_id && payment_status === "paid";
+
+  // If paid, use the status and IDs from the client; otherwise, default to manual/pending
+  const status = isPaidOrder ? "paid" : "pending";
+  const order_id = isPaidOrder ? razorpay_order_id : ("order_" + Date.now());
+  const payment_id = isPaidOrder ? razorpay_payment_id : ("manual_" + Date.now());
+  // --------------------------------------------------------
+
   try {
-    // Get user id from email
+    // 1. Get user id from email
     const [rows] = await db.query("SELECT id FROM users WHERE email = ?", [user_email]);
     if (rows.length === 0) {
       return res.status(400).json({ success: false, message: "User not found" });
     }
     const user_id = rows[0].id;
 
-    const order_id = "order_" + Date.now();
-    const payment_id = "manual_" + Date.now();
-
+    // 2. Insert order into the database
     await db.query(
       `INSERT INTO orders 
       (user_id, order_id, payment_id, items, total_amount, status, street, city, state, zip) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        user_id, // use numeric id, not email!
-        order_id,
-        payment_id,
-        JSON.stringify(cart),
+        user_id, // Foreign key to users table
+        order_id, // Uses Razorpay ID for paid, or custom ID for manual
+        payment_id, // Uses Razorpay ID for paid, or custom ID for manual
+        JSON.stringify(cart), // Cart contents stored as a JSON string
         total_amount,
-        "pending",
+        status, // 'paid' or 'pending'
         street,
         city,
         state,
@@ -123,6 +136,7 @@ app.post("/add-order", async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -145,6 +159,50 @@ app.post("/create-order", async (req, res) => {
   } catch (err) {
     console.error("❌ Razorpay error:", err);
     res.status(500).json({ success: false, message: "Payment order failed" });
+  }
+});
+
+
+// Get Orders for a specific user
+app.get("/get-orders", async (req, res) => {
+  // 1. Get the user's email from the query string (e.g., /get-orders?email=user@example.com)
+  const user_email = req.query.email;
+
+  if (!user_email) {
+    return res.status(400).json({ success: false, message: "User email is required." });
+  }
+
+  try {
+    // 2. First, get the numeric user_id from the email
+    const [userRows] = await db.query("SELECT id FROM users WHERE email = ?", [user_email]);
+    if (userRows.length === 0) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+    const user_id = userRows[0].id;
+
+    // 3. Retrieve all orders for that user_id, sorted by the most recent first
+    const [orderRows] = await db.query(
+      `SELECT order_id, payment_id, items, total_amount, status, street, city, state, zip, order_date 
+       FROM orders 
+       WHERE user_id = ? 
+       ORDER BY order_date DESC`,
+      [user_id]
+    );
+
+    // 4. Format the items field (which is a JSON string) back into an object
+    const orders = orderRows.map(order => ({
+      ...order,
+      // The 'items' column is a JSON string in MySQL, so parse it back to a JS object
+      cart: JSON.parse(order.items),
+      // Rename or include fields to match frontend expectation
+      _id: order.order_id // Use order_id as a unique identifier for the frontend
+    }));
+
+    // 5. Send the list of orders back to the frontend (order.html)
+    res.json({ success: true, orders });
+  } catch (err) {
+    console.error("❌ Error fetching orders:", err);
+    res.status(500).json({ success: false, message: "Internal server error while fetching orders." });
   }
 });
 
