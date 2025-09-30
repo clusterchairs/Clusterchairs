@@ -124,11 +124,6 @@ app.post("/add-order", async (req, res) => {
   }
 });
 
-// / Add this after your other routes
-// ONLY ADD TEMPORARILY FOR DEBUGGING! REMOVE AFTER FIXING.
-console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID ? "Loaded" : "MISSING");
-console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET ? "Loaded" : "MISSING");
-
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
