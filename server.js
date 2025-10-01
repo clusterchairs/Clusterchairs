@@ -30,6 +30,15 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Helper function to get user_id from email
+async function getUserIdByEmail(email) {
+  const [rows] = await db.query("SELECT id FROM users WHERE email = ?", [email]);
+  if (rows.length === 0) {
+    throw new Error("User not found.");
+  }
+  return rows[0].id;
+}
+
 // ======================== AUTH ========================
 
 // Register User
@@ -74,6 +83,95 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// ======================== CART (NEW) ========================
+
+// Get Cart Items
+app.get("/cart", async (req, res) => {
+  const user_email = req.query.email;
+  if (!user_email) {
+    return res.status(400).json({ success: false, message: "User email is required" });
+  }
+
+  try {
+    const user_id = await getUserIdByEmail(user_email);
+
+    const [cartItems] = await db.query(
+      "SELECT id, item_name, item_price, item_image_url, quantity FROM cart_items WHERE user_id = ?",
+      [user_id]
+    );
+
+    res.json({ success: true, cart: cartItems });
+  } catch (err) {
+    console.error("❌ Error in /cart:", err.message);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Add/Update Item in Cart
+app.post("/cart/add", async (req, res) => {
+  const { user_email, item_name, item_price, item_image_url, quantity } = req.body;
+
+  if (!user_email || !item_name || !item_price || !quantity) {
+    return res.status(400).json({ success: false, message: "Missing required fields for cart item" });
+  }
+
+  try {
+    const user_id = await getUserIdByEmail(user_email);
+
+    // Check if item already exists for this user
+    const [existingItemRows] = await db.query(
+      "SELECT id, quantity FROM cart_items WHERE user_id = ? AND item_name = ?",
+      [user_id, item_name]
+    );
+
+    if (existingItemRows.length > 0) {
+      // Item exists, update quantity
+      const newQuantity = existingItemRows[0].quantity + quantity;
+      await db.query(
+        "UPDATE cart_items SET quantity = ?, created_at = NOW() WHERE id = ?",
+        [newQuantity, existingItemRows[0].id]
+      );
+      res.json({ success: true, message: "Cart item quantity updated" });
+    } else {
+      // Item doesn't exist, insert new item
+      await db.query(
+        `INSERT INTO cart_items (user_id, item_name, item_price, item_image_url, quantity) 
+                 VALUES (?, ?, ?, ?, ?)`,
+        [user_id, item_name, item_price, item_image_url, quantity]
+      );
+      res.json({ success: true, message: "Item added to cart" });
+    }
+  } catch (err) {
+    console.error("❌ Error in /cart/add:", err.message);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Clear All Items from Cart (e.g., after successful order)
+app.delete("/cart/clear", async (req, res) => {
+  const { user_email } = req.body;
+
+  if (!user_email) {
+    return res.status(400).json({ success: false, message: "User email is required" });
+  }
+
+  try {
+    const user_id = await getUserIdByEmail(user_email);
+
+    await db.query(
+      "DELETE FROM cart_items WHERE user_id = ?",
+      [user_id]
+    );
+
+    res.json({ success: true, message: "Cart cleared successfully" });
+  } catch (err) {
+    console.error("❌ Error in /cart/clear:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+
+
 // ======================== ORDERS ========================
 
 // Add Order (supports both paid and pending orders)
@@ -103,11 +201,7 @@ app.post("/add-order", async (req, res) => {
   const tracking_status = "pending"; // NEW: Tracking always starts with "pending"
 
   try {
-    const [rows] = await db.query("SELECT id FROM users WHERE email = ?", [user_email]);
-    if (rows.length === 0) {
-      return res.status(400).json({ success: false, message: "User not found" });
-    }
-    const user_id = rows[0].id;
+    const user_id = await getUserIdByEmail(user_email);
 
     await db.query(
       `INSERT INTO orders 
@@ -134,7 +228,12 @@ app.post("/add-order", async (req, res) => {
       [order_id, tracking_status]
     );
 
-    res.json({ success: true, message: "Order stored!" });
+    // If paid order, clear the cart from the DB.
+    if (isPaidOrder) {
+      await db.query("DELETE FROM cart_items WHERE user_id = ?", [user_id]);
+    }
+
+    res.json({ success: true, message: "Order stored!", order_id: order_id });
   } catch (err) {
     console.error("❌ Error in /add-order:", err);
     res.status(500).json({ success: false, message: err.message });
@@ -236,6 +335,31 @@ app.post("/create-order", async (req, res) => {
   } catch (err) {
     console.error("❌ Razorpay error:", err);
     res.status(500).json({ success: false, message: "Payment order failed" });
+  }
+});
+
+// Razorpay Verification (NEW: Recommended for production to verify signature)
+app.post("/verify-payment", (req, res) => {
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature
+  } = req.body;
+
+  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+    return res.status(400).json({ success: false, message: "Missing payment verification fields" });
+  }
+
+  const shasum = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
+  shasum.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+  const digest = shasum.digest('hex');
+
+  if (digest === razorpay_signature) {
+    // Payment is verified. In a more complex flow, you would update the order status here.
+    // For your current flow, /add-order handles the final save and cart clear after this verification.
+    res.json({ success: true, message: "Payment verified successfully" });
+  } else {
+    res.status(400).json({ success: false, message: "Invalid signature: Payment verification failed" });
   }
 });
 

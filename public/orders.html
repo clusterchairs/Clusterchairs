@@ -1,199 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Orders</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-    .orders-container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
+        .orders-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    .order-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+        .order-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9em;
-      color: #666;
-      margin-bottom: 10px;
-    }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
 
-    .order-summary {
-      display: flex;
-      justify-content: space-between;
-      margin: 10px 0;
-      font-weight: bold;
-    }
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-weight: bold;
+        }
 
-    .order-total {
-      font-size: 1.1em;
-      color: #333;
-    }
+        .order-total {
+            font-size: 1.1em;
+            color: #333;
+        }
 
-    .order-status {
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-size: 0.85em;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
+        .order-status {
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-    .status-pending { background: #eee; color: #444; }
-    .status-confirmed { background: #2196f3; color: #fff; }
-    .status-shipped { background: #ff9800; color: #fff; }
-    .status-out_for_delivery { background: #9c27b0; color: #fff; }
-    .status-delivered { background: #4caf50; color: #fff; }
-    .status-cancelled { background: #f44336; color: #fff; }
+        .status-pending {
+            background: #eee;
+            color: #444;
+        }
 
-    .order-item-list {
-      margin: 10px 0;
-      padding-left: 20px;
-      color: #444;
-    }
+        .status-confirmed {
+            background: #2196f3;
+            color: #fff;
+        }
 
-    /* Tracking Timeline */
-    .tracking-history {
-      margin-top: 15px;
-      padding-left: 15px;
-      border-left: 3px solid #ddd;
-    }
+        .status-shipped {
+            background: #ff9800;
+            color: #fff;
+        }
 
-    .tracking-step {
-      position: relative;
-      padding: 10px 0 10px 20px;
-      font-size: 0.9em;
-      color: #444;
-    }
+        .status-out_for_delivery {
+            background: #9c27b0;
+            color: #fff;
+        }
 
-    .tracking-step::before {
-      content: "";
-      position: absolute;
-      left: -9px;
-      top: 14px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #bbb;
-    }
+        .status-delivered {
+            background: #4caf50;
+            color: #fff;
+        }
 
-    .tracking-step.completed::before {
-      background: #4caf50;
-    }
+        .status-cancelled {
+            background: #f44336;
+            color: #fff;
+        }
 
-    .tracking-step.pending::before { background: #777; }
-    .tracking-step.confirmed::before { background: #2196f3; }
-    .tracking-step.shipped::before { background: #ff9800; }
-    .tracking-step.out_for_delivery::before { background: #9c27b0; }
-    .tracking-step.delivered::before { background: #4caf50; }
-    .tracking-step.cancelled::before { background: #f44336; }
+        .order-item-list {
+            margin: 10px 0;
+            padding-left: 20px;
+            color: #444;
+        }
 
-    .tracking-date {
-      font-size: 0.8em;
-      color: #777;
-    }
-  </style>
+        /* Tracking Timeline */
+        .tracking-history {
+            margin-top: 15px;
+            padding-left: 15px;
+            border-left: 3px solid #ddd;
+        }
+
+        .tracking-step {
+            position: relative;
+            padding: 10px 0 10px 20px;
+            font-size: 0.9em;
+            color: #444;
+        }
+
+        .tracking-step::before {
+            content: "";
+            position: absolute;
+            left: -9px;
+            top: 14px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #bbb;
+        }
+
+        .tracking-step.completed::before {
+            background: #4caf50;
+        }
+
+        .tracking-step.pending::before {
+            background: #777;
+        }
+
+        .tracking-step.confirmed::before {
+            background: #2196f3;
+        }
+
+        .tracking-step.shipped::before {
+            background: #ff9800;
+        }
+
+        .tracking-step.out_for_delivery::before {
+            background: #9c27b0;
+        }
+
+        .tracking-step.delivered::before {
+            background: #4caf50;
+        }
+
+        .tracking-step.cancelled::before {
+            background: #f44336;
+        }
+
+        .tracking-date {
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
 </head>
+
 <body>
-  <h1>Your Orders</h1>
-  <div id="ordersContainer" class="orders-container">
-    <p>Loading your orders...</p>
-  </div>
+    <h1>Your Orders</h1>
+    <div id="ordersContainer" class="orders-container">
+        <p>Loading your orders...</p>
+    </div>
 
-  <script>
-    async function fetchOrders() {
-      try {
-        // 👇 Replace with your backend URL
-        const userId = localStorage.getItem("user_id"); 
-        if (!userId) {
-          document.getElementById("ordersContainer").innerHTML = "<p>No user logged in.</p>";
-          return;
+    <script>
+        // Set your hosted backend URL here!
+        const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
+
+        async function fetchOrders() {
+            try {
+                // 👇 CORRECTED: Use userEmail from localStorage and query parameter
+                const userEmail = localStorage.getItem("userEmail");
+                if (!userEmail) {
+                    document.getElementById("ordersContainer").innerHTML = "<p>Please log in to view your orders.</p>";
+                    return;
+                }
+
+                // CORRECTED: Use the correct backend route: /get-orders?email=...
+                const response = await fetch(`${HOSTED_BACKEND_URL}/get-orders?email=${userEmail}`);
+                const data = await response.json();
+
+                if (data.success && data.orders.length > 0) {
+                    renderOrders(data.orders, document.getElementById("ordersContainer"));
+                } else {
+                    document.getElementById("ordersContainer").innerHTML = "<p>You have not placed any orders yet.</p>";
+                }
+            } catch (err) {
+                console.error("Error fetching orders:", err);
+                document.getElementById("ordersContainer").innerHTML = "<p>Error loading orders. Please try again later.</p>";
+            }
         }
 
-        const response = await fetch(`/get-orders/${userId}`);
-        const data = await response.json();
+        function renderOrders(orders, container) {
+            container.innerHTML = ''; // Clear loading message
 
-        if (data.success) {
-          renderOrders(data.orders, document.getElementById("ordersContainer"));
+            orders.forEach(order => {
+                // Use 'status' for general order status, 'tracking_status' for the latest tracking step
+                const statusText = order.status ? order.status.toUpperCase() : 'PENDING';
+                const statusClass = order.status ? 'status-' + order.status.toLowerCase().replace(/\s/g, "_") : 'status-pending';
+
+                const orderDate = new Date(order.created_at).toLocaleString('en-IN', {
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+
+                // Items (parsed from JSON in the backend)
+                const itemDetails = (order.cart || []).map(item =>
+                    `<li>${item.name} (${item.quantity} x ₹${Number(item.price).toLocaleString('en-IN')})</li>`
+                ).join('');
+
+                // Tracking History
+                const historyHTML = (order.tracking_history || []).map(step => {
+                    const date = new Date(step.updated_at).toLocaleString('en-IN', {
+                        year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    });
+                    return `
+ <div class="tracking-step ${step.status.toLowerCase().replace(/\s/g, "_")}">
+ <div><strong>${step.status.toUpperCase()}</strong></div>
+ <div class="tracking-date">${date}</div>
+ </div>
+`;
+                }).join('');
+
+                container.innerHTML += `
+ <div class="order-card">
+ <div class="order-header">
+ <div class="order-id">Order ID: ${order.order_id.slice(-8).toUpperCase()}</div>
+ <div class="order-date">Placed On: ${orderDate}</div>
+ </div>
+ <div class="order-summary">
+ <div class="order-total">Total: ₹${Number(order.total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+ <div class="order-status ${statusClass}">${statusText}</div>
+ </div>
+ <p><strong>Shipping to:</strong> ${order.street}, ${order.city}, ${order.state} - ${order.zip}</p>
+ <ul class="order-item-list">${itemDetails}</ul>
+ <div class="tracking-history">
+ <h4>Tracking History</h4>
+ ${historyHTML}
+ </div>
+ </div>
+`;
+            });
+        }
+
+        // Check if the user is logged in before fetching orders
+        if (localStorage.getItem('userEmail')) {
+            fetchOrders();
         } else {
-          document.getElementById("ordersContainer").innerHTML = "<p>No orders found.</p>";
+            document.getElementById("ordersContainer").innerHTML = "<p>Please log in to view your orders.</p>";
         }
-      } catch (err) {
-        console.error("Error fetching orders:", err);
-        document.getElementById("ordersContainer").innerHTML = "<p>Error loading orders.</p>";
-      }
-    }
-
-    function renderOrders(orders, container) {
-      container.innerHTML = ''; // Clear loading message
-
-      orders.forEach(order => {
-        const statusText = order.status ? order.status.toUpperCase() : 'PENDING';
-        const statusClass = order.status ? 'status-' + order.status.toLowerCase().replace(/\s/g, "_") : 'status-pending';
-
-        const orderDate = new Date(order.created_at).toLocaleString('en-IN', {
-          year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-
-        const itemDetails = (order.cart || []).map(item =>
-          `<li>${item.name} (${item.quantity} x ₹${Number(item.price).toLocaleString('en-IN')})</li>`
-        ).join('');
-
-        // Tracking History
-        const historyHTML = (order.tracking_history || []).map(step => {
-          const date = new Date(step.updated_at).toLocaleString('en-IN', {
-            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-          });
-          return `
-            <div class="tracking-step ${step.status.toLowerCase().replace(/\s/g, "_")}">
-              <div><strong>${step.status.toUpperCase()}</strong></div>
-              <div class="tracking-date">${date}</div>
-            </div>
-          `;
-        }).join('');
-
-        container.innerHTML += `
-          <div class="order-card">
-            <div class="order-header">
-              <div class="order-id">Order ID: ${order.order_id.slice(-8).toUpperCase()}</div>
-              <div class="order-date">Placed On: ${orderDate}</div>
-            </div>
-            <div class="order-summary">
-              <div class="order-total">Total: ₹${Number(order.total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
-              <div class="order-status ${statusClass}">${statusText}</div>
-            </div>
-            <p><strong>Shipping to:</strong> ${order.street}, ${order.city}, ${order.state} - ${order.zip}</p>
-            <ul class="order-item-list">${itemDetails}</ul>
-            <div class="tracking-history">
-              <h4>Tracking History</h4>
-              ${historyHTML}
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    fetchOrders();
-  </script>
+    </script>
 </body>
+
 </html>
