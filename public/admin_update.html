@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Order Status Update</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; }
+        h1 { color: #2196f3; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-top: 20px; }
+        #message { margin-top: 20px; padding: 10px; border-radius: 4px; display: none; }
+        .success { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>📦 Update Order Tracking Status</h1>
+
+    <label for="orderId">Order ID:</label>
+    <input type="text" id="orderId" placeholder="Enter full Razorpay/Manual Order ID" required>
+
+    <label for="status">New Tracking Status:</label>
+    <select id="status" required>
+        <option value="confirmed">Confirmed</option>
+        <option value="shipped">Shipped</option>
+        <option value="out_for_delivery">Out for Delivery</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+    </select>
+
+    <button onclick="updateStatus()">Update Tracking</button>
+
+    <div id="message"></div>
+
+    <script>
+        // NOTE: Replace with your actual hosted backend URL if necessary
+        const BASE_URL = "/"; 
+
+        async function updateStatus() {
+            const order_id = document.getElementById('orderId').value.trim();
+            const tracking_status = document.getElementById('status').value;
+            const messageDiv = document.getElementById('message');
+
+            if (!order_id) {
+                showMessage("Please enter an Order ID.", 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}update-tracking/${order_id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tracking_status })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showMessage(`✅ Status for Order ${order_id.slice(-8).toUpperCase()} updated to **${tracking_status.toUpperCase()}**`, 'success');
+                } else {
+                    showMessage(`❌ Failed to update: ${data.message || 'Server error'}`, 'error');
+                }
+            } catch (err) {
+                console.error("Fetch Error:", err);
+                showMessage("❌ Network error or server connection failed.", 'error');
+            }
+        }
+
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = msg;
+            messageDiv.className = type;
+            messageDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
