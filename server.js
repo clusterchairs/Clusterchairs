@@ -243,19 +243,31 @@ app.post("/add-order", async (req, res) => {
 // Update Tracking (Admin can update)
 app.put("/update-tracking/:order_id", async (req, res) => {
   const { order_id } = req.params;
-  const { tracking_status } = req.body;
+  const { tracking_status, admin_email } = req.body;
 
-  if (!tracking_status) {
+  if (!tracking_status || !admin_email) {
     return res.status(400).json({ success: false, message: "Tracking status required" });
   }
 
   try {
+    // 1. CRITICAL SECURITY CHECK: Verify user is the designated admin
+    const [adminRows] = await db.query(
+      "SELECT id FROM users WHERE email = ? AND is_admin = 1",
+      [admin_email]
+    );
+
+    if (adminRows.length === 0) {
+      // Fail if the email is not found OR if is_admin is not 1
+      return res.status(403).json({ success: false, message: "Permission denied. Only the designated admin can update order status." });
+    }
+
+    // 2. Perform the update (only if admin check passed)
     await db.query(
       "UPDATE orders SET tracking_status = ? WHERE order_id = ?",
       [tracking_status, order_id]
     );
 
-    // Add a record in tracking history
+    // 3. Add a record in tracking history
     await db.query(
       "INSERT INTO tracking_history (order_id, status) VALUES (?, ?)",
       [order_id, tracking_status]
