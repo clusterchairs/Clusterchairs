@@ -287,24 +287,24 @@
                         year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                     });
                     return `
-            <div class="tracking-step ${step.status.toLowerCase().replace(/\s/g, "_")}">
-              <div><strong>${step.status.split('_').join(' ').toUpperCase()}</strong></div>
-              <div class="tracking-date">${date}</div>
-            </div>
-          `;
+ <div class="tracking-step ${step.status.toLowerCase().replace(/\s/g, "_")}">
+ <div><strong>${step.status.split('_').join(' ').toUpperCase()}</strong></div>
+ <div class="tracking-date">${date}</div>
+ </div>
+ `;
                 }).join('');
 
                 container.innerHTML += `
-          <div class="order-card">
-            <div class="order-header">
-              <div class="order-id">#${order.order_id.slice(-8).toUpperCase()}</div>
-              <div class="order-date">Placed On: ${orderDate}</div>
-            </div>
-            
-              <div class="order-summary">
-                <div class="order-total">Total: ₹${Number(order.total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
-                <div class="order-status ${statusClass}">${statusText}</div>
-              </div>
+ <div class="order-card">
+ <div class="order-header">
+ <div class="order-id">#${order.order_id.slice(-8).toUpperCase()}</div>
+ <div class="order-date">Placed On: ${orderDate}</div>
+ </div>
+ 
+            <div class="order-summary">
+   <div class="order-total">Total: ₹${Number(order.total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+   <div class="order-status ${statusClass}">${statusText}</div>
+ </div>
               <div class="delivery-info">
                   ${order.tracking_status === 'delivered'
                         ? '🎉 **Delivered**'
@@ -312,21 +312,21 @@
                     }
               </div>
 
-            <div class="shipping-details">
-              <strong>Shipping to:</strong> ${order.street}, ${order.city}, ${order.state} - ${order.zip}
-            </div>
+ <div class="shipping-details">
+ <strong>Shipping to:</strong> ${order.street}, ${order.city}, ${order.state} - ${order.zip}
+ </div>
 
-            <ul class="order-item-list">
+ <ul class="order-item-list">
                 <strong>Items:</strong>
                 ${itemDetails}
             </ul>
 
-            <div class="tracking-history">
-              <h4>Current Status: ${order.tracking_status.split('_').join(' ').toUpperCase()}</h4>
-              ${historyHTML}
-            </div>
-          </div>
-        `;
+ <div class="tracking-history">
+ <h4>Current Status: ${order.tracking_status.split('_').join(' ').toUpperCase()}</h4>
+ ${historyHTML}
+ </div>
+ </div>
+ `;
             });
         }
 
