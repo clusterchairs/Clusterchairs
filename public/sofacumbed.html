@@ -4,7 +4,8 @@
 <head>
     <title>Sofa Cumbed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css" /> 
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/utils.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
         /* Base Styles */
@@ -37,16 +38,18 @@
             font-size: 30px;
             margin-left: 15px;
             font-family: 'Protest Strike', sans-serif;
-            flex-grow: 1; /* Pushes nav links to the right */
+            flex-grow: 1;
+            /* Pushes nav links to the right */
         }
-        
+
         .nav-links {
-            display: flex; /* Ensures desktop links are visible and inline */
+            display: flex;
+            /* Ensures desktop links are visible and inline */
             align-items: center;
             gap: 20px;
             transition: all 0.3s ease-in-out;
         }
-        
+
         .nav-links a {
             color: #fff;
             text-decoration: none;
@@ -57,16 +60,18 @@
             width: 40px;
             vertical-align: middle;
         }
-        
+
         #cart-count {
             color: #fff;
-            font-size: 20px; /* Match link font size */
+            font-size: 20px;
+            /* Match link font size */
             margin-left: 4px;
         }
 
         /* --- HAMBURGER MENU STYLES --- */
         .hamburger {
-            display: none; /* Hidden by default on desktop */
+            display: none;
+            /* Hidden by default on desktop */
             background: transparent;
             border: none;
             cursor: pointer;
@@ -101,7 +106,8 @@
         /* --- CARD GRID STYLES (Product List) --- */
         .card-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Desktop: 4 columns */
+            grid-template-columns: repeat(4, 1fr);
+            /* Desktop: 4 columns */
             gap: 24px;
             justify-items: center;
             margin: 40px auto;
@@ -115,8 +121,10 @@
             border-radius: 10px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             width: 100%;
-            max-width: 320px; /* Max width to contain cards nicely */
-            min-height: 400px; /* Increased height for content uniformity */
+            max-width: 320px;
+            /* Max width to contain cards nicely */
+            min-height: 400px;
+            /* Increased height for content uniformity */
             padding: 14px 10px 18px 10px;
             text-align: center;
             display: flex;
@@ -130,7 +138,8 @@
         }
 
         .card p {
-            flex-grow: 1; /* Pushes the button to the bottom */
+            flex-grow: 1;
+            /* Pushes the button to the bottom */
             font-size: 0.9em;
             color: #555;
         }
@@ -179,13 +188,15 @@
 
         /* 📱 Tablet/Mobile View (Max 768px) - 2 columns & Mobile Menu */
         @media (max-width: 768px) {
+
             /* Navbar */
             .navbar {
                 padding: 10px 15px;
             }
 
             .location {
-                font-size: 24px; /* Reduced font size */
+                font-size: 24px;
+                /* Reduced font size */
             }
 
             .logo img {
@@ -200,7 +211,8 @@
             /* Mobile Menu Overlay */
             .nav-links {
                 position: fixed;
-                top: 70px; /* Below the navbar */
+                top: 70px;
+                /* Below the navbar */
                 right: 0;
                 width: 100%;
                 height: calc(100vh - 70px);
@@ -209,13 +221,15 @@
                 justify-content: flex-start;
                 align-items: center;
                 gap: 30px;
-                transform: translateX(100%); /* Start off-screen */
+                transform: translateX(100%);
+                /* Start off-screen */
                 padding-top: 40px;
                 z-index: 999;
             }
 
             .nav-links.active {
-                transform: translateX(0); /* Slide in */
+                transform: translateX(0);
+                /* Slide in */
             }
 
             .nav-links a {
@@ -224,23 +238,26 @@
 
             /* Product Grid */
             .card-container {
-                grid-template-columns: repeat(2, 1fr); /* Tablet size 2 cards */
+                grid-template-columns: repeat(2, 1fr);
+                /* Tablet size 2 cards */
                 gap: 16px;
                 padding: 0 15px;
             }
-            
+
             .card {
-                min-height: 380px; /* Adjusted min-height */
+                min-height: 380px;
+                /* Adjusted min-height */
             }
         }
 
         /* 📱 Very Small Mobile (Max 480px) - 1 column */
         @media (max-width: 480px) {
             .card-container {
-                grid-template-columns: 1fr; /* Single column layout */
+                grid-template-columns: 1fr;
+                /* Single column layout */
                 padding: 0 10px;
             }
-            
+
             .card {
                 max-width: 95%;
                 margin: 0 auto;
@@ -263,13 +280,13 @@
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
             <div class="location">Cluster Chairs</div>
         </a>
-        
+
         <button class="hamburger" id="hamburger">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
         </button>
-        
+
         <div class="nav-links" id="nav-links">
             <a href="/login.html" id="account-link" style="font-size: 20px;">Account & Lists</a>
             <a href="#" id="logout-link" style="font-size: 20px; display: none;">Logout</a>
@@ -294,7 +311,8 @@
             <h3>Friheten</h3>
             <p class="price">₹54,000</p>
             <p>Corner sofa-bed with storage, Faringe light grey</p>
-            <button class="add-to-cart-btn" data-name="Friheten" data-price="54000" data-img="/image/Friheten.jpg">Add to
+            <button class="add-to-cart-btn" data-name="Friheten" data-price="54000" data-img="/image/Friheten.jpg">Add
+                to
                 Cart</button>
         </div>
         <div class="card">

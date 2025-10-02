@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Office-Furniture</title>
+    <script src="/utils.js"></script>
     <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
@@ -13,7 +14,8 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Adding a light background */
+            background-color: #f4f4f4;
+            /* Adding a light background */
         }
 
         /* --- DESKTOP NAVBAR STYLES (REQUIRED FOR DEFAULT VIEW) --- */
@@ -35,7 +37,8 @@
         }
 
         .location {
-            font-size: 50px; /* Desktop size */
+            font-size: 50px;
+            /* Desktop size */
             margin-left: 20px;
             font-family: 'Protest Strike', sans-serif;
             line-height: 1.1;
@@ -44,7 +47,8 @@
         }
 
         .nav-links {
-            display: flex; /* Ensure desktop links are visible and inline */
+            display: flex;
+            /* Ensure desktop links are visible and inline */
             align-items: center;
             gap: 20px;
             transition: all 0.3s ease-in-out;
@@ -65,7 +69,8 @@
 
         #cart-count {
             color: #fff;
-            font-size: 20px; /* Adjusted to match link size */
+            font-size: 20px;
+            /* Adjusted to match link size */
             margin-left: 4px;
         }
 
@@ -110,7 +115,8 @@
         .img-wrapper {
             width: 100%;
             max-width: 250px;
-            height: 200px; /* Fixed height for consistent cards */
+            height: 200px;
+            /* Fixed height for consistent cards */
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -122,7 +128,7 @@
             height: 100%;
             object-fit: contain;
         }
-        
+
         /* --- HAMBURGER MENU STYLES --- */
         .hamburger {
             display: none;
@@ -173,19 +179,25 @@
 
         /* Mobile View (Max 768px) */
         @media (max-width: 768px) {
+
             /* Navbar Layout */
             .nav-links {
-                display: none; /* Hide default navigation */
+                display: none;
+                /* Hide default navigation */
                 flex-direction: column;
-                position: fixed; /* Use fixed instead of absolute to cover viewport */
+                position: fixed;
+                /* Use fixed instead of absolute to cover viewport */
                 top: 70px;
                 left: 0;
                 width: 100%;
-                height: 100vh; /* Full viewport height */
-                background: rgb(80, 40, 40); /* Slightly darker background for overlay */
+                height: 100vh;
+                /* Full viewport height */
+                background: rgb(80, 40, 40);
+                /* Slightly darker background for overlay */
                 padding: 15px 0;
                 text-align: center;
-                gap: 20px; /* Spacing between mobile links */
+                gap: 20px;
+                /* Spacing between mobile links */
             }
 
             .nav-links.show {
@@ -209,7 +221,7 @@
             .logo img {
                 height: 50px;
             }
-            
+
             /* Content Grid */
             .deals-grid {
                 /* Single column for mobile view */

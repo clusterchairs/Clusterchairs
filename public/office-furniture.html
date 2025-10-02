@@ -5,6 +5,7 @@
     <title>Office-Furniture</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/office.css">
+    <script src="/utils.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
 
     <style>
@@ -13,7 +14,8 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Adding a light background */
+            background-color: #f4f4f4;
+            /* Adding a light background */
         }
 
         /* --- NAVBAR STYLES --- */
@@ -36,17 +38,20 @@
 
         .location {
             font-size: 50px;
-            margin-left: 20px; /* Adjusted for better flow */
+            margin-left: 20px;
+            /* Adjusted for better flow */
             font-family: 'Protest Strike', sans-serif;
             line-height: 1.1;
             letter-spacing: 2px;
-            flex-grow: 1; /* Pushes nav-links to the right */
+            flex-grow: 1;
+            /* Pushes nav-links to the right */
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 20px; /* Spacing between desktop links */
+            gap: 20px;
+            /* Spacing between desktop links */
             transition: all 0.3s ease-in-out;
         }
 
@@ -59,12 +64,14 @@
 
         .cart {
             width: 40px;
-            height: 40px; /* Explicit height to override inline style */
+            height: 40px;
+            /* Explicit height to override inline style */
         }
 
         /* --- HAMBURGER MENU STYLES --- */
         .hamburger {
-            display: none; /* Hidden on desktop */
+            display: none;
+            /* Hidden on desktop */
             background: transparent;
             border: none;
             cursor: pointer;
@@ -81,7 +88,7 @@
             border-radius: 3px;
             transition: all 0.3s ease-in-out;
         }
-        
+
         /* --- CONTENT GRID STYLES (Assuming /office.css contains more detailed styles) --- */
         .deals-main {
             max-width: 1200px;
@@ -97,7 +104,8 @@
 
         .deals-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Desktop: Flexible grid */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* Desktop: Flexible grid */
             gap: 20px;
             justify-content: center;
         }
@@ -172,7 +180,8 @@
             /* Mobile Menu Overlay */
             .nav-links {
                 position: fixed;
-                top: 70px; /* Based on new navbar height */
+                top: 70px;
+                /* Based on new navbar height */
                 right: 0;
                 width: 100%;
                 height: calc(100vh - 70px);
@@ -180,20 +189,22 @@
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: center;
-                transform: translateX(100%); /* Hidden off-screen */
+                transform: translateX(100%);
+                /* Hidden off-screen */
                 padding-top: 40px;
                 gap: 30px;
                 z-index: 999;
             }
 
             .nav-links.active {
-                transform: translateX(0); /* Slide in */
+                transform: translateX(0);
+                /* Slide in */
             }
 
             .nav-links a {
                 font-size: 22px !important;
             }
-            
+
             /* Content Grid Adjustments */
             .deals-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -206,7 +217,7 @@
                 /* Optional: Hide text for very small screens */
                 display: none;
             }
-            
+
             .deals-main {
                 padding: 0 10px;
             }

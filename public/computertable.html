@@ -7,6 +7,7 @@
     <title>Café-Furniture</title>
     <link rel="stylesheet" href="/style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <script src="/utils.js"></script>
     <style>
         /* Base Reset */
         body,
@@ -60,7 +61,8 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 20px; /* Use gap instead of margin-left */
+            gap: 20px;
+            /* Use gap instead of margin-left */
             transition: all 0.3s ease-in-out;
         }
 
@@ -77,7 +79,8 @@
 
         /* 2. Hamburger Icon */
         .hamburger {
-            display: none; /* Hidden on desktop/tablet by default */
+            display: none;
+            /* Hidden on desktop/tablet by default */
             flex-direction: column;
             cursor: pointer;
             z-index: 1001;
@@ -92,7 +95,7 @@
             border-radius: 5px;
             transition: all 0.3s ease-in-out;
         }
-        
+
         /* Hamburger Active State (Icon to 'X') */
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translate(5px, 5px);
@@ -108,20 +111,22 @@
 
         /* Mobile Menu Panel (Hidden by default on mobile) */
         .nav-links.active {
-            display: flex !important; /* Force display to flex on mobile when active */
+            display: flex !important;
+            /* Force display to flex on mobile when active */
             flex-direction: column;
             width: 100%;
             background: rgb(80, 40, 40);
             position: fixed;
-            top: 80px; /* Below navbar */
+            top: 80px;
+            /* Below navbar */
             left: 0;
-            height: calc(100vh - 80px); 
+            height: calc(100vh - 80px);
             padding: 20px 0;
             text-align: center;
             z-index: 999;
             gap: 20px;
         }
-        
+
         .nav-links.active a {
             font-size: 20px;
         }
@@ -130,7 +135,8 @@
         /* 3. Card Grid Styles */
         .card-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Desktop default */
+            grid-template-columns: repeat(4, 1fr);
+            /* Desktop default */
             gap: 24px;
             justify-items: center;
             margin: 40px auto;
@@ -144,7 +150,8 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 280px;
-            min-height: 380px; /* Increased min-height for uniform look */
+            min-height: 380px;
+            /* Increased min-height for uniform look */
             padding: 14px 10px 18px 10px;
             text-align: center;
             display: flex;
@@ -166,7 +173,8 @@
         }
 
         .card p:not(.price) {
-            flex-grow: 1; /* Pushes the button down */
+            flex-grow: 1;
+            /* Pushes the button down */
             font-size: 0.9em;
             color: #555;
             margin-bottom: 10px;
@@ -195,22 +203,24 @@
         /* Tablet View (Max 1024px) */
         @media (max-width: 1024px) {
             .card-container {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns on larger tablets */
+                grid-template-columns: repeat(3, 1fr);
+                /* 3 columns on larger tablets */
                 max-width: 900px;
             }
         }
-        
+
         /* Smaller Tablet View (Max 800px) */
         @media (max-width: 800px) {
             .card-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller tablets */
+                grid-template-columns: repeat(2, 1fr);
+                /* 2 columns on smaller tablets */
                 gap: 20px;
             }
         }
 
         /* Mobile View (Max 768px) */
         @media (max-width: 768px) {
-            
+
             /* HIDE NAV LINKS ON MOBILE (default state) */
             .nav-links {
                 display: none;
@@ -221,7 +231,8 @@
                 height: calc(100vh - 80px);
                 background: rgb(80, 40, 40);
                 flex-direction: column;
-                transform: translateX(100%); /* Start off-screen */
+                transform: translateX(100%);
+                /* Start off-screen */
                 transition: transform 0.3s ease-in-out;
             }
 
@@ -237,7 +248,8 @@
             }
 
             .card-container {
-                grid-template-columns: 1fr; /* 1 column on mobile */
+                grid-template-columns: 1fr;
+                /* 1 column on mobile */
                 max-width: 400px;
                 margin: 20px auto;
             }
@@ -300,8 +312,8 @@
             <h3>Verner Computer Table</h3>
             <p class="price">₹15,000</p>
             <p><strong>Verner Computer Desk | Walnut</strong></p>
-            <button class="add-to-cart-btn" data-name="Verner Table" data-price="15000"
-                data-img="/image/verner.jpg">Add to
+            <button class="add-to-cart-btn" data-name="Verner Table" data-price="15000" data-img="/image/verner.jpg">Add
+                to
                 Cart</button>
         </div>
 
@@ -310,8 +322,8 @@
             <h3>Hutch Computer Table</h3>
             <p class="price">₹20,000</p>
             <p>Home Office Computer Table with Hutch and Monitor Shelf, Modern Writing Desk with Drawers and Shelves</p>
-            <button class="add-to-cart-btn" data-name="Hutch Table" data-price="20000"
-                data-img="/image/hutch.jpg">Add to
+            <button class="add-to-cart-btn" data-name="Hutch Table" data-price="20000" data-img="/image/hutch.jpg">Add
+                to
                 Cart</button>
         </div>
 
@@ -359,27 +371,27 @@
             style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
         </div>
 
-    <script>
-        const hamburger = document.getElementById("hamburger");
-        const navLinks = document.getElementById("nav-links");
+        <script>
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
 
-        hamburger.addEventListener("click", () => {
-            // Toggles the 'active' class on both elements
-            navLinks.classList.toggle("active");
-            hamburger.classList.toggle("active");
-        });
-        
-        // Optional: Close menu when a link is clicked
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                // Only close if the mobile menu is open
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    hamburger.classList.remove('active');
-                }
+            hamburger.addEventListener("click", () => {
+                // Toggles the 'active' class on both elements
+                navLinks.classList.toggle("active");
+                hamburger.classList.toggle("active");
             });
-        });
-    </script>
+
+            // Optional: Close menu when a link is clicked
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Only close if the mobile menu is open
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    }
+                });
+            });
+        </script>
 </body>
 
 </html>

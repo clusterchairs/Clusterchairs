@@ -7,6 +7,7 @@
   <title>ClusterChairs - Cart</title>
   <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="/utils.js"></script>
   <style>
     /* Base Reset */
     body,
@@ -492,7 +493,7 @@
 
     /* Update cart-item details/button positioning for mobile */
     @media (max-width: 768px) {
-      
+
 
       /* NEW style to handle both buttons */
       .cart-item>div:last-child {
@@ -555,7 +556,6 @@
 
     <button class="pay-btn" id="pay-now-btn">Pay Now</button>
   </div>
-
   <script>
     // --- Navbar Toggle Logic ---
     const hamburger = document.getElementById("hamburger");
@@ -580,14 +580,15 @@
     const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
 
     document.addEventListener('DOMContentLoaded', () => {
-      const email = localStorage.getItem('userEmail');
+      const email = getCookie('userEmail');
       document.getElementById('user-email').textContent = email ? email : '';
 
-      document.getElementById('logout-link').addEventListener('click', function (e) {
+      document.getElementById('logout-link').addEventListener('click', async function (e) {
         e.preventDefault();
+        await fetch(`${HOSTED_BACKEND_URL}/logout`, { method: 'POST' });
         localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userEmail');
         localStorage.removeItem('cart');
+        document.cookie = 'userEmail=; Max-Age=0; path=/';
         window.location.href = '/login.html';
       });
 
@@ -691,8 +692,11 @@
 
       // Calculate total amount in base currency (INR)
       const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
-      const userEmail = localStorage.getItem('userEmail');
-
+      const userEmail = getCookie('userEmail');
+      if (!userEmail) {
+        alert("Authentication failed. Please log in again.");
+        return;
+      }
       try {
         // 1. Create Razorpay order on backend
         const orderRes = await fetch(`${HOSTED_BACKEND_URL}/create-order`, {

@@ -7,10 +7,12 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const dbConfig = {
@@ -76,12 +78,51 @@ app.post("/login", async (req, res) => {
     if (!match) {
       return res.status(400).json({ success: false, message: "Invalid password" });
     }
-    res.json({ success: true, message: "Login successful" });
+
+    // 1. Set a secure, HTTP-only cookie to track the user's session 🍪
+    res.cookie('userToken', user.email, {
+      httpOnly: true, // Prevents client-side JavaScript access (security)
+      secure: process.env.NODE_ENV === 'production', // Use secure in production (HTTPS)
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days expiration
+      sameSite: 'strict' // Good for security
+    });
+
+    // 2. We can also set a regular cookie for client-side use (like displaying the email)
+    res.cookie('userEmail', user.email, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
+
+    res.json({ success: true, message: "Login successful", email: user.email });
   } catch (err) {
     console.error("❌ Error in /login:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+// NEW LOGOUT ROUTE: To clear the cookies
+app.post("/logout", (req, res) => {
+  // Clear both cookies by setting their expiration date to the past
+  res.clearCookie('userToken'); // ⬅️ NEW
+  res.clearCookie('userEmail'); // ⬅️ NEW
+  res.json({ success: true, message: "Logged out successfully" });
+});
+
+
+// NEW MIDDLEWARE for Auth Check (Optional, but best practice)
+function protectRoute(req, res, next) {
+  const userEmail = req.cookies.userToken;
+
+  if (!userEmail) {
+    // Redirect or send an error if the token is missing
+    return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
+  }
+
+  // Attach the user email to the request object for use in subsequent routes
+  req.userEmail = userEmail;
+  next();
+}
 
 // ======================== CART (NEW) ========================
 
@@ -312,7 +353,7 @@ app.put("/update-tracking/:order_id", async (req, res) => {
 });
 
 // Get Orders for a specific user
-app.get("/get-orders", async (req, res) => {
+app.get("/get-orders", protectRoute, async (req, res) => {
   const user_email = req.query.email;
 
   if (!user_email) {

@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up | ClusterChairs</title>
+    <script src="/utils.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <style>
         /* Base Styles */
@@ -27,7 +28,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            min-height: 60px; /* Ensure height for sticky effect */
+            min-height: 60px;
+            /* Ensure height for sticky effect */
         }
 
         .navbar .logo {
@@ -79,7 +81,7 @@
             border-radius: 5px;
             transition: all 0.3s ease-in-out;
         }
-        
+
         /* Hamburger Active State (Icon to 'X') */
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translate(5px, 5px);
@@ -114,7 +116,8 @@
             margin-bottom: 14px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            box-sizing: border-box; /* Crucial for responsiveness */
+            box-sizing: border-box;
+            /* Crucial for responsiveness */
         }
 
         button {
@@ -143,23 +146,27 @@
 
         /* Mobile View (Max 768px) */
         @media (max-width: 768px) {
-            
+
             /* Hide Desktop Nav and Show Hamburger */
             .nav-links {
-                display: none; /* Hide by default */
+                display: none;
+                /* Hide by default */
                 position: fixed;
-                top: 80px; /* Adjust based on navbar height */
+                top: 80px;
+                /* Adjust based on navbar height */
                 right: 0;
                 width: 100%;
                 height: calc(100vh - 80px);
                 background: rgb(80, 40, 40);
                 flex-direction: column;
-                transform: translateX(100%); /* Start off-screen */
+                transform: translateX(100%);
+                /* Start off-screen */
             }
 
             .nav-links.active {
                 display: flex;
-                transform: translateX(0); /* Slide in */
+                transform: translateX(0);
+                /* Slide in */
                 gap: 20px;
                 padding-top: 40px;
             }
@@ -167,7 +174,7 @@
             .hamburger {
                 display: flex;
             }
-            
+
             .nav-links.active a {
                 font-size: 20px;
             }
@@ -175,11 +182,12 @@
             .location {
                 font-size: 18px;
             }
-            
+
             /* Form Container Adjustments */
             .container {
                 margin: 20px auto;
-                max-width: 90%; /* Use percentage for smaller screens */
+                max-width: 90%;
+                /* Use percentage for smaller screens */
                 padding: 20px;
             }
         }
@@ -191,7 +199,8 @@
     <header class="navbar">
         <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
             <!-- Placeholder for Logo Image -->
-            <div class="logo"><img src="/image/logo.png" alt="Logo" style="height: 40px; width: 40px; border-radius: 4px;"></div>
+            <div class="logo"><img src="/image/logo.png" alt="Logo"
+                    style="height: 40px; width: 40px; border-radius: 4px;"></div>
             <div class="location">Cluster Chairs</div>
         </a>
 
@@ -207,7 +216,7 @@
             <a href="/login.html" id="account-link">Login</a>
         </div>
     </header>
-    
+
     <!-- Sign Up Form -->
     <div class="container">
         <h2>Create Account</h2>
@@ -222,7 +231,8 @@
             <button onclick="verifyOTP()">Verify OTP & Register</button>
         </div>
         <p id="message"></p>
-        <p style="text-align:center; font-size: 0.9em; margin-top: 15px;">Already have an account? <a href="/login.html" style="color:#a05252; text-decoration: none; font-weight: bold;">Login here</a></p>
+        <p style="text-align:center; font-size: 0.9em; margin-top: 15px;">Already have an account? <a href="/login.html"
+                style="color:#a05252; text-decoration: none; font-weight: bold;">Login here</a></p>
     </div>
 
     <!-- EmailJS SDK -->
@@ -236,7 +246,7 @@
             navLinks.classList.toggle("active");
             hamburger.classList.toggle("active");
         });
-        
+
         // Close menu when a link is clicked
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
@@ -273,14 +283,14 @@
                 otp: generatedOTP,
                 email: email
             })
-            .then(() => {
-                showMessage("✅ OTP sent to your email!");
-                document.getElementById("otp-section").style.display = "block";
-            })
-            .catch(err => {
-                console.error("EmailJS Error:", err);
-                showMessage("❌ Error sending OTP!");
-            });
+                .then(() => {
+                    showMessage("✅ OTP sent to your email!");
+                    document.getElementById("otp-section").style.display = "block";
+                })
+                .catch(err => {
+                    console.error("EmailJS Error:", err);
+                    showMessage("❌ Error sending OTP!");
+                });
         }
 
         function verifyOTP() {
@@ -302,31 +312,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(user)
                 })
-                .then(res => {
-                    // Assuming a successful response structure like: { success: true }
-                    if (res.ok) {
-                        return { success: true };
-                    } else {
-                        return res.json().catch(() => ({ success: false, message: "Registration failed." }));
-                    }
-                })
-                .then(data => {
-                    if (data.success) {
-                        showMessage("🎉 Registration Successful! Redirecting to login...");
-                        setTimeout(() => { window.location.href = "/login.html"; }, 1500);
-                    } else {
-                        showMessage("❌ " + (data.message || "Registration failed."));
-                    }
-                })
-                .catch(() => {
-                    showMessage("❌ Server or Network error during registration!");
-                });
+                    .then(res => {
+                        // Assuming a successful response structure like: { success: true }
+                        if (res.ok) {
+                            return { success: true };
+                        } else {
+                            return res.json().catch(() => ({ success: false, message: "Registration failed." }));
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            showMessage("🎉 Registration Successful! Redirecting to login...");
+                            setTimeout(() => { window.location.href = "/login.html"; }, 1500);
+                        } else {
+                            showMessage("❌ " + (data.message || "Registration failed."));
+                        }
+                    })
+                    .catch(() => {
+                        showMessage("❌ Server or Network error during registration!");
+                    });
 
             } else {
                 showMessage("❌ Invalid OTP!");
             }
         }
     </script>
+
 </body>
 
 </html>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer-Furniture</title>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
-
+    <script src="/utils.js"></script>
     <style>
         /* Base and Reset Styles */
         body,
@@ -81,7 +81,8 @@
         /* 2. Hamburger Menu Styles */
         /* ==================================== */
         .hamburger {
-            display: none; /* Hidden on desktop/tablet by default */
+            display: none;
+            /* Hidden on desktop/tablet by default */
             flex-direction: column;
             cursor: pointer;
             padding: 5px;
@@ -114,7 +115,7 @@
         /* Mobile Menu Panel */
         .nav-links {
             /* Desktop/Tablet - normal flow */
-            transform: translateX(0); 
+            transform: translateX(0);
         }
 
         /* Mobile Menu ACTIVE STATE (Hamburger menu is open) */
@@ -124,16 +125,19 @@
             width: 100%;
             background: rgb(80, 40, 40);
             position: fixed;
-            top: 80px; /* Below navbar */
+            top: 80px;
+            /* Below navbar */
             left: 0;
-            height: calc(100vh - 80px); /* Fill remaining viewport */
+            height: calc(100vh - 80px);
+            /* Fill remaining viewport */
             padding: 20px 0;
             text-align: center;
             z-index: 999;
-            transform: translateX(0); /* Slide into view */
+            transform: translateX(0);
+            /* Slide into view */
             gap: 20px;
         }
-        
+
         .nav-links.active a {
             font-size: 20px;
             padding: 10px 0;
@@ -172,7 +176,8 @@
             max-width: 400px;
             box-sizing: border-box;
             transition: transform 0.2s;
-            min-height: 250px; /* Ensure better uniformity */
+            min-height: 250px;
+            /* Ensure better uniformity */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -193,7 +198,8 @@
             width: 100%;
             height: auto;
             max-width: 350px;
-            max-height: 180px; /* Limit image height */
+            max-height: 180px;
+            /* Limit image height */
             object-fit: contain;
             border-radius: 4px;
             display: block;
@@ -221,7 +227,8 @@
                 width: 100%;
                 height: calc(100vh - 80px);
                 background: rgb(80, 40, 40);
-                transform: translateX(100%); /* Start off-screen */
+                transform: translateX(100%);
+                /* Start off-screen */
             }
 
             /* SHOW HAMBURGER ICON ON MOBILE */
@@ -294,7 +301,6 @@
             </div>
         </div>
     </main>
-
     <script>
         const hamburger = document.getElementById("hamburger");
         const navLinks = document.getElementById("nav-links");

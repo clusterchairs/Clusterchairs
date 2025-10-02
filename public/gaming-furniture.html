@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gaming-Furniture</title>
+    <script src="/utils.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -81,7 +82,7 @@
             color: #febd69;
         }
 
-        
+
         /*
         |--------------------------------------------------------------------------
         | 2. CARD CONTAINER STYLES
@@ -109,7 +110,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 380px; /* Ensures uniform height */
+            min-height: 380px;
+            /* Ensures uniform height */
         }
 
         .card img {
@@ -119,11 +121,12 @@
             object-fit: contain;
             margin-bottom: 15px;
         }
-        
+
         .card p {
             font-size: 0.9em;
             color: #555;
-            flex-grow: 1; /* Pushes the button down */
+            flex-grow: 1;
+            /* Pushes the button down */
             margin-bottom: 15px;
         }
 
@@ -185,7 +188,8 @@
 
         /* Mobile Menu ACTIVE STATE (Hamburger open) */
         .nav-links.show {
-            display: flex !important; /* Override the display: none in mobile query */
+            display: flex !important;
+            /* Override the display: none in mobile query */
             flex-direction: column;
             position: fixed;
             top: 80px;
@@ -196,11 +200,13 @@
             padding: 20px 0;
             text-align: center;
             z-index: 999;
-            gap: 30px; /* Increased gap for better mobile tap targets */
+            gap: 30px;
+            /* Increased gap for better mobile tap targets */
         }
 
         .nav-links.show a {
-            margin: 0; /* Remove horizontal margin from list layout */
+            margin: 0;
+            /* Remove horizontal margin from list layout */
             font-size: 20px;
         }
 
@@ -213,11 +219,12 @@
         /* Tablet View (2 columns for cards, 769px to 1024px) */
         @media (max-width: 1024px) {
             .card-container {
-                grid-template-columns: repeat(3, 1fr); /* Changed to 3 columns for better use of space */
+                grid-template-columns: repeat(3, 1fr);
+                /* Changed to 3 columns for better use of space */
             }
 
         }
-        
+
         /* Smaller Tablet View (Max 850px) - Adjust to 2 columns */
         @media (max-width: 850px) {
             .card-container {
@@ -229,12 +236,14 @@
 
         /* Mobile View (1 column for cards, Hamburger visible, 768px and below) */
         @media (max-width: 768px) {
+
             /* Navbar adjustments */
             .navbar {
                 padding: 10px 15px;
-                min-height: 70px; /* Ensure space for logo and hamburger */
+                min-height: 70px;
+                /* Ensure space for logo and hamburger */
             }
-            
+
             .logo img {
                 height: 50px;
             }
@@ -243,12 +252,13 @@
                 font-size: 20px;
                 margin-left: 10px;
             }
-            
+
 
 
             /* HIDE NAV LINKS ON MOBILE BY DEFAULT */
             .nav-links {
-                display: none; /* Hidden by default, shown by .show class */
+                display: none;
+                /* Hidden by default, shown by .show class */
             }
 
             /* SHOW HAMBURGER ICON ON MOBILE */
@@ -263,9 +273,10 @@
                 margin: 20px auto;
                 padding: 0 15px;
             }
-            
+
             .card {
-                min-height: auto; /* Allow height to adjust for single column */
+                min-height: auto;
+                /* Allow height to adjust for single column */
                 max-width: 100%;
                 padding: 15px;
             }
@@ -352,7 +363,7 @@
             // Toggles the 'active' class to animate the hamburger icon to an 'X'
             hamburger.classList.toggle("active");
         });
-        
+
         // Optional: Close menu when a link is clicked
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
