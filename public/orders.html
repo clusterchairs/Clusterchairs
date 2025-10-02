@@ -238,7 +238,7 @@
 
         async function fetchOrders() {
             try {
-                const userEmail = localStorage.getItem("userEmail");
+                const userEmail = getCookie("userEmail");
 
                 if (!userEmail) {
                     document.getElementById("ordersContainer").innerHTML = "<p style='text-align: center; color: var(--danger-color);'>Please log in to view your orders.</p>";
@@ -329,7 +329,7 @@
         }
 
         // Start fetching only if user is logged in
-        if (localStorage.getItem('userEmail')) {
+        if (getCookie('userEmail')) {
             fetchOrders();
         } else {
             document.getElementById("ordersContainer").innerHTML = "<p style='text-align: center; color: var(--danger-color);'>Please log in to view your orders.</p>";
