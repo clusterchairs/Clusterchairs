@@ -84,14 +84,14 @@ app.post("/login", async (req, res) => {
       httpOnly: true, // Prevents client-side JavaScript access (security)
       secure: process.env.NODE_ENV === 'production', // Use secure in production (HTTPS)
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days expiration
-      sameSite: 'strict' // Good for security
+      sameSite: 'Lax' // Good for security
     });
 
     // 2. We can also set a regular cookie for client-side use (like displaying the email)
     res.cookie('userEmail', user.email, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+      sameSite: 'Lax'
     });
 
     res.json({ success: true, message: "Login successful", email: user.email });
@@ -313,9 +313,13 @@ app.post("/add-order", async (req, res) => {
 });
 
 // Update Tracking (Admin can update)
-app.put("/update-tracking/:order_id", async (req, res) => {
+app.put("/update-tracking/:order_id", protectRoute, async (req, res) => {
   const { order_id } = req.params;
-  const { tracking_status, admin_email } = req.body;
+  const { tracking_status } = req.body;
+
+  // 2. Use the securely stored email from the cookie (attached by middleware)
+  const admin_email = req.userEmail; // <-- Change: Use req.userEmail
+
 
   if (!tracking_status || !admin_email) {
     return res.status(400).json({ success: false, message: "Tracking status required" });

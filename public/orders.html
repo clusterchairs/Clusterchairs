@@ -219,15 +219,11 @@
     <div id="ordersContainer" class="orders-container">
         <p style="text-align: center; color: #666;">Loading your orders...</p>
     </div>
-
-
     <script>
         // --- Configuration ---
         // Ensure this is set to your actual backend URL
         const HOSTED_BACKEND_URL = '/'; // Use '/' if running locally, or your actual full URL
-
         // --- Helper Functions ---
-
         function getEstimatedDeliveryDate(createdDate) {
             const date = new Date(createdDate);
             date.setDate(date.getDate() + 15); // Add 15 days
@@ -235,20 +231,16 @@
                 year: 'numeric', month: 'long', day: 'numeric'
             });
         }
-
         async function fetchOrders() {
             try {
                 const userEmail = getCookie("userEmail");
-
                 if (!userEmail) {
                     document.getElementById("ordersContainer").innerHTML = "<p style='text-align: center; color: var(--danger-color);'>Please log in to view your orders.</p>";
                     return;
                 }
-
                 // Correctly passing email as a query parameter
-                const response = await fetch(`${HOSTED_BACKEND_URL}get-orders?email=${userEmail}`);
+                const response = await fetch(`${HOSTED_BACKEND_URL}get-orders`);
                 const data = await response.json();
-
                 if (data.success && data.orders.length > 0) {
                     renderOrders(data.orders, document.getElementById("ordersContainer"));
                 } else {
@@ -259,26 +251,20 @@
                 document.getElementById("ordersContainer").innerHTML = "<p style='text-align: center; color: var(--danger-color);'>Error loading orders. Please check your connection.</p>";
             }
         }
-
         function renderOrders(orders, container) {
             container.innerHTML = ''; // Clear loading message
-
             orders.forEach(order => {
                 const statusText = order.status ? order.status.toUpperCase() : 'PENDING';
                 const statusClass = order.status ? 'status-' + order.status.toLowerCase().replace(/\s/g, "_") : 'status-pending';
-
                 const orderDate = new Date(order.created_at).toLocaleString('en-IN', {
                     year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                 });
-
                 // NEW: Calculate estimated delivery date
                 const estimatedDelivery = getEstimatedDeliveryDate(order.created_at);
-
                 // Items (The 'cart' property is parsed JSON from 'items' in the backend)
                 const itemDetails = (order.cart || []).map(item =>
                     `<li>${item.item_name} (${item.quantity} x ₹${Number(item.item_price).toLocaleString('en-IN')})</li>`
                 ).join('');
-
                 // Tracking History
                 const historyHTML = (order.tracking_history || []).map(step => {
                     const date = new Date(step.updated_at).toLocaleString('en-IN', {
@@ -291,14 +277,12 @@
  </div>
  `;
                 }).join('');
-
                 container.innerHTML += `
  <div class="order-card">
  <div class="order-header">
  <div class="order-id">#${order.order_id.slice(-8).toUpperCase()}</div>
  <div class="order-date">Placed On: ${orderDate}</div>
  </div>
- 
             <div class="order-summary">
    <div class="order-total">Total: ₹${Number(order.total_amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
    <div class="order-status ${statusClass}">${statusText}</div>
@@ -309,16 +293,13 @@
                         : `🚚 Estimated Delivery: **${estimatedDelivery}**`
                     }
               </div>
-
  <div class="shipping-details">
  <strong>Shipping to:</strong> ${order.street}, ${order.city}, ${order.state} - ${order.zip}
  </div>
-
  <ul class="order-item-list">
                 <strong>Items:</strong>
                 ${itemDetails}
             </ul>
-
  <div class="tracking-history">
  <h4>Current Status: ${order.tracking_status.split('_').join(' ').toUpperCase()}</h4>
  ${historyHTML}
@@ -327,7 +308,6 @@
  `;
             });
         }
-
         // Start fetching only if user is logged in
         if (getCookie('userEmail')) {
             fetchOrders();
