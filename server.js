@@ -354,7 +354,7 @@ app.put("/update-tracking/:order_id", async (req, res) => {
 
 // Get Orders for a specific user
 app.get("/get-orders", protectRoute, async (req, res) => {
-  const user_email = req.query.email;
+  const user_email = req.userEmail;
 
   if (!user_email) {
     return res.status(400).json({ success: false, message: "User email is required." });
