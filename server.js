@@ -170,6 +170,37 @@ app.delete("/cart/clear", async (req, res) => {
   }
 });
 
+//======================== CART (NEW) ======================== section.
+
+
+// Remove a Specific Item (all quantities) from Cart
+app.delete("/cart/remove-item", async (req, res) => {
+  const { user_email, item_name } = req.body; // Remove by name only, price can be ambiguous
+
+  if (!user_email || !item_name) {
+    return res.status(400).json({ success: false, message: "User email and item name are required" });
+  }
+
+  try {
+    const user_id = await getUserIdByEmail(user_email);
+
+    // Delete all rows matching the user_id and item_name
+    const [result] = await db.query(
+      "DELETE FROM cart_items WHERE user_id = ? AND item_name = ?",
+      [user_id, item_name]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Item not found in cart" });
+    }
+
+    res.json({ success: true, message: "Item removed from cart" });
+  } catch (err) {
+    console.error("❌ Error in /cart/remove-item:", err.message);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 
 
 // ======================== ORDERS ========================
@@ -204,8 +235,8 @@ app.post("/add-order", async (req, res) => {
     const user_id = await getUserIdByEmail(user_email);
 
     await db.query(
-      `INSERT INTO orders 
-      (user_id, order_id, payment_id, items, total_amount, status, tracking_status, street, city, state, zip) 
+      `INSERT INTO orders
+      (user_id, order_id, payment_id, items, total_amount, status, tracking_status, street, city, state, zip)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user_id,
@@ -297,8 +328,8 @@ app.get("/get-orders", async (req, res) => {
 
     const [orderRows] = await db.query(
       `SELECT order_id, payment_id, items, total_amount, status, tracking_status, street, city, state, zip, created_at, updated_at
-       FROM orders 
-       WHERE user_id = ? 
+       FROM orders
+       WHERE user_id = ?
        ORDER BY created_at DESC`,
       [user_id]
     );

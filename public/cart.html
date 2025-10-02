@@ -472,6 +472,35 @@
 
       }
     }
+
+    .remove-all-btn {
+      background: #a83d3d;
+      /* A slightly darker/more distinct red */
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .remove-all-btn:hover {
+      background: #7a2b2b;
+    }
+
+    /* Update cart-item details/button positioning for mobile */
+    @media (max-width: 768px) {
+      .cart-item {
+        /* ... existing styles ... */
+      }
+
+      /* NEW style to handle both buttons */
+      .cart-item>div:last-child {
+        align-self: flex-end;
+      }
+    }
   </style>
 </head>
 
@@ -597,7 +626,10 @@
                                         <div class="name">${item.name}</div>
                                         <div>₹${Number(item.price).toLocaleString()} x ${item.quantity} = ₹${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                                     </div>
-                                    <button class="remove-btn" onclick="removeFromCart('${item.name}','${item.price}')">Remove</button>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="remove-btn" onclick="removeFromCart('${item.name}','${item.price}')">Remove One</button>
+                                    <button class="remove-all-btn" onclick="removeAllOfItem('${item.name}','${item.price}')">Remove All</button>
+                                </div>
                                 </div>
                             `;
       });
@@ -619,6 +651,27 @@
         renderCart();
       }
     }
+
+    // New function to remove all quantities of a specific item
+    function removeAllOfItem(name, price) {
+      if (!confirm(`Are you sure you want to remove all ${name} items from your cart?`)) {
+        return; // User cancelled
+      }
+
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      // Filter out the item matching both name and price
+      const newCart = cart.filter(item =>
+        !(item.name === name && item.price.toString() === price.toString())
+      );
+
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      renderCart();
+
+      // If you switch to the database cart, you would call your backend endpoint here:
+      // fetch(`${HOSTED_BACKEND_URL}/cart/remove-item`, { method: 'DELETE', body: JSON.stringify({ user_email: localStorage.getItem('userEmail'), item_name: name }) });
+    }
+
+
 
     // Razorpay payment and order save
     async function payNow() {
