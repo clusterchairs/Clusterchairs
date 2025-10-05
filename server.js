@@ -109,7 +109,6 @@ app.post("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 });
 
-
 // NEW MIDDLEWARE for Auth Check (Optional, but best practice)
 function protectRoute(req, res, next) {
   const userEmail = req.cookies.userToken;
@@ -213,7 +212,6 @@ app.delete("/cart/clear", async (req, res) => {
 
 //======================== CART (NEW) ======================== section.
 
-
 // Remove a Specific Item (all quantities) from Cart
 app.delete("/cart/remove-item", async (req, res) => {
   const { user_email, item_name } = req.body; // Remove by name only, price can be ambiguous
@@ -241,8 +239,6 @@ app.delete("/cart/remove-item", async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
-
-
 
 // ======================== ORDERS ========================
 
