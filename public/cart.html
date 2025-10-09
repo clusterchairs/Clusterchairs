@@ -540,7 +540,7 @@
     // Set your hosted backend URL here!
     const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
     document.addEventListener('DOMContentLoaded', () => {
-      const email = getCookie('userEmail');
+      const email = decodeURIComponent(getCookie('userEmail'));
       document.getElementById('user-email').textContent = email ? email : '';
       document.getElementById('logout-link').addEventListener('click', async function (e) {
         e.preventDefault();
