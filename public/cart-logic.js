@@ -4,7 +4,11 @@ function getUserEmail() {
 }
 
 async function handleAddToCart(product) {
-    const userEmail = getUserEmail();
+    const userEmail = getUserEmail(); // <--- CRITICAL CHANGE: Get email from cookie
+    
+    // Use your actual backend URL or a relative path
+    const HOSTED_BACKEND_URL = "/"; 
+    
     if (!userEmail) {
         alert('Please log in to add items to your cart.');
         window.location.href = '/login.html';
@@ -12,17 +16,16 @@ async function handleAddToCart(product) {
     }
 
     try {
-        const HOSTED_BACKEND_URL = "/"; // Use relative path if client is on the same domain
-
         const response = await fetch(`${HOSTED_BACKEND_URL}cart/add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                user_email: userEmail,
+                // Pass the userEmail to the server
+                user_email: userEmail, 
                 name: product.name,
                 price: product.price,
                 img: product.img,
-                quantity: 1 // Default to 1 on button click
+                quantity: 1 
             })
         });
 
@@ -30,7 +33,6 @@ async function handleAddToCart(product) {
         
         if (data.success) {
             showCartPopup(`${product.name} has been added to the cart!`);
-            // Update the count by fetching the new cart from the server
             updateCartCount(); 
         } else {
             alert(`Error adding item: ${data.message}`);
