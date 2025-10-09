@@ -539,147 +539,91 @@
     });
     // Set your hosted backend URL here!
     const HOSTED_BACKEND_URL = "https://clusterchairs.onrender.com"; // Use your actual backend URL!
-    
-    // Helper function to get the current logged-in user's email from the cookie
-    function getUserEmail() {
-        return getCookie('userEmail');
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
-      const email = decodeURIComponent(getUserEmail() || '');
+      const email = decodeURIComponent(getCookie('userEmail'));
       document.getElementById('user-email').textContent = email ? email : '';
       document.getElementById('logout-link').addEventListener('click', async function (e) {
         e.preventDefault();
         await fetch(`${HOSTED_BACKEND_URL}/logout`, { method: 'POST' });
-        // NOTE: localStorage is no longer needed for cart, but keep isLoggedIn if used elsewhere
-        localStorage.removeItem('isLoggedIn'); 
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('cart');
         document.cookie = 'userEmail=; Max-Age=0; path=/';
         window.location.href = '/login.html';
       });
       renderCart();
     });
-
-    // Fetches cart items from the database
-    async function fetchCartItems() {
-        const userEmail = getUserEmail();
-        if (!userEmail) return [];
-        
-        try {
-            const response = await fetch(`${HOSTED_BACKEND_URL}/cart/fetch?email=${userEmail}`);
-            const data = await response.json();
-            return data.success ? data.cart : [];
-        } catch (error) {
-            console.error("Error fetching cart items:", error);
-            return [];
-        }
-    }
-
-    // Renders the cart using data fetched from the database
-    async function renderCart() {
-      const cart = await fetchCartItems();
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const cartItemsDiv = document.getElementById('cart-items');
       const cartTotalDiv = document.getElementById('cart-total');
       const payButton = document.getElementById('pay-now-btn');
-      
-      // Update the cart count displayed in the navbar
       document.getElementById('cart-count').textContent = cart.length;
-
       if (cart.length === 0) {
         cartItemsDiv.innerHTML = '<p style="text-align: center; font-size: 1.1em; padding: 20px;">Your cart is empty.</p>';
         cartTotalDiv.textContent = '';
         payButton.style.display = 'none';
-        document.querySelector('.address-container').style.display = 'none';
+        document.querySelector('.address-container').style.display = 'none'; // Hide address form if cart is empty
         return;
       }
-      
       document.querySelector('.address-container').style.display = 'block';
       payButton.style.display = 'block';
       cartItemsDiv.innerHTML = '';
       let total = 0;
-
       cart.forEach(item => {
-        // item.price is a string from DB, convert to Number for math
-        const itemPrice = Number(item.price); 
-        const itemTotal = itemPrice * item.quantity;
+        const itemTotal = Number(item.price) * item.quantity;
         total += itemTotal;
         cartItemsDiv.innerHTML += `
-            <div class="cart-item">
-                <img src="${item.img}" alt="${item.name}">
-                <div class="details">
-                    <div class="name">${item.name}</div>
-                    <div>₹${itemPrice.toLocaleString()} x ${item.quantity} = ₹${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="remove-btn" onclick="removeFromCart('${item.name}')">Remove One</button>
-                    <button class="remove-all-btn" onclick="removeAllOfItem('${item.name}')">Remove All</button>
-                </div>
-            </div>
-        `;
+                                <div class="cart-item">
+                                    <img src="${item.img}" alt="${item.name}">
+                                    <div class="details">
+                                        <div class="name">${item.name}</div>
+                                        <div>₹${Number(item.price).toLocaleString()} x ${item.quantity} = ₹${itemTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                    </div>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="remove-btn" onclick="removeFromCart('${item.name}','${item.price}')">Remove One</button>
+                                    <button class="remove-all-btn" onclick="removeAllOfItem('${item.name}','${item.price}')">Remove All</button>
+                                </div>
+                                </div>
+                            `;
       });
-      
       cartTotalDiv.textContent = `Total: ₹${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
-    
-    // MODIFIED: Calls the server to remove one quantity of an item
-    async function removeFromCart(name) {
-      const userEmail = getUserEmail();
-      if (!userEmail) { alert("Please log in."); return; }
-      
-      try {
-          const response = await fetch(`${HOSTED_BACKEND_URL}/cart/remove-item`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ user_email: userEmail, item_name: name })
-          });
-          const data = await response.json();
-          
-          if (data.success) {
-              renderCart(); // Re-render the cart UI
-          } else {
-              alert(data.message);
-          }
-      } catch (error) {
-          console.error("Error removing item:", error);
-          alert("Failed to remove item due to a server error.");
+    function removeFromCart(name, price) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      // Find the index of the first item matching both name and price
+      const idx = cart.findIndex(item => item.name === name && item.price.toString() === price.toString());
+      if (idx > -1) {
+        if (cart[idx].quantity > 1) {
+          cart[idx].quantity -= 1;
+        } else {
+          cart.splice(idx, 1);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
       }
     }
-    
-    // MODIFIED: Calls the server to remove all quantities of an item
-    async function removeAllOfItem(name) {
+    // New function to remove all quantities of a specific item
+    function removeAllOfItem(name, price) {
       if (!confirm(`Are you sure you want to remove all ${name} items from your cart?`)) {
-        return;
+        return; // User cancelled
       }
-      
-      const userEmail = getUserEmail();
-      if (!userEmail) { alert("Please log in."); return; }
-
-      try {
-          const response = await fetch(`${HOSTED_BACKEND_URL}/cart/remove-all-item`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ user_email: userEmail, item_name: name })
-          });
-          const data = await response.json();
-          
-          if (data.success) {
-              renderCart(); // Re-render the cart UI
-          } else {
-              alert(data.message);
-          }
-      } catch (error) {
-          console.error("Error removing all items:", error);
-          alert("Failed to remove all items due to a server error.");
-      }
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      // Filter out the item matching both name and price
+      const newCart = cart.filter(item =>
+        !(item.name === name && item.price.toString() === price.toString())
+      );
+      localStorage.setItem('cart', JSON.stringify(newCart));
+      renderCart();
+      // If you switch to the database cart, you would call your backend endpoint here:
+      // fetch(`${HOSTED_BACKEND_URL}/cart/remove-item`, { method: 'DELETE', body: JSON.stringify({ user_email: localStorage.getItem('userEmail'), item_name: name }) });
     }
-
     // Razorpay payment and order save
     async function payNow() {
-      const userEmail = getUserEmail();
-      if (!userEmail) {
-        alert("Please log in before proceeding to payment.");
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
         return;
       }
-
       const street = document.getElementById('street').value;
       const city = document.getElementById('city').value;
       const state = document.getElementById('state').value;
@@ -688,36 +632,39 @@
         alert("Please fill in your complete shipping address.");
         return;
       }
-      
+      // Calculate total amount in base currency (INR)
+      const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+      const userEmail = getCookie('userEmail');
+      if (!userEmail) {
+        alert("Please log in before proceeding to payment.");
+        return;
+      }
       try {
-        // 1. Create Razorpay order on backend (Server now calculates amount from DB)
+        // 1. Create Razorpay order on backend
         const orderRes = await fetch(`${HOSTED_BACKEND_URL}/create-order`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_email: userEmail }) // Pass userEmail, no amount needed in body
+          body: JSON.stringify({ amount: total }) // send amount in INR
         });
-        
+        // Get the full response object: { order: {...}, key_id: '...' }
         const responseData = await orderRes.json();
-
+        // Check for server-side error (500)
         if (!responseData.order || !responseData.order.id) {
-          alert("Order creation failed. Cart might be empty or a server error occurred.");
+          alert("Order creation failed. Please check server logs for 500 error details.");
           console.error("Server response:", responseData);
           return;
         }
-
+        // Destructure the necessary variables
         const order = responseData.order;
         const key_id = responseData.key_id;
-        // NEW: Get the total amount calculated by the server
-        const totalAmount = responseData.total_amount; 
-
         // 2. Open Razorpay payment modal
         const options = {
-          key: key_id, 
-          amount: order.amount, 
-          currency: order.currency, 
+          key: key_id, // ✅ CORRECT: Use key_id from backend
+          amount: order.amount, // ✅ CORRECT: Amount in paise from backend
+          currency: order.currency, // ✅ CORRECT: Currency from backend
           name: "ClusterChairs",
           description: "Order Payment",
-          order_id: order.id,
+          order_id: order.id, // ✅ CORRECT: Order ID from backend
           handler: async function (response) {
             // 3. On payment success, save order in DB
             try {
@@ -726,8 +673,8 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   user_email: userEmail,
-                  // *** IMPORTANT: REMOVE 'cart' from the body. Server fetches it. ***
-                  total_amount: totalAmount, // Use the server's calculated total
+                  cart,
+                  total_amount: total, // send total in INR
                   street,
                   city,
                   state,
@@ -741,7 +688,7 @@
               const data = await res.json();
               if (data.success) {
                 alert("Payment & Order placed successfully!");
-                // No need to removeItem('cart') from localStorage anymore!
+                localStorage.removeItem('cart');
                 renderCart();
               } else {
                 alert("Order failed: " + data.message);
@@ -751,7 +698,8 @@
             }
           },
           prefill: {
-            email: userEmail 
+            // Optional prefill details for better conversion
+            email: userEmail // Assuming userEmail is the logged-in user's email
           }
         };
         const rzp = new Razorpay(options);

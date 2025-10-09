@@ -207,6 +207,8 @@
 </head>
 
 <body>
+    <script src="/auth.js"></script>
+    <script src="/cart-logic.js"></script>
     <header class="navbar">
         <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
@@ -1246,9 +1248,6 @@
         style="  display:none;  position:fixed;  top:30px;  right:30px;  background:#232f3e;  color:#fff;  padding:16px 32px;  border-radius:8px;  box-shadow:0 2px 12px rgba(0,0,0,0.15);  font-size:1.1em;  z-index:9999;  transition:opacity 0.3s;">
     </div>
 
-    <script src="/auth.js"></script>
-    <script src="/cart-logic.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById("hamburger");
@@ -1270,23 +1269,6 @@
                     });
                 });
             }
-
-            // *** CRITICAL ADDITION: Link buttons to cart logic ***
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const product = {
-                        name: this.dataset.name,
-                        price: this.dataset.price,
-                        img: this.dataset.img
-                    };
-                    // Calls the function from cart-logic.js
-                    handleAddToCart(product);
-                });
-            });
-
-            // *** CRITICAL ADDITION: Initialize cart count on page load ***
-            // Calls the function from cart-logic.js, which now fetches from the DB
-            updateCartCount();
         });
     </script>
 

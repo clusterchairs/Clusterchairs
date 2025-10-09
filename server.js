@@ -123,49 +123,40 @@ function protectRoute(req, res, next) {
   next();
 }
 
-// ======================== CART (NEW/MODIFIED) ========================
+// ======================== CART (NEW) ========================
 
-// Get Cart Items (MODIFIED to also use cookies if email not provided in query)
-app.get("/cart/fetch", async (req, res) => {
-  // Prioritize email from query, otherwise fallback to cookie (if available)
-  const user_email = req.query.email || req.cookies.userEmail; 
-  
+// Get Cart Items
+app.get("/cart", async (req, res) => {
+  const user_email = req.query.email;
   if (!user_email) {
-    // If no email is available, treat the user as unauthenticated
-    return res.json({ success: true, cart: [] }); 
+    return res.status(400).json({ success: false, message: "User email is required" });
   }
 
   try {
     const user_id = await getUserIdByEmail(user_email);
 
     const [cartItems] = await db.query(
-      // We only need the data required for the client-side cart display
-      "SELECT item_name AS name, item_price AS price, item_image_url AS img, quantity FROM cart_items WHERE user_id = ?",
+      "SELECT id, item_name, item_price, item_image_url, quantity FROM cart_items WHERE user_id = ?",
       [user_id]
     );
 
     res.json({ success: true, cart: cartItems });
   } catch (err) {
-    console.error("❌ Error in /cart/fetch:", err.message);
-    // If user is not found, return empty cart instead of 500
-    res.json({ success: true, cart: [] });
+    console.error("❌ Error in /cart:", err.message);
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 
 // Add/Update Item in Cart
 app.post("/cart/add", async (req, res) => {
-  const { user_email, name, price, img, quantity } = req.body;
+  const { user_email, item_name, item_price, item_image_url, quantity } = req.body;
 
-  if (!user_email || !name || !price || !quantity) {
+  if (!user_email || !item_name || !item_price || !quantity) {
     return res.status(400).json({ success: false, message: "Missing required fields for cart item" });
   }
 
   try {
     const user_id = await getUserIdByEmail(user_email);
-    const item_name = name;
-    const item_price = parseFloat(price); // Ensure price is a float
-    const item_image_url = img;
-    const item_quantity = parseInt(quantity); // Ensure quantity is an integer
 
     // Check if item already exists for this user
     const [existingItemRows] = await db.query(
@@ -175,7 +166,7 @@ app.post("/cart/add", async (req, res) => {
 
     if (existingItemRows.length > 0) {
       // Item exists, update quantity
-      const newQuantity = existingItemRows[0].quantity + item_quantity;
+      const newQuantity = existingItemRows[0].quantity + quantity;
       await db.query(
         "UPDATE cart_items SET quantity = ?, created_at = NOW() WHERE id = ?",
         [newQuantity, existingItemRows[0].id]
@@ -186,7 +177,7 @@ app.post("/cart/add", async (req, res) => {
       await db.query(
         `INSERT INTO cart_items (user_id, item_name, item_price, item_image_url, quantity) 
                  VALUES (?, ?, ?, ?, ?)`,
-        [user_id, item_name, item_price, item_image_url, item_quantity]
+        [user_id, item_name, item_price, item_image_url, quantity]
       );
       res.json({ success: true, message: "Item added to cart" });
     }
@@ -196,9 +187,34 @@ app.post("/cart/add", async (req, res) => {
   }
 });
 
-// Remove a Specific Item (by name) from Cart
-app.post("/cart/remove-item", async (req, res) => {
-  const { user_email, item_name } = req.body; 
+// Clear All Items from Cart (e.g., after successful order)
+app.delete("/cart/clear", async (req, res) => {
+  const { user_email } = req.body;
+
+  if (!user_email) {
+    return res.status(400).json({ success: false, message: "User email is required" });
+  }
+
+  try {
+    const user_id = await getUserIdByEmail(user_email);
+
+    await db.query(
+      "DELETE FROM cart_items WHERE user_id = ?",
+      [user_id]
+    );
+
+    res.json({ success: true, message: "Cart cleared successfully" });
+  } catch (err) {
+    console.error("❌ Error in /cart/clear:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+//======================== CART (NEW) ======================== section.
+
+// Remove a Specific Item (all quantities) from Cart
+app.delete("/cart/remove-item", async (req, res) => {
+  const { user_email, item_name } = req.body; // Remove by name only, price can be ambiguous
 
   if (!user_email || !item_name) {
     return res.status(400).json({ success: false, message: "User email and item name are required" });
@@ -207,76 +223,31 @@ app.post("/cart/remove-item", async (req, res) => {
   try {
     const user_id = await getUserIdByEmail(user_email);
 
-    // Check the current quantity
-    const [itemRows] = await db.query(
-        "SELECT id, quantity FROM cart_items WHERE user_id = ? AND item_name = ?",
-        [user_id, item_name]
+    // Delete all rows matching the user_id and item_name
+    const [result] = await db.query(
+      "DELETE FROM cart_items WHERE user_id = ? AND item_name = ?",
+      [user_id, item_name]
     );
 
-    if (itemRows.length === 0) {
-        return res.status(404).json({ success: false, message: "Item not found in cart" });
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Item not found in cart" });
     }
 
-    const existingItem = itemRows[0];
-    let message = "Item quantity reduced in cart";
-
-    if (existingItem.quantity > 1) {
-        // Decrease quantity by one
-        await db.query(
-            "UPDATE cart_items SET quantity = quantity - 1 WHERE id = ?",
-            [existingItem.id]
-        );
-    } else {
-        // Quantity is 1, delete the row
-        await db.query(
-            "DELETE FROM cart_items WHERE id = ?",
-            [existingItem.id]
-        );
-        message = "Item removed from cart";
-    }
-
-    res.json({ success: true, message: message });
+    res.json({ success: true, message: "Item removed from cart" });
   } catch (err) {
     console.error("❌ Error in /cart/remove-item:", err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 });
 
-// Remove All Quantities of a Specific Item
-app.post("/cart/remove-all-item", async (req, res) => {
-    const { user_email, item_name } = req.body;
+// ======================== ORDERS ========================
 
-    if (!user_email || !item_name) {
-        return res.status(400).json({ success: false, message: "User email and item name are required" });
-    }
-
-    try {
-        const user_id = await getUserIdByEmail(user_email);
-
-        const [result] = await db.query(
-            "DELETE FROM cart_items WHERE user_id = ? AND item_name = ?",
-            [user_id, item_name]
-        );
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ success: false, message: "Item not found in cart" });
-        }
-
-        res.json({ success: true, message: "All items removed from cart" });
-    } catch (err) {
-        console.error("❌ Error in /cart/remove-all-item:", err.message);
-        res.status(500).json({ success: false, message: err.message });
-    }
-});
-
-
-// ======================== ORDERS (MODIFIED) ========================
-
-// Add Order (MODIFIED to fetch cart from DB)
+// Add Order (supports both paid and pending orders)
 app.post("/add-order", async (req, res) => {
   const {
     user_email,
-    total_amount, // Still required for payment verification/order total
+    cart,
+    total_amount,
     street,
     city,
     state,
@@ -286,9 +257,8 @@ app.post("/add-order", async (req, res) => {
     payment_status // expecting "paid"
   } = req.body;
 
-  // We no longer require 'cart' in the body, as we will fetch it from the DB.
-  if (!user_email || !total_amount || !street || !city || !state || !zip) {
-    return res.status(400).json({ success: false, message: "Missing required fields for order submission" });
+  if (!user_email || !cart || !total_amount || !street || !city || !state || !zip) {
+    return res.status(400).json({ success: false, message: "All required fields are missing" });
   }
 
   const isPaidOrder = !!razorpay_order_id && payment_status === "paid";
@@ -296,22 +266,11 @@ app.post("/add-order", async (req, res) => {
   const status = isPaidOrder ? "paid" : "pending";
   const order_id = isPaidOrder ? razorpay_order_id : ("order_" + Date.now());
   const payment_id = isPaidOrder ? razorpay_payment_id : ("manual_" + Date.now());
-  const tracking_status = "pending"; 
+  const tracking_status = "pending"; // NEW: Tracking always starts with "pending"
 
   try {
     const user_id = await getUserIdByEmail(user_email);
 
-    // 1. FETCH CART ITEMS FROM DATABASE
-    const [dbCartItems] = await db.query(
-      "SELECT item_name AS name, item_price AS price, item_image_url AS img, quantity FROM cart_items WHERE user_id = ?",
-      [user_id]
-    );
-
-    if (dbCartItems.length === 0) {
-      return res.status(400).json({ success: false, message: "Cannot place order: Cart is empty in the database." });
-    }
-
-    // 2. Insert into orders table using the DB-fetched cart data
     await db.query(
       `INSERT INTO orders
       (user_id, order_id, payment_id, items, total_amount, status, tracking_status, street, city, state, zip)
@@ -320,8 +279,7 @@ app.post("/add-order", async (req, res) => {
         user_id,
         order_id,
         payment_id,
-        // *** CRITICAL CHANGE: Use JSON.stringify(dbCartItems) instead of client-sent 'cart' ***
-        JSON.stringify(dbCartItems), 
+        JSON.stringify(cart),
         total_amount,
         status,
         tracking_status,
@@ -338,7 +296,7 @@ app.post("/add-order", async (req, res) => {
       [order_id, tracking_status]
     );
 
-    // 3. If paid order, clear the cart from the DB. (This logic remains correct)
+    // If paid order, clear the cart from the DB.
     if (isPaidOrder) {
       await db.query("DELETE FROM cart_items WHERE user_id = ?", [user_id]);
     }
@@ -446,34 +404,18 @@ const razorpay = new Razorpay({
 });
 
 app.post("/create-order", async (req, res) => {
-  const userEmail = req.cookies.userEmail;
-  if (!userEmail) return res.status(401).json({ success: false, message: "Unauthorized. Please log in." });
-
   try {
-    const user_id = await getUserIdByEmail(userEmail);
-
-    // Calculate total amount from the database cart items
-    const [dbCartItems] = await db.query(
-      "SELECT item_price, quantity FROM cart_items WHERE user_id = ?",
-      [user_id]
-    );
-
-    if (dbCartItems.length === 0) {
-        return res.status(400).json({ success: false, message: "Cart is empty. Cannot create order." });
-    }
-
-    const totalAmount = dbCartItems.reduce((sum, item) => sum + (Number(item.item_price) * item.quantity), 0);
-    const amountInPaise = totalAmount * 100;
+    const { amount } = req.body;
+    if (!amount) return res.status(400).json({ success: false, message: "Amount is required" });
 
     const options = {
-      amount: amountInPaise,
+      amount: amount * 100,
       currency: "INR",
       receipt: "rcpt_" + Date.now(),
     };
 
     const order = await razorpay.orders.create(options);
-    // Send the calculated total back to the client for the /add-order request later
-    res.json({ order, key_id: process.env.RAZORPAY_KEY_ID, total_amount: totalAmount });
+    res.json({ order, key_id: process.env.RAZORPAY_KEY_ID });
   } catch (err) {
     console.error("❌ Razorpay error:", err);
     res.status(500).json({ success: false, message: "Payment order failed" });
