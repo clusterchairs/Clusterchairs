@@ -304,11 +304,14 @@
         }
 
         /* -----------------------------
-           🔥 Popular Products Carousel
+        
+            🔥 Popular Products Carousel
+        
         ------------------------------*/
         /* ✅ Popular Products Section */
         .popular-products {
             padding: 40px 20px;
+            /* Default desktop padding */
             background: #fff;
             text-align: center;
         }
@@ -325,25 +328,15 @@
             max-width: 1200px;
             margin: auto;
             overflow: hidden;
+            /* Default desktop padding */
+            padding: 0 15px;
         }
 
         .carousel-track {
             display: flex;
             transition: transform 0.5s ease-in-out;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            display: flex;
-            justify-content: space-around;
-            align-items: stretch;
-            gap: 20px;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .carousel-slide.active {
-            opacity: 1;
+            margin: 0;
+            padding: 0;
         }
 
         .product-card {
@@ -353,7 +346,12 @@
             padding: 15px;
             width: 23%;
             min-width: 220px;
+            /* Desktop sizing: 4 cards + gaps (20px gap) */
+            flex: 0 0 calc(25% - 15px);
+            /* 100% / 4 cards = 25%. Minus space for the 20px gap */
+            margin-right: 20px;
             transition: transform 0.3s ease;
+            box-sizing: border-box;
         }
 
         .product-card:hover {
@@ -418,38 +416,43 @@
         /* ✅ Responsive Adjustments */
         @media (max-width: 900px) {
             .product-card {
-                width: 40%;
-                margin-left: center;
+                /* 3 cards visible + gap */
+                flex: 0 0 calc(33.33% - 14px);
             }
         }
 
         @media (max-width: 600px) {
-
-            /* Set carousel-slide to only display one item at a time */
-            .carousel-slide {
-                /* FIX: Center the content and remove spacing on mobile */
-                justify-content: center;
-                gap: 0;
-            }
-
-            .product-card {
-                /* FIX: Must take full width of the container */
-                flex: 0 0 100%;
-                width: 90%;
-                min-width: 90%;
-                /* Ensure it absolutely takes 100% of the slide area */
+            .popular-products {
+                /* REMOVE the side padding from the section for easier full-width card math */
+                padding: 40px 0;
             }
 
             .carousel-container {
-                /* FIX: Essential for smooth, non-overlapping scrolling */
-                overflow: hidden;
+                /* Keep padding here to prevent cards touching edges */
+                padding: 0 15px;
+            }
+
+            .product-card {
+                /* FIX: Must take full width of the padded container (100% of available space) */
+                flex: 0 0 100%;
+                width: 100%;
+                min-width: 100%;
+                /* The 20px is the only gap between cards */
+                margin-right: 20px;
+            }
+
+            .carousel-btn.prev {
+                left: 20px;
+            }
+
+            .carousel-btn.next {
+                right: 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
     <header class="navbar">
         <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
         <div class="location">Cluster Chairs</div>
@@ -468,7 +471,6 @@
         </div>
     </header>
 
-    <!-- Banner -->
     <section class="banner">
         <div class="banner-content">
             <div class="banner-link-area">
@@ -492,7 +494,6 @@
         </div>
     </section>
 
-    <!-- Deals -->
     <main>
         <div class="deals-main">
             <h3>Types of Furniture</h3>
@@ -555,7 +556,6 @@
         </div>
     </main>
 
-    <!-- Popular Products Section -->
     <section class="popular-products">
         <h2><span style="color:#a05252;">Popular</span> Products</h2>
 
@@ -606,7 +606,6 @@
             checkLoginStatus();
         });
 
-        // ✅ Product List — just add new items here
         // 🪄 Product List
         const products = [
             { name: "Kelly HB Office Chair", image: "/image/slideshow/1.png", country: "India", style: "Modern", color: "Black" },
@@ -698,13 +697,13 @@
             const card = document.createElement("div");
             card.classList.add("product-card");
             card.innerHTML = `
-            <img src="${prod.image}" alt="${prod.name}">
-            <h3>${prod.name}</h3>
-            <p><b>Country:</b> ${prod.country}</p>
-            <p><b>Style:</b> ${prod.style}</p>
-            <p><b>Color:</b> ${prod.color}</p>
-            <button>Enquiry Now</button>
-        `;
+                <img src="${prod.image}" alt="${prod.name}">
+                <h3>${prod.name}</h3>
+                <p><b>Country:</b> ${prod.country}</p>
+                <p><b>Style:</b> ${prod.style}</p>
+                <p><b>Color:</b> ${prod.color}</p>
+                <button>Enquiry Now</button>
+            `;
             track.appendChild(card);
         });
 
@@ -714,38 +713,73 @@
         let currentIndex = 0;
 
         function updateCarousel() {
-            const cardWidth = track.querySelector(".product-card").offsetWidth + 20; // card + gap
-            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            const viewportWidth = window.innerWidth;
+            const cardElement = track.querySelector(".product-card");
+
+            if (!cardElement) return;
+
+            let translateUnit;
+            const cardMarginRight = 20; // Must match the CSS margin-right value
+
+            if (viewportWidth <= 600) {
+                // Mobile (Single Card View): Card width + its margin-right
+                translateUnit = cardElement.offsetWidth + cardMarginRight;
+            } else {
+                // Desktop/Tablet (Multi-Card View): Card width + its margin-right
+                translateUnit = cardElement.offsetWidth + cardMarginRight;
+            }
+
+            const translateXAmount = currentIndex * translateUnit;
+            track.style.transform = `translateX(-${translateXAmount}px)`;
         }
 
-        nextBtn.addEventListener("click", () => {
-            const cards = document.querySelectorAll(".product-card").length;
-            if (currentIndex < cards - 1) {
-                currentIndex++;
+        function updateIndex(direction) {
+            const totalCards = document.querySelectorAll(".product-card").length;
+
+            // Define the number of cards visible in a single viewport.
+            let cardsPerView;
+            if (window.innerWidth <= 600) {
+                cardsPerView = 1; // Mobile
+            } else if (window.innerWidth <= 900) {
+                cardsPerView = 3; // Tablet (based on your CSS)
             } else {
-                currentIndex = 0; // loop to start
+                cardsPerView = 4; // Desktop (based on your CSS)
+            }
+
+            const maxIndex = totalCards - cardsPerView;
+
+            if (direction === 'next') {
+                if (currentIndex < maxIndex) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0; // loop to start
+                }
+            } else if (direction === 'prev') {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = maxIndex; // loop to end
+                }
             }
             updateCarousel();
+        }
+
+        nextBtn.addEventListener("click", () => updateIndex('next'));
+        prevBtn.addEventListener("click", () => updateIndex('prev'));
+
+        // 🌀 Auto-slide every 4s
+        // Modified auto-slide to use the new updateIndex
+        let autoSlide = setInterval(() => updateIndex('next'), 4000);
+
+        window.addEventListener("resize", () => {
+            // Reset index and clear/reset interval on resize
+            clearInterval(autoSlide);
+            currentIndex = 0;
+            updateCarousel();
+            autoSlide = setInterval(() => updateIndex('next'), 4000);
         });
 
-        prevBtn.addEventListener("click", () => {
-            const cards = document.querySelectorAll(".product-card").length;
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = cards - 1; // loop to end
-            }
-            updateCarousel();
-        });
-
-        // 🌀 Auto-slide every 5s
-        setInterval(() => {
-            const cards = document.querySelectorAll(".product-card").length;
-            currentIndex = (currentIndex + 1) % cards;
-            updateCarousel();
-        }, 4000);
-
-        window.addEventListener("resize", updateCarousel);
+        // Initial call
         updateCarousel();
     </script>
 </body>
