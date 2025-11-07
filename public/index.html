@@ -306,69 +306,53 @@
         /* -----------------------------
            🔥 Popular Products Carousel
         ------------------------------*/
+        /* ✅ Popular Products Section */
         .popular-products {
-            max-width: 1200px;
-            margin: 60px auto;
+            padding: 40px 20px;
+            background: #fff;
             text-align: center;
-            padding: 20px;
         }
 
         .popular-products h2 {
-            font-family: Protest Strike, sans-serif;
-            font-size: 2.2em;
+            font-family: 'Protest Strike', sans-serif;
+            font-size: 2em;
             margin-bottom: 20px;
-            color: #333;
+            color: #232f3e;
         }
 
         .carousel-container {
             position: relative;
+            max-width: 1200px;
+            margin: auto;
             overflow: hidden;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            padding: 20px;
         }
 
         .carousel-track {
             display: flex;
-            width: 100%;
-            height: auto;
-            justify-content: center;
-            align-items: center;
+            transition: transform 0.5s ease-in-out;
         }
 
         .carousel-slide {
-            width: 100%;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            display: none;
-            animation: fade 1s ease-in-out;
+            min-width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: stretch;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
         }
 
         .carousel-slide.active {
-            display: flex;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            opacity: 1;
         }
 
         .product-card {
-            flex: 1 1 calc(25% - 20px);
-            background: #fafafa;
+            background: #f8f8f8;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
             width: 23%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            min-width: 220px;
             transition: transform 0.3s ease;
         }
 
@@ -378,7 +362,7 @@
 
         .product-card img {
             width: 100%;
-            height: 160px;
+            height: 180px;
             object-fit: cover;
             border-radius: 8px;
         }
@@ -386,65 +370,59 @@
         .product-card h3 {
             font-size: 1.1em;
             margin: 10px 0 6px;
-            color: #232f3e;
         }
 
         .product-card p {
+            margin: 4px 0;
             font-size: 0.9em;
-            color: #555;
-            margin: 2px 0;
         }
 
         .product-card button {
-            margin-top: 10px;
-            background: #7d4b4b;
+            background: #a05252;
             color: #fff;
             border: none;
             border-radius: 6px;
-            padding: 8px 16px;
+            padding: 8px 12px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
+            margin-top: 8px;
+            width: 100%;
         }
 
         .product-card button:hover {
-            background: #5c3232;
+            background: #7d3d3d;
         }
 
+        /* Carousel Buttons */
         .carousel-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(121, 65, 65, 0.8);
-            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
             border: none;
-            font-size: 24px;
-            padding: 10px 14px;
-            border-radius: 50%;
+            font-size: 2em;
+            padding: 10px;
             cursor: pointer;
-            z-index: 10;
-            transition: background 0.3s;
-        }
-
-        .carousel-btn:hover {
-            background: rgb(121, 65, 65);
+            border-radius: 50%;
+            z-index: 2;
         }
 
         .carousel-btn.prev {
-            left: 15px;
+            left: 10px;
         }
 
         .carousel-btn.next {
-            right: 15px;
+            right: 10px;
         }
 
-        @media (max-width: 992px) {
+        /* ✅ Responsive Adjustments */
+        @media (max-width: 900px) {
             .product-card {
                 width: 45%;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .product-card {
                 width: 90%;
             }
@@ -610,7 +588,7 @@
             checkLoginStatus();
         });
 
-        // Product Data
+        // ✅ Product List — just add new items here
         const products = [
             { name: "Kelly HB Office Chair", image: "/image/chair1.jpg", country: "India", style: "Modern", color: "Black" },
             { name: "King Office Chair", image: "/image/chair2.jpg", country: "India", style: "Modern", color: "Brown" },
@@ -619,56 +597,56 @@
             { name: "Crown Executive Chair", image: "/image/chair5.jpg", country: "India", style: "Luxury", color: "Tan" },
             { name: "Smart Ergonomic Chair", image: "/image/chair6.jpg", country: "India", style: "Contemporary", color: "Blue" },
             { name: "Wave HB Office Chair", image: "/image/chair7.jpg", country: "India", style: "Modern", color: "Red" },
-            { name: "Prime Manager Chair", image: "/image/chair8.jpg", country: "India", style: "Classic", color: "Black" }
+            { name: "Prime Manager Chair", image: "/image/chair8.jpg", country: "India", style: "Classic", color: "Black" },
+            // ✅ Just keep adding more here — auto slide creation 🚀
         ];
 
         const track = document.getElementById("carousel-track");
 
-        for (let i = 0; i < products.length; i += 4) {
-            const slide = document.createElement("div");
-            slide.classList.add("carousel-slide");
+        // ✅ Auto create slides of 4 cards per slide
+        let slide;
+        products.forEach((product, index) => {
+            if (index % 4 === 0) {
+                slide = document.createElement("div");
+                slide.classList.add("carousel-slide");
+                track.appendChild(slide);
+            }
+            const card = document.createElement("div");
+            card.classList.add("product-card");
+            card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p><b>Country:</b> ${product.country}</p>
+      <p><b>Style:</b> ${product.style}</p>
+      <p><b>Color:</b> ${product.color}</p>
+      <button>Enquiry Now</button>
+  `;
+            slide.appendChild(card);
+        });
 
-            const group = products.slice(i, i + 4);
-            group.forEach(prod => {
-                const card = document.createElement("div");
-                card.classList.add("product-card");
-                card.innerHTML = `
-                    <img src="${prod.image}" alt="${prod.name}">
-                    <h3>${prod.name}</h3>
-                    <p><b>Country:</b> ${prod.country}</p>
-                    <p><b>Style:</b> ${prod.style}</p>
-                    <p><b>Color:</b> ${prod.color}</p>
-                    <button>Enquiry Now</button>
-                `;
-                slide.appendChild(card);
-            });
-
-            track.appendChild(slide);
-        }
-
+        // ✅ Carousel Controller
         const slides = document.querySelectorAll(".carousel-slide");
         const nextBtn = document.querySelector(".next");
         const prevBtn = document.querySelector(".prev");
         let currentIndex = 0;
 
         function showSlide(index) {
-            slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("active", i === index);
+            });
         }
 
         nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % slides.length;
             showSlide(currentIndex);
         });
-
         prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + slides.length) % slides.length;
             showSlide(currentIndex);
         });
 
-        // Ensure first slide visible
-        setTimeout(() => showSlide(currentIndex), 200);
-
-        // Optional auto-slide
+        // ✅ Start
+        showSlide(0);
         setInterval(() => {
             currentIndex = (currentIndex + 1) % slides.length;
             showSlide(currentIndex);
