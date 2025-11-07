@@ -307,6 +307,145 @@
             opacity: 1;
             pointer-events: auto;
         }
+
+        .popular-products {
+            padding: 40px 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .popular-products h2 {
+            font-size: 2em;
+            margin-bottom: 24px;
+            font-family: Protest Strike, sans-serif;
+            color: #333;
+        }
+
+        /* Carousel layout */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .carousel-slide {
+            display: flex;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .product-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 10px;
+            width: 23%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .product-card h3 {
+            font-size: 1.1em;
+            margin: 10px 0;
+            color: #222;
+        }
+
+        .product-card p {
+            font-size: 0.9em;
+            color: #444;
+            margin: 4px 0;
+        }
+
+        .product-card button {
+            background: #7d4b4b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .product-card button:hover {
+            background: #5c3434;
+        }
+
+        /* Carousel buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(121, 65, 65, 0.8);
+            border: none;
+            color: #fff;
+            font-size: 2em;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: #a05252;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        /* ✅ Responsive */
+        @media (max-width: 1024px) {
+            .product-card {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                width: 90%;
+            }
+
+            .carousel-slide {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .carousel-btn {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -422,6 +561,68 @@
         </div>
     </main>
 
+    <!-- ✅ Popular Products Carousel -->
+    <section class="popular-products">
+        <h2><span style="color:#a05252;">Popular</span> Products</h2>
+
+        <div class="carousel-container">
+            <button class="carousel-btn prev">&#10094;</button>
+
+            <div class="carousel-track">
+                <!-- Each group of 4 products = 1 slide -->
+                <div class="carousel-slide">
+                    <div class="product-card">
+                        <img src="/image/chair1.jpg" alt="Kelly HB Office Chair">
+                        <h3>Kelly HB Office Chair</h3>
+                        <p><b>Country:</b> India</p>
+                        <p><b>Style:</b> Modern</p>
+                        <p><b>Color:</b> Black</p>
+                        <button>Enquiry Now</button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="/image/chair2.jpg" alt="King Office Chair">
+                        <h3>King Office Chair</h3>
+                        <p><b>Country:</b> India</p>
+                        <p><b>Feature:</b> Corrosion Proof</p>
+                        <button>Enquiry Now</button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="/image/chair3.jpg" alt="Matrix MB Office Chair">
+                        <h3>Matrix MB Office Chair</h3>
+                        <p><b>Country:</b> India</p>
+                        <p><b>Application:</b> Office</p>
+                        <button>Enquiry Now</button>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="/image/chair4.jpg" alt="Olivia HB Office Chair">
+                        <h3>Olivia HB Office Chair</h3>
+                        <p><b>Material:</b> Aluminium</p>
+                        <p><b>Style:</b> Modern</p>
+                        <button>Enquiry Now</button>
+                    </div>
+                </div>
+
+                <!-- You can duplicate this <div class="carousel-slide"> up to 20 times for 80 products -->
+                <div class="carousel-slide">
+                    <div class="product-card">
+                        <img src="/image/chair5.jpg" alt="Nova HB Office Chair">
+                        <h3>Nova HB Office Chair</h3>
+                        <p><b>Color:</b> Grey</p>
+                        <p><b>Style:</b> Executive</p>
+                        <button>Enquiry Now</button>
+                    </div>
+                    <!-- 3 more products here -->
+                </div>
+            </div>
+
+            <button class="carousel-btn next">&#10095;</button>
+        </div>
+    </section>
+
+
     <script>
         // Hamburger toggle
         const hamburger = document.getElementById('hamburger');
@@ -463,6 +664,35 @@
             updateCartCount();
             checkLoginStatus();
         });
+
+        const slides = document.querySelectorAll('.carousel-slide');
+        const nextBtn = document.querySelector('.next');
+        const prevBtn = document.querySelector('.prev');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        showSlide(currentIndex); // Initial load
+        // Optional auto slide every 5s:
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }, 5000);
+
     </script>
 </body>
 
