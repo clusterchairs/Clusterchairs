@@ -427,19 +427,22 @@
 
             /* Set carousel-slide to only display one item at a time */
             .carousel-slide {
+                /* FIX: Center the content and remove spacing on mobile */
                 justify-content: center;
-                /* Center the single card */
                 gap: 0;
-                /* Remove gap on single card view */
             }
 
             .product-card {
-                /* FIX: Ensure the product card takes full width of the viewable area */
+                /* FIX: Must take full width of the container */
                 flex: 0 0 100%;
                 width: 100%;
-                /* Important: Take full width of its container (which is 100% of the carousel container) */
-                min-width: unset;
-                /* Reset min-width */
+                min-width: 100%;
+                /* Ensure it absolutely takes 100% of the slide area */
+            }
+
+            .carousel-container {
+                /* FIX: Essential for smooth, non-overlapping scrolling */
+                overflow: hidden;
             }
         }
     </style>
