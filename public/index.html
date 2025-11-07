@@ -307,6 +307,7 @@
            🔥 Popular Products Carousel
         ------------------------------*/
         /* ✅ Popular Products Section */
+        /* ✅ Popular Products Section */
         .popular-products {
             padding: 40px 20px;
             background: #fff;
@@ -338,6 +339,8 @@
             justify-content: space-around;
             align-items: stretch;
             gap: 20px;
+            flex-wrap: wrap;
+            /* ✅ allows wrapping on small screens */
             opacity: 0;
             transition: opacity 0.8s ease-in-out;
         }
@@ -392,7 +395,7 @@
             background: #7d3d3d;
         }
 
-        /* Carousel Buttons */
+        /* ✅ Carousel Buttons */
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -415,16 +418,27 @@
             right: 10px;
         }
 
-        /* ✅ Responsive Adjustments */
-        @media (max-width: 900px) {
+        /* ✅ Responsive Fix */
+        @media (max-width: 1024px) {
             .product-card {
                 width: 45%;
+                /* show 2 per line on tablets */
             }
         }
 
         @media (max-width: 600px) {
+            .carousel-slide {
+                justify-content: center;
+            }
+
             .product-card {
                 width: 90%;
+                /* show 1 per line on mobile */
+            }
+
+            .carousel-btn {
+                font-size: 1.5em;
+                padding: 6px;
             }
         }
     </style>
