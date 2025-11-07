@@ -718,20 +718,35 @@
     document.getElementById('pay-now-btn').addEventListener('click', payNow);
     const whatsappIcon = document.getElementById('whatsapp-icon');
     const whatsappPopup = document.getElementById('whatsapp-popup');
-    whatsappIcon.addEventListener('click', function (e) {
-      e.stopPropagation();
-      whatsappPopup.classList.toggle('active');
-    });
-    // Hide popup when clicking outside
-    document.addEventListener('click', function (e) {
-      if (whatsappPopup.classList.contains('active')) {
+
+    // guard
+    if (whatsappIcon && whatsappPopup) {
+      function toggleWhatsappPopup(e) {
+        e.stopPropagation();
+        whatsappPopup.classList.toggle('active');
+      }
+
+      // Use pointer events + touch + click so desktop & mobile both work reliably
+      ['pointerdown', 'touchstart', 'click'].forEach(evt =>
+        whatsappIcon.addEventListener(evt, toggleWhatsappPopup)
+      );
+
+      // Close when clicking/tapping outside both icon and popup
+      function handleOutsideClick(e) {
+        if (!whatsappPopup.classList.contains('active')) return;
+        if (whatsappPopup.contains(e.target) || whatsappIcon.contains(e.target)) return;
         whatsappPopup.classList.remove('active');
       }
-    });
-    // Prevent popup from closing when clicking inside
-    whatsappPopup.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+
+      ['pointerdown', 'touchstart', 'click'].forEach(evt =>
+        document.addEventListener(evt, handleOutsideClick)
+      );
+
+      // Prevent clicks inside popup from closing it
+      whatsappPopup.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
   </script>
 </body>
 
