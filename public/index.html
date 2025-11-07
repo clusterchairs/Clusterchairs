@@ -424,9 +424,22 @@
         }
 
         @media (max-width: 600px) {
+
+            /* Set carousel-slide to only display one item at a time */
+            .carousel-slide {
+                justify-content: center;
+                /* Center the single card */
+                gap: 0;
+                /* Remove gap on single card view */
+            }
+
             .product-card {
+                /* FIX: Ensure the product card takes full width of the viewable area */
                 flex: 0 0 100%;
-                min-width: 100%;
+                width: 100%;
+                /* Important: Take full width of its container (which is 100% of the carousel container) */
+                min-width: unset;
+                /* Reset min-width */
             }
         }
     </style>
@@ -592,96 +605,96 @@
 
         // ✅ Product List — just add new items here
         // 🪄 Product List
-    const products = [
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/1.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/2.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/3.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/4.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/5.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/6.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/7.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/8.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/9.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/10.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/11.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/12.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/13.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/14.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/15.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/16.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/17.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/18.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/19.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/20.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/21.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/22.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/23.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/24.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/25.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/26.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/27.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/28.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/29.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/30.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/31.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/32.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/33.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/34.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/35.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/36.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/37.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/38.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/39.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/40.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/41.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/42.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/43.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/44.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/45.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/46.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/47.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/48.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/49.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/50.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/51.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/52.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/53.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/54.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/55.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/56.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/57.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/58.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/59.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/60.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/61.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/62.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/63.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/64.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/65.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/66.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/67.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/68.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/69.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/70.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Kelly HB Office Chair", image: "/image/slideshow/71.png", country: "India", style: "Modern", color: "Black" },
-        { name: "King Office Chair", image: "/image/slideshow/72.png", country: "India", style: "Modern", color: "Brown" },
-        { name: "Matrix MB Office Chair", image: "/image/slideshow/73.png", country: "India", style: "Modern", color: "Black" },
-        { name: "Olivia HB Office Chair", image: "/image/slideshow/74.png", country: "India", style: "Modern", color: "Grey" },
-        { name: "Crown Executive Chair", image: "/image/slideshow/75.png", country: "India", style: "Luxury", color: "Tan" },
-        { name: "Smart Ergonomic Chair", image: "/image/slideshow/76.png", country: "India", style: "Contemporary", color: "Blue" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/77.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/78.png", country: "India", style: "Classic", color: "Black" },
-        { name: "Wave HB Office Chair", image: "/image/slideshow/79.png", country: "India", style: "Modern", color: "Red" },
-        { name: "Prime Manager Chair", image: "/image/slideshow/80.png", country: "India", style: "Classic", color: "Black" },
-        // Add more...
-    ];
+        const products = [
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/1.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/2.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/3.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/4.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/5.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/6.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/7.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/8.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/9.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/10.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/11.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/12.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/13.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/14.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/15.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/16.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/17.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/18.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/19.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/20.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/21.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/22.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/23.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/24.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/25.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/26.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/27.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/28.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/29.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/30.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/31.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/32.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/33.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/34.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/35.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/36.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/37.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/38.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/39.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/40.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/41.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/42.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/43.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/44.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/45.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/46.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/47.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/48.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/49.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/50.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/51.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/52.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/53.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/54.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/55.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/56.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/57.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/58.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/59.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/60.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/61.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/62.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/63.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/64.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/65.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/66.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/67.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/68.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/69.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/70.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Kelly HB Office Chair", image: "/image/slideshow/71.png", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/slideshow/72.png", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/slideshow/73.png", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/slideshow/74.png", country: "India", style: "Modern", color: "Grey" },
+            { name: "Crown Executive Chair", image: "/image/slideshow/75.png", country: "India", style: "Luxury", color: "Tan" },
+            { name: "Smart Ergonomic Chair", image: "/image/slideshow/76.png", country: "India", style: "Contemporary", color: "Blue" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/77.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/78.png", country: "India", style: "Classic", color: "Black" },
+            { name: "Wave HB Office Chair", image: "/image/slideshow/79.png", country: "India", style: "Modern", color: "Red" },
+            { name: "Prime Manager Chair", image: "/image/slideshow/80.png", country: "India", style: "Classic", color: "Black" },
+            // Add more...
+        ];
 
-    // 🧩 Create cards inside carousel
-    const track = document.getElementById("carousel-track");
-    products.forEach(prod => {
-        const card = document.createElement("div");
-        card.classList.add("product-card");
-        card.innerHTML = `
+        // 🧩 Create cards inside carousel
+        const track = document.getElementById("carousel-track");
+        products.forEach(prod => {
+            const card = document.createElement("div");
+            card.classList.add("product-card");
+            card.innerHTML = `
             <img src="${prod.image}" alt="${prod.name}">
             <h3>${prod.name}</h3>
             <p><b>Country:</b> ${prod.country}</p>
@@ -689,48 +702,48 @@
             <p><b>Color:</b> ${prod.color}</p>
             <button>Enquiry Now</button>
         `;
-        track.appendChild(card);
-    });
+            track.appendChild(card);
+        });
 
-    // 🧭 Carousel logic
-    const nextBtn = document.querySelector(".next");
-    const prevBtn = document.querySelector(".prev");
-    let currentIndex = 0;
+        // 🧭 Carousel logic
+        const nextBtn = document.querySelector(".next");
+        const prevBtn = document.querySelector(".prev");
+        let currentIndex = 0;
 
-    function updateCarousel() {
-        const cardWidth = track.querySelector(".product-card").offsetWidth + 20; // card + gap
-        track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-    }
-
-    nextBtn.addEventListener("click", () => {
-        const cards = document.querySelectorAll(".product-card").length;
-        if (currentIndex < cards - 1) {
-            currentIndex++;
-        } else {
-            currentIndex = 0; // loop to start
+        function updateCarousel() {
+            const cardWidth = track.querySelector(".product-card").offsetWidth + 20; // card + gap
+            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
         }
-        updateCarousel();
-    });
 
-    prevBtn.addEventListener("click", () => {
-        const cards = document.querySelectorAll(".product-card").length;
-        if (currentIndex > 0) {
-            currentIndex--;
-        } else {
-            currentIndex = cards - 1; // loop to end
-        }
-        updateCarousel();
-    });
+        nextBtn.addEventListener("click", () => {
+            const cards = document.querySelectorAll(".product-card").length;
+            if (currentIndex < cards - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // loop to start
+            }
+            updateCarousel();
+        });
 
-    // 🌀 Auto-slide every 5s
-    setInterval(() => {
-        const cards = document.querySelectorAll(".product-card").length;
-        currentIndex = (currentIndex + 1) % cards;
-        updateCarousel();
-    }, 4000);
+        prevBtn.addEventListener("click", () => {
+            const cards = document.querySelectorAll(".product-card").length;
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = cards - 1; // loop to end
+            }
+            updateCarousel();
+        });
 
-    window.addEventListener("resize", updateCarousel);
-    updateCarousel();
+        // 🌀 Auto-slide every 5s
+        setInterval(() => {
+            const cards = document.querySelectorAll(".product-card").length;
+            currentIndex = (currentIndex + 1) % cards;
+            updateCarousel();
+        }, 4000);
+
+        window.addEventListener("resize", updateCarousel);
+        updateCarousel();
     </script>
 </body>
 
