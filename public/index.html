@@ -422,7 +422,16 @@
         </div>
     </main>
 
-    
+    <section class="popular-products">
+        <h2><span style="color:#a05252;">Popular</span> Products</h2>
+
+        <div class="carousel-container">
+            <button class="carousel-btn prev">&#10094;</button>
+            <div class="carousel-track" id="carousel-track"></div>
+            <button class="carousel-btn next">&#10095;</button>
+        </div>
+    </section>
+
 
     <script>
         // Hamburger toggle
@@ -465,6 +474,75 @@
             updateCartCount();
             checkLoginStatus();
         });
+
+        // 🪄 Product Data — add all 80 here
+        const products = [
+            { name: "Kelly HB Office Chair", image: "/image/chair1.jpg", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/chair2.jpg", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/chair3.jpg", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/chair4.jpg", country: "India", style: "Modern", color: "Grey" },
+            { name: "Kelly HB Office Chair", image: "/image/chair1.jpg", country: "India", style: "Modern", color: "Black" },
+            { name: "King Office Chair", image: "/image/chair2.jpg", country: "India", style: "Modern", color: "Brown" },
+            { name: "Matrix MB Office Chair", image: "/image/chair3.jpg", country: "India", style: "Modern", color: "Black" },
+            { name: "Olivia HB Office Chair", image: "/image/chair4.jpg", country: "India", style: "Modern", color: "Grey" },
+            // ➕ Add up to 80 here (just copy-paste objects like above)
+        ];
+
+        const track = document.getElementById("carousel-track");
+
+        // 🧩 Group every 4 items into one slide
+        for (let i = 0; i < products.length; i += 4) {
+            const slide = document.createElement("div");
+            slide.classList.add("carousel-slide");
+
+            const group = products.slice(i, i + 4);
+            group.forEach(prod => {
+                const card = document.createElement("div");
+                card.classList.add("product-card");
+                card.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}">
+        <h3>${prod.name}</h3>
+        <p><b>Country:</b> ${prod.country}</p>
+        <p><b>Style:</b> ${prod.style}</p>
+        <p><b>Color:</b> ${prod.color}</p>
+        <button>Enquiry Now</button>
+      `;
+                slide.appendChild(card);
+            });
+
+            track.appendChild(slide);
+        }
+
+        // 🧭 Carousel Controls
+        const slides = document.querySelectorAll(".carousel-slide");
+        const nextBtn = document.querySelector(".next");
+        const prevBtn = document.querySelector(".prev");
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle("active", i === index);
+            });
+        }
+
+        nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        });
+
+        showSlide(currentIndex);
+
+        // Optional auto-slide every 5 seconds
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }, 5000);
+
     </script>
 </body>
 
