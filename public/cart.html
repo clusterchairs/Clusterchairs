@@ -328,9 +328,13 @@
     }
 
     .whatsapp-icon::before {
-      content: "📞";
+      content: "";
+      display: block;
+      width: 32px;
+      height: 32px;
       font-size: 1.5em;
-      color: white;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg') no-repeat center center;
+      background-size: contain;
     }
 
     @media (max-width: 1024px) {
