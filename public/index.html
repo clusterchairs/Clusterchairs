@@ -591,68 +591,74 @@
         });
 
         // ✅ Product List — just add new items here
-        const products = [
-            { name: "Kelly HB Office Chair", image: "/image/chair1.jpg", country: "India", style: "Modern", color: "Black" },
-            { name: "King Office Chair", image: "/image/chair2.jpg", country: "India", style: "Modern", color: "Brown" },
-            { name: "Matrix MB Office Chair", image: "/image/chair3.jpg", country: "India", style: "Modern", color: "Black" },
-            { name: "Olivia HB Office Chair", image: "/image/chair4.jpg", country: "India", style: "Modern", color: "Grey" },
-            { name: "Crown Executive Chair", image: "/image/chair5.jpg", country: "India", style: "Luxury", color: "Tan" },
-            { name: "Smart Ergonomic Chair", image: "/image/chair6.jpg", country: "India", style: "Contemporary", color: "Blue" },
-            { name: "Wave HB Office Chair", image: "/image/chair7.jpg", country: "India", style: "Modern", color: "Red" },
-            { name: "Prime Manager Chair", image: "/image/chair8.jpg", country: "India", style: "Classic", color: "Black" },
-            // ✅ Just keep adding more here — auto slide creation 🚀
-        ];
+        // 🪄 Product List
+    const products = [
+        { name: "Kelly HB Office Chair", image: "/image/chair1.jpg", country: "India", style: "Modern", color: "Black" },
+        { name: "King Office Chair", image: "/image/chair2.jpg", country: "India", style: "Modern", color: "Brown" },
+        { name: "Matrix MB Office Chair", image: "/image/chair3.jpg", country: "India", style: "Modern", color: "Black" },
+        { name: "Olivia HB Office Chair", image: "/image/chair4.jpg", country: "India", style: "Modern", color: "Grey" },
+        { name: "Crown Executive Chair", image: "/image/chair5.jpg", country: "India", style: "Luxury", color: "Tan" },
+        { name: "Smart Ergonomic Chair", image: "/image/chair6.jpg", country: "India", style: "Contemporary", color: "Blue" },
+        { name: "Wave HB Office Chair", image: "/image/chair7.jpg", country: "India", style: "Modern", color: "Red" },
+        { name: "Prime Manager Chair", image: "/image/chair8.jpg", country: "India", style: "Classic", color: "Black" },
+        // Add more...
+    ];
 
-        const track = document.getElementById("carousel-track");
+    // 🧩 Create cards inside carousel
+    const track = document.getElementById("carousel-track");
+    products.forEach(prod => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+        card.innerHTML = `
+            <img src="${prod.image}" alt="${prod.name}">
+            <h3>${prod.name}</h3>
+            <p><b>Country:</b> ${prod.country}</p>
+            <p><b>Style:</b> ${prod.style}</p>
+            <p><b>Color:</b> ${prod.color}</p>
+            <button>Enquiry Now</button>
+        `;
+        track.appendChild(card);
+    });
 
-        // ✅ Auto create slides of 4 cards per slide
-        let slide;
-        products.forEach((product, index) => {
-            if (index % 4 === 0) {
-                slide = document.createElement("div");
-                slide.classList.add("carousel-slide");
-                track.appendChild(slide);
-            }
-            const card = document.createElement("div");
-            card.classList.add("product-card");
-            card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <h3>${product.name}</h3>
-      <p><b>Country:</b> ${product.country}</p>
-      <p><b>Style:</b> ${product.style}</p>
-      <p><b>Color:</b> ${product.color}</p>
-      <button>Enquiry Now</button>
-  `;
-            slide.appendChild(card);
-        });
+    // 🧭 Carousel logic
+    const nextBtn = document.querySelector(".next");
+    const prevBtn = document.querySelector(".prev");
+    let currentIndex = 0;
 
-        // ✅ Carousel Controller
-        const slides = document.querySelectorAll(".carousel-slide");
-        const nextBtn = document.querySelector(".next");
-        const prevBtn = document.querySelector(".prev");
-        let currentIndex = 0;
+    function updateCarousel() {
+        const cardWidth = track.querySelector(".product-card").offsetWidth + 20; // card + gap
+        track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    }
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle("active", i === index);
-            });
+    nextBtn.addEventListener("click", () => {
+        const cards = document.querySelectorAll(".product-card").length;
+        if (currentIndex < cards - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0; // loop to start
         }
+        updateCarousel();
+    });
 
-        nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % slides.length;
-            showSlide(currentIndex);
-        });
-        prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            showSlide(currentIndex);
-        });
+    prevBtn.addEventListener("click", () => {
+        const cards = document.querySelectorAll(".product-card").length;
+        if (currentIndex > 0) {
+            currentIndex--;
+        } else {
+            currentIndex = cards - 1; // loop to end
+        }
+        updateCarousel();
+    });
 
-        // ✅ Start
-        showSlide(0);
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % slides.length;
-            showSlide(currentIndex);
-        }, 5000);
+    // 🌀 Auto-slide every 5s
+    setInterval(() => {
+        const cards = document.querySelectorAll(".product-card").length;
+        currentIndex = (currentIndex + 1) % cards;
+        updateCarousel();
+    }, 4000);
+
+    window.addEventListener("resize", updateCarousel);
+    updateCarousel();
     </script>
 </body>
 
