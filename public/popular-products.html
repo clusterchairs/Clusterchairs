@@ -141,6 +141,37 @@
         .back-btn a:hover {
             background: #7a3d3d;
         }
+
+        /* 🔍 Image Lightbox (same-page view) */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -161,7 +192,7 @@
 
     <script>
         const products = [];
-        // 🟢 Start from 2 instead of 1 to skip the deleted first image
+        // Skip the first image (1.png)
         for (let i = 2; i <= 80; i++) {
             products.push({
                 name: `Product ${i - 1}`,
@@ -175,13 +206,44 @@
             const card = document.createElement("div");
             card.classList.add("product-card");
             card.innerHTML = `
-            <img src="${prod.image}" alt="${prod.name}">
+            <img src="${prod.image}" alt="${prod.name}" class="clickable-image">
             <h3>${prod.name}</h3>
             <button>Enquiry Now</button>
         `;
             grid.appendChild(card);
         });
+
+        // 🖼️ Create lightbox element dynamically
+        const lightbox = document.createElement('div');
+        lightbox.classList.add('lightbox');
+        lightbox.innerHTML = `
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="Preview">
+    `;
+        document.body.appendChild(lightbox);
+
+        const lightboxImg = lightbox.querySelector('img');
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+
+        // 🔘 Open image in same page
+        document.addEventListener('click', e => {
+            if (e.target.classList.contains('clickable-image')) {
+                lightboxImg.src = e.target.src;
+                lightbox.style.display = 'flex';
+            }
+        });
+
+        // ❌ Close lightbox on click
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        // Also close if user clicks outside image
+        lightbox.addEventListener('click', e => {
+            if (e.target === lightbox) lightbox.style.display = 'none';
+        });
     </script>
+
 
 </body>
 
