@@ -423,31 +423,67 @@
             }
         }
 
-        /* ✅ Convert popular-products into grid layout on mobile */
+        /* ✅ Hide new mobile version by default */
+        .mobile-single-card {
+            display: none;
+        }
+
+        /* ✅ Show mobile single card only on small screens */
         @media (max-width: 600px) {
-            .carousel-container {
-                overflow: visible;
-            }
-
-            .carousel-track {
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 20px;
-                transform: none !important;
-                transition: none !important;
-            }
-
-            .product-card {
-                flex: none !important;
-                width: 90% !important;
-                min-width: unset !important;
-                margin: 0 auto;
-                height: 10px !important;
-            }
-
-            .carousel-btn {
+            .popular-products:not(.mobile-single-card) {
                 display: none;
-                /* hide arrows on mobile */
+                /* hides original carousel */
+            }
+
+            .mobile-single-card {
+                display: block;
+                padding: 40px 0;
+                background: #fff;
+                text-align: center;
+            }
+
+            .mobile-single-card .single-card {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .mobile-single-card .product-card {
+                width: 90%;
+                max-width: 400px;
+                background: #f8f8f8;
+                border-radius: 12px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+                padding: 16px;
+                text-align: center;
+                transition: transform 0.3s ease;
+            }
+
+            .mobile-single-card .product-card:hover {
+                transform: scale(1.05);
+            }
+
+            .mobile-single-card img {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+                object-fit: cover;
+            }
+
+            .mobile-single-card button {
+                background: #a05252;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                padding: 10px 16px;
+                margin-top: 12px;
+                font-size: 1em;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            .mobile-single-card button:hover {
+                background: #7a3d3d;
             }
         }
     </style>
@@ -566,6 +602,23 @@
             <button class="carousel-btn next">&#10095;</button>
         </div>
     </section>
+
+    <!-- ✅ Mobile Only: Single Card Redirect -->
+    <section class="popular-products mobile-single-card">
+        <h2><span style="color:#a05252;">Popular</span> Products</h2>
+
+        <div class="single-card">
+            <a href="/popular-products.html" style="text-decoration:none;color:inherit;">
+                <div class="product-card">
+                    <img src="/image/slideshow/1.png" alt="Popular Products">
+                    <h3>Explore Our Popular Range</h3>
+                    <p>Discover over 80 best-selling designs and styles in our collection.</p>
+                    <button>View All Products</button>
+                </div>
+            </a>
+        </div>
+    </section>
+
 
     <script>
         // Hamburger toggle
