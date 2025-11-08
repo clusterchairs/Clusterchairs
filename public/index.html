@@ -428,96 +428,80 @@
             display: none;
         }
 
-        /* ✅ Show mobile single card only on small screens */
+        /* ✅ Responsive Mobile View (600px and below) */
         @media (max-width: 600px) {
-            .popular-products:not(.mobile-single-card) {
+
+            /* Remove extra padding for mobile */
+            .popular-products {
+                padding: 6vw 0;
+            }
+
+            .carousel-container {
+                padding: 0 4vw;
+            }
+
+            /* Hide the multi-card carousel for mobile */
+            .carousel-track {
                 display: none;
-                /* hides original carousel */
             }
 
-            .popular-products.mobile-single-card {
-                width: 100% !important;
-            }
-
-            .single-card {
-                justify-content: center;
-                align-items: center;
-                max-width: 390px !important;
-                width: 390px !important;
-            }
-            
-            .product-card {
-                width: 380px !important;
-                min-width: 380px !important;
-                height: auto !important;
-                min-height: auto !important;
-                flex: none !important;
-                margin: 0 !important;
-                border-radius: 12px;
-            }
-
-            .product-card img {
-                width: 370px !important;
-                max-width: 370px !important;
-                height: auto !important;
-                margin: -10px !important;
-                padding: -10px !important;
-            }
-
+            /* Show single responsive card instead */
             .mobile-single-card {
-                display: block;
-                padding: 40px 0;
-                background: #fff;
-                text-align: center;
-                width: 390px;
-                max-width: 390px;
-                margin-left: 10px;
-                border-radius: 12px;
-            }
-
-            .mobile-single-card .single-card {
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
                 align-items: center;
-            }
-
-            .mobile-single-card .product-card {
                 background: #f8f8f8;
-                border-radius: 12px;
-                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-                padding: 16px;
-                text-align: center;
-                transition: transform 0.3s ease;
-            }
-
-            .mobile-single-card .product-card:hover {
-                transform: scale(1.05);
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                margin: 0 auto;
+                width: 88vw;
+                max-width: 480px;
+                padding: 4vw;
+                box-sizing: border-box;
             }
 
             .mobile-single-card img {
-                width: 370px;
-                max-width: 370px;
+                width: 100%;
                 height: auto;
                 border-radius: 8px;
+                margin-bottom: 4vw;
                 object-fit: cover;
-                margin: -10px;
-                padding: -10px;
+            }
+
+            .mobile-single-card h3 {
+                font-size: 4.5vw;
+                margin-bottom: 3vw;
+                color: #232f3e;
+                text-align: center;
+            }
+
+            .mobile-single-card p {
+                font-size: 3.5vw;
+                margin-bottom: 5vw;
+                text-align: center;
+                color: #444;
             }
 
             .mobile-single-card button {
                 background: #a05252;
                 color: white;
                 border: none;
-                border-radius: 8px;
-                padding: 6px 10px;
-                margin-top: 12px;
-                font-size: 1em;
+                border-radius: 6px;
+                padding: 3.5vw 7vw;
+                font-size: 4vw;
                 cursor: pointer;
+                width: 100%;
+                max-width: 300px;
                 transition: background 0.3s ease;
             }
 
             .mobile-single-card button:hover {
-                background: #7a3d3d;
+                background: #7d3d3d;
+            }
+
+            /* Hide carousel arrows on mobile */
+            .carousel-btn {
+                display: none;
             }
         }
     </style>
@@ -637,22 +621,13 @@
         </div>
     </section>
 
-    <!-- ✅ Mobile Only: Single Card Redirect -->
-    <section class="popular-products mobile-single-card">
-        <h2><span style="color:#a05252;">Popular</span> Products</h2>
-
-        <div class="single-card">
-            <a href="/popular-products.html" style="text-decoration:none;color:inherit;">
-                <div class="product-card">
-                    <img src="/image/popularface.jpg" alt="Popular Products">
-                    <h3>Explore Our Popular Range</h3>
-                    <p>Discover over 80 best-selling designs and styles in our collection.</p>
-                    <button>View All Products</button>
-                </div>
-            </a>
-        </div>
-    </section>
-
+    <!-- Mobile Single Card (Visible only under 600px) -->
+    <div class="mobile-single-card" onclick="window.location.href='/popular-products.html'">
+        <img src="/image/popularface.jpg" alt="Popular Products">
+        <h3>Explore Our Popular Products</h3>
+        <p>Discover top-rated furniture and bestsellers tailored for every space.</p>
+        <button>View All</button>
+    </div>
 
     <script>
         // Hamburger toggle
