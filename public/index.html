@@ -423,37 +423,31 @@
             }
         }
 
+        /* ✅ Convert popular-products into grid layout on mobile */
         @media (max-width: 600px) {
-            .popular-products {
-                /* REMOVE the side padding from the section for easier full-width card math */
-                padding: 40px 0;
+            .carousel-container {
+                overflow: visible;
             }
 
-            .carousel-container {
-                /* Keep padding here to prevent cards touching edges */
-                padding: 0 15px;
+            .carousel-track {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 20px;
+                transform: none !important;
+                transition: none !important;
             }
 
             .product-card {
-                /* FIX: Must take full width of the padded container (100% of available space) */
-                flex: 0 0 100%;
-                width: 80%;
-                height: 80px;
-                max-height: 80px;
-                min-width: 80%;
+                flex: none !important;
+                width: 90% !important;
+                min-width: unset !important;
+                margin: 0 auto;
+                height: auto !important;
             }
 
-            .product-card img {
-                height: 90%;
-                width: 100%;
-            }
-
-            .carousel-btn.prev {
-                left: 20px;
-            }
-
-            .carousel-btn.next {
-                right: 20px;
+            .carousel-btn {
+                display: none;
+                /* hide arrows on mobile */
             }
         }
     </style>
@@ -615,86 +609,86 @@
 
         // 🪄 Product List
         const products = [
-            { image: "/image/slideshow/1.png"},
-            { image: "/image/slideshow/2.png"},
-            { image: "/image/slideshow/3.png"},
-            { image: "/image/slideshow/4.png"},
-            { image: "/image/slideshow/5.png"},
-            { image: "/image/slideshow/6.png"},
-            { image: "/image/slideshow/7.png"},
-            { image: "/image/slideshow/8.png"},
-            { image: "/image/slideshow/9.png"},
-            { image: "/image/slideshow/10.png"},
-            { image: "/image/slideshow/11.png"},
-            { image: "/image/slideshow/12.png"},
-            { image: "/image/slideshow/13.png"},
-            { image: "/image/slideshow/14.png"},
-            { image: "/image/slideshow/15.png"},
-            { image: "/image/slideshow/16.png"},
-            { image: "/image/slideshow/17.png"},
-            { image: "/image/slideshow/18.png"},
-            { image: "/image/slideshow/19.png"},
-            { image: "/image/slideshow/20.png"},
-            { image: "/image/slideshow/21.png"},
-            { image: "/image/slideshow/22.png"},
-            { image: "/image/slideshow/23.png"},
-            { image: "/image/slideshow/24.png"},
-            { image: "/image/slideshow/25.png"},
-            { image: "/image/slideshow/26.png"},
-            { image: "/image/slideshow/27.png"},
-            { image: "/image/slideshow/28.png"},
-            { image: "/image/slideshow/29.png"},
-            { image: "/image/slideshow/30.png"},
-            { image: "/image/slideshow/31.png"},
-            { image: "/image/slideshow/32.png"},
-            { image: "/image/slideshow/33.png"},
-            { image: "/image/slideshow/34.png"},
-            { image: "/image/slideshow/35.png"},
-            { image: "/image/slideshow/36.png"},
-            { image: "/image/slideshow/37.png"},
-            { image: "/image/slideshow/38.png"},
-            { image: "/image/slideshow/39.png"},
-            { image: "/image/slideshow/40.png"},
-            { image: "/image/slideshow/41.png"},
-            { image: "/image/slideshow/42.png"},
-            { image: "/image/slideshow/43.png"},
-            { image: "/image/slideshow/44.png"},
-            { image: "/image/slideshow/45.png"},
-            { image: "/image/slideshow/46.png"},
-            { image: "/image/slideshow/47.png"},
-            { image: "/image/slideshow/48.png"},
-            { image: "/image/slideshow/49.png"},
-            { image: "/image/slideshow/50.png"},
-            { image: "/image/slideshow/51.png"},
-            { image: "/image/slideshow/52.png"},
-            { image: "/image/slideshow/53.png"},
-            { image: "/image/slideshow/54.png"},
-            { image: "/image/slideshow/55.png"},
-            { image: "/image/slideshow/56.png"},
-            { image: "/image/slideshow/57.png"},
-            { image: "/image/slideshow/58.png"},
-            { image: "/image/slideshow/59.png"},
-            { image: "/image/slideshow/60.png"},
-            { image: "/image/slideshow/61.png"},
-            { image: "/image/slideshow/62.png"},
-            { image: "/image/slideshow/63.png"},
-            { image: "/image/slideshow/64.png"},
-            { image: "/image/slideshow/65.png"},
-            { image: "/image/slideshow/66.png"},
-            { image: "/image/slideshow/67.png"},
-            { image: "/image/slideshow/68.png"},
-            { image: "/image/slideshow/69.png"},
-            { image: "/image/slideshow/70.png"},
-            { image: "/image/slideshow/71.png"},
-            { image: "/image/slideshow/72.png"},
-            { image: "/image/slideshow/73.png"},
-            { image: "/image/slideshow/74.png"},
-            { image: "/image/slideshow/75.png"},
-            { image: "/image/slideshow/76.png"},
-            { image: "/image/slideshow/77.png"},
-            { image: "/image/slideshow/78.png"},
-            { image: "/image/slideshow/79.png"},
-            { image: "/image/slideshow/80.png"},
+            { image: "/image/slideshow/1.png" },
+            { image: "/image/slideshow/2.png" },
+            { image: "/image/slideshow/3.png" },
+            { image: "/image/slideshow/4.png" },
+            { image: "/image/slideshow/5.png" },
+            { image: "/image/slideshow/6.png" },
+            { image: "/image/slideshow/7.png" },
+            { image: "/image/slideshow/8.png" },
+            { image: "/image/slideshow/9.png" },
+            { image: "/image/slideshow/10.png" },
+            { image: "/image/slideshow/11.png" },
+            { image: "/image/slideshow/12.png" },
+            { image: "/image/slideshow/13.png" },
+            { image: "/image/slideshow/14.png" },
+            { image: "/image/slideshow/15.png" },
+            { image: "/image/slideshow/16.png" },
+            { image: "/image/slideshow/17.png" },
+            { image: "/image/slideshow/18.png" },
+            { image: "/image/slideshow/19.png" },
+            { image: "/image/slideshow/20.png" },
+            { image: "/image/slideshow/21.png" },
+            { image: "/image/slideshow/22.png" },
+            { image: "/image/slideshow/23.png" },
+            { image: "/image/slideshow/24.png" },
+            { image: "/image/slideshow/25.png" },
+            { image: "/image/slideshow/26.png" },
+            { image: "/image/slideshow/27.png" },
+            { image: "/image/slideshow/28.png" },
+            { image: "/image/slideshow/29.png" },
+            { image: "/image/slideshow/30.png" },
+            { image: "/image/slideshow/31.png" },
+            { image: "/image/slideshow/32.png" },
+            { image: "/image/slideshow/33.png" },
+            { image: "/image/slideshow/34.png" },
+            { image: "/image/slideshow/35.png" },
+            { image: "/image/slideshow/36.png" },
+            { image: "/image/slideshow/37.png" },
+            { image: "/image/slideshow/38.png" },
+            { image: "/image/slideshow/39.png" },
+            { image: "/image/slideshow/40.png" },
+            { image: "/image/slideshow/41.png" },
+            { image: "/image/slideshow/42.png" },
+            { image: "/image/slideshow/43.png" },
+            { image: "/image/slideshow/44.png" },
+            { image: "/image/slideshow/45.png" },
+            { image: "/image/slideshow/46.png" },
+            { image: "/image/slideshow/47.png" },
+            { image: "/image/slideshow/48.png" },
+            { image: "/image/slideshow/49.png" },
+            { image: "/image/slideshow/50.png" },
+            { image: "/image/slideshow/51.png" },
+            { image: "/image/slideshow/52.png" },
+            { image: "/image/slideshow/53.png" },
+            { image: "/image/slideshow/54.png" },
+            { image: "/image/slideshow/55.png" },
+            { image: "/image/slideshow/56.png" },
+            { image: "/image/slideshow/57.png" },
+            { image: "/image/slideshow/58.png" },
+            { image: "/image/slideshow/59.png" },
+            { image: "/image/slideshow/60.png" },
+            { image: "/image/slideshow/61.png" },
+            { image: "/image/slideshow/62.png" },
+            { image: "/image/slideshow/63.png" },
+            { image: "/image/slideshow/64.png" },
+            { image: "/image/slideshow/65.png" },
+            { image: "/image/slideshow/66.png" },
+            { image: "/image/slideshow/67.png" },
+            { image: "/image/slideshow/68.png" },
+            { image: "/image/slideshow/69.png" },
+            { image: "/image/slideshow/70.png" },
+            { image: "/image/slideshow/71.png" },
+            { image: "/image/slideshow/72.png" },
+            { image: "/image/slideshow/73.png" },
+            { image: "/image/slideshow/74.png" },
+            { image: "/image/slideshow/75.png" },
+            { image: "/image/slideshow/76.png" },
+            { image: "/image/slideshow/77.png" },
+            { image: "/image/slideshow/78.png" },
+            { image: "/image/slideshow/79.png" },
+            { image: "/image/slideshow/80.png" },
             // Add more...
         ];
 
@@ -769,6 +763,19 @@
 
         nextBtn.addEventListener("click", () => updateIndex('next'));
         prevBtn.addEventListener("click", () => updateIndex('prev'));
+
+        // ✅ Disable auto-slide on mobile and switch to grid mode
+        function handleMobileMode() {
+            if (window.innerWidth <= 600) {
+                // Stop auto-slide
+                clearInterval(autoSlide);
+                track.style.transform = "none";
+            }
+        }
+
+        window.addEventListener("resize", handleMobileMode);
+        window.addEventListener("load", handleMobileMode);
+
 
         // 🌀 Auto-slide every 4s
         // Modified auto-slide to use the new updateIndex
