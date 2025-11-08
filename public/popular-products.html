@@ -161,9 +161,10 @@
 
     <script>
         const products = [];
-        for (let i = 1; i <= 80; i++) {
+        // 🟢 Start from 2 instead of 1 to skip the deleted first image
+        for (let i = 2; i <= 80; i++) {
             products.push({
-                name: `Product ${i}`,
+                name: `Product ${i - 1}`,
                 image: `/image/slideshow/${i}.png`
             });
         }
@@ -174,13 +175,14 @@
             const card = document.createElement("div");
             card.classList.add("product-card");
             card.innerHTML = `
-        <img src="${prod.image}" alt="${prod.name}">
-        <h3>${prod.name}</h3>
-        <button>Enquiry Now</button>
-      `;
+            <img src="${prod.image}" alt="${prod.name}">
+            <h3>${prod.name}</h3>
+            <button>Enquiry Now</button>
+        `;
             grid.appendChild(card);
         });
     </script>
+
 </body>
 
 </html>
