@@ -753,6 +753,8 @@
             // Add more...
         ];
 
+        const whatsappNumber = "+918591931317"; // Your WhatsApp number
+
         // 🧩 Create cards inside carousel
         const track = document.getElementById("carousel-track");
         products.forEach(prod => {
@@ -760,9 +762,18 @@
             card.classList.add("product-card");
             card.innerHTML = `
                 <img src="${prod.image}" alt="Product Image">
-                <button>Enquiry Now</button>
+                <button class="enquiry-btn">Enquiry Now</button>
             `;
             track.appendChild(card);
+
+            // WhatsApp button click
+            const btn = card.querySelector(".enquiry-btn");
+            btn.addEventListener("click", () => {
+                const message = `Hello! I am interested in this product. 
+Here is the image: ${window.location.origin}${prod.image}`;
+                const url = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
+                window.open(url, "_blank");
+            });
         });
 
         // 🧭 Carousel logic

@@ -191,6 +191,9 @@
     </div>
 
     <script>
+
+        const whatsappNumber = "+918591931317";
+
         const products = [];
         // Skip the first image (1.png)
         for (let i = 2; i <= 80; i++) {
@@ -208,10 +211,21 @@
             card.innerHTML = `
             <img src="${prod.image}" alt="${prod.name}" class="clickable-image">
             <h3>${prod.name}</h3>
-            <button>Enquiry Now</button>
+            <button class="enquiry-btn">Enquiry Now</button>
         `;
             grid.appendChild(card);
+
+            // WhatsApp button click
+            const btn = card.querySelector(".enquiry-btn");
+            btn.addEventListener("click", () => {
+                const message = `Hello! I am interested in this product: ${prod.name}. 
+Here is the image: ${window.location.origin}${prod.image}`;
+                const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                window.open(url, "_blank");
+            });
         });
+
+
 
         // 🖼️ Create lightbox element dynamically
         const lightbox = document.createElement('div');
