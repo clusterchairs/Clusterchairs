@@ -507,17 +507,37 @@
 
         /* Footer */
         .footer {
-            text-align: center;
-            padding: 15px 20px;
             background: rgb(121, 65, 65);
-            color: white;
-            font-size: 16px;
-            margin-top: 30px;
-            border-top: 2px solid #a05252;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 10px;
         }
 
         .footer p {
-            margin: 0;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer-social {
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: #febd69;
         }
     </style>
 </head>
@@ -645,8 +665,20 @@
     </div>
 
     <footer class="footer">
-        <p>© 2025 Cluster Chairs. All Rights Reserved.</p>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="/image/logo.png" alt="Cluster Chairs Logo">
+            </div>
+            <p>© 2025 Cluster Chairs. All Rights Reserved.</p>
+            <p>Designed with ❤️ for comfort and style.</p>
+            <div class="footer-social">
+                <a href="https://facebook.com" target="_blank">Facebook</a>
+                <a href="https://instagram.com" target="_blank">Instagram</a>
+                <a href="https://twitter.com" target="_blank">Twitter</a>
+            </div>
+        </div>
     </footer>
+
 
 
     <script>
