@@ -156,11 +156,70 @@
             z-index: 9999;
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart {
+            width: 40px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #febd69;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: white;
+        }
+
+        .location {
+            font-size: 36px;
+            font-family: Protest Strike, sans-serif;
+            line-height: 1.1;
+            letter-spacing: 2px;
+        }
+
         .lightbox img {
             max-width: 90%;
             max-height: 90%;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            background: rgb(121, 65, 65);
+            color: #fff;
+            padding: 10px 20px;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 80px;
+            width: auto;
+            display: block;
         }
 
         .lightbox-close {
@@ -176,10 +235,22 @@
 </head>
 
 <body>
-    <header>
-        <a href="/index.html"><img src="/image/logo.png" alt="Cluster Chairs Logo"></a>
-        <h1>Cluster Chairs</h1>
-        <a href="/cart.html">🛒 Cart</a>
+    <header class="navbar">
+        <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
+        <div class="location">Cluster Chairs</div>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="/login.html" id="account-link">Account & Lists</a>
+            <a href="#" id="logout-link" style="display: none;">Logout</a>
+            <a href="/cart.html">
+                <img src="/image/cartimage.png" class="cart">
+                <span id="cart-count">0</span>
+            </a>
+        </div>
     </header>
 
     <h2 class="page-title"><span>Popular</span> Products</h2>
@@ -191,6 +262,45 @@
     </div>
 
     <script>
+
+        // Hamburger toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+        // Login and cart
+        function handleLogout() {
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+
+        function checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            const accountLink = document.getElementById('account-link');
+            const logoutLink = document.getElementById('logout-link');
+            if (token) {
+                accountLink.style.display = 'none';
+                logoutLink.style.display = 'inline';
+                logoutLink.addEventListener('click', handleLogout);
+            } else {
+                accountLink.style.display = 'inline';
+                logoutLink.style.display = 'none';
+            }
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = localStorage.getItem('cartCount') || 0;
+        }
+
+        window.addEventListener('load', () => {
+            updateCartCount();
+            checkLoginStatus();
+        });
+
+        window.addEventListener('storage', () => {
+            updateCartCount();
+            checkLoginStatus();
+        });
 
         const whatsappNumber = "+918591931317";
 
