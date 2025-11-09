@@ -231,6 +231,33 @@
             cursor: pointer;
             font-weight: bold;
         }
+
+        /* Hamburger menu for small screens */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: rgb(121, 65, 65);
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 200px;
+                padding: 10px;
+                border-radius: 0 0 8px 8px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links a {
+                margin: 10px 0;
+            }
+        }
     </style>
 </head>
 
