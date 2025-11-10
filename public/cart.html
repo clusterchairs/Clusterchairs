@@ -719,37 +719,39 @@
       }
     }
     document.getElementById('pay-now-btn').addEventListener('click', payNow);
+
+    // WhatsApp popup toggle
     const whatsappIcon = document.getElementById('whatsapp-icon');
     const whatsappPopup = document.getElementById('whatsapp-popup');
 
-    // guard
     if (whatsappIcon && whatsappPopup) {
       function toggleWhatsappPopup(e) {
         e.stopPropagation();
+        // Toggle the popup visibility
         whatsappPopup.classList.toggle('active');
       }
 
-      // Use pointer events + touch + click so desktop & mobile both work reliably
-      ['pointerdown', 'touchstart', 'click'].forEach(evt =>
-        whatsappIcon.addEventListener(evt, toggleWhatsappPopup)
-      );
+      // Use a single "click" event (no need for pointer/touch)
+      whatsappIcon.addEventListener('click', toggleWhatsappPopup);
 
-      // Close when clicking/tapping outside both icon and popup
-      function handleOutsideClick(e) {
-        if (!whatsappPopup.classList.contains('active')) return;
-        if (whatsappPopup.contains(e.target) || whatsappIcon.contains(e.target)) return;
-        whatsappPopup.classList.remove('active');
-      }
-
-      ['pointerdown', 'touchstart', 'click'].forEach(evt =>
-        document.addEventListener(evt, handleOutsideClick)
-      );
+      // Close when clicking outside — add a short delay so icon’s click doesn’t count
+      document.addEventListener('click', function (e) {
+        setTimeout(() => {
+          if (
+            whatsappPopup.classList.contains('active') &&
+            !whatsappPopup.contains(e.target) &&
+            !whatsappIcon.contains(e.target)
+          ) {
+            whatsappPopup.classList.remove('active');
+          }
+        }, 50); // Delay ensures the icon’s own click finishes first
+      });
 
       // Prevent clicks inside popup from closing it
-      whatsappPopup.addEventListener('click', function (e) {
-        e.stopPropagation();
-      });
+      whatsappPopup.addEventListener('click', e => e.stopPropagation());
     }
+
+
   </script>
 </body>
 
