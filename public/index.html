@@ -550,6 +550,19 @@
             font-size: 18px;
             vertical-align: middle;
         }
+
+        /* Hide Instagram text on mobile */
+        @media (max-width: 600px) {
+            .footer-social a .social-text {
+                display: none;
+            }
+
+            .footer-social a i {
+                font-size: 22px;
+                /* slightly bigger icon for mobile */
+                margin-right: 0;
+            }
+        }
     </style>
 </head>
 
@@ -684,7 +697,7 @@
             <p>Designed with ❤️ for comfort and style.</p>
             <div class="footer-social">
                 <a href="https://www.instagram.com/clusterchairs" target="_blank">
-                    <i class="fab fa-instagram"></i> Instagram
+                    <i class="fab fa-instagram"></i> <span class="social-text">Instagram</span>
                 </a>
             </div>
 
