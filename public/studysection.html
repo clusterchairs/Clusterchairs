@@ -180,10 +180,7 @@
     // Hamburger toggle
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
     // ✅ JSON data for products
     const products = [
@@ -201,25 +198,51 @@
       const card = document.createElement('div');
       card.classList.add('card');
       card.innerHTML = `
-        <img src="${prod.image}" alt="${prod.name}">
-        <h3>${prod.name}</h3>
-        <p class="price">₹${prod.price.toLocaleString()}</p>
-        <button class="add-to-cart-btn" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.image}">
-          Add to Cart
-        </button>
-      `;
+      <img src="${prod.image}" alt="${prod.name}">
+      <h3>${prod.name}</h3>
+      <p class="price">₹${prod.price.toLocaleString()}</p>
+      <button class="add-to-cart-btn" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.image}">
+        Add to Cart
+      </button>
+    `;
       container.appendChild(card);
     });
 
-    // ✅ Reuse existing Add-to-Cart logic
-    // Your cart-logic.js already attaches listeners to .add-to-cart-btn on page load
-    // So this ensures it's dynamically compatible
-    window.addEventListener('load', () => {
-      const event = new Event('DOMContentLoaded');
-      document.dispatchEvent(event);
-    });
+    // ✅ Ensure Add-to-Cart logic only attaches ONCE
+    // Wait for cart-logic.js to load, then manually initialize new buttons
+    window.addEventListener("load", () => {
+      // Select all add-to-cart buttons
+      const buttons = document.querySelectorAll(".add-to-cart-btn");
 
+      buttons.forEach(btn => {
+        // Remove any existing event listeners to avoid double triggers
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+
+        // Attach a single click event
+        newBtn.addEventListener("click", () => {
+          const name = newBtn.dataset.name;
+          const price = parseInt(newBtn.dataset.price);
+          const img = newBtn.dataset.img;
+
+          // ✅ Call the same function your cart-logic.js uses
+          if (typeof addToCart === "function") {
+            addToCart(name, price, img);
+          } else {
+            // Fallback: basic localStorage-based cart (in case JS not loaded)
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.push({ name, price, img });
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            const count = cart.length;
+            localStorage.setItem("cartCount", count);
+            document.getElementById("cart-count").textContent = count;
+          }
+        });
+      });
+    });
   </script>
+
 </body>
 
 </html>
