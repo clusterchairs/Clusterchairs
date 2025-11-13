@@ -169,56 +169,8 @@
     </div>
   </header>
 
-  <!-- Products -->
-  <div class="card-container">
-    <div class="card">
-      <img src="/image/century.png" alt="Century Chair">
-      <h3>Century</h3>
-      <p class="price">₹4,000</p>
-      <button class="add-to-cart-btn" data-name="Century" data-price="4000" data-img="/image/century.png">Add to
-        Cart</button>
-    </div>
-
-    <div class="card">
-      <img src="/image/timber.png" alt="Timber Chair">
-      <h3>Timber</h3>
-      <p class="price">₹4,250</p>
-      <button class="add-to-cart-btn" data-name="Timber" data-price="4250" data-img="/image/timber.png">Add to
-        Cart</button>
-    </div>
-
-    <div class="card">
-      <img src="/image/evo.png" alt="EVO Chair">
-      <h3>EVO</h3>
-      <p class="price">₹6,000</p>
-      <button class="add-to-cart-btn" data-name="EVO" data-price="6000" data-img="/image/evo.png">Add to
-        Cart</button>
-    </div>
-
-    <div class="card">
-      <img src="/image/premier.png" alt="Premier Chair">
-      <h3>Premier</h3>
-      <p class="price">₹4,500</p>
-      <button class="add-to-cart-btn" data-name="Premier" data-price="4500" data-img="/image/premier.png">Add to
-        Cart</button>
-    </div>
-
-    <div class="card">
-      <img src="/image/addon.png" alt="Addon Chair">
-      <h3>Addon</h3>
-      <p class="price">₹4,500</p>
-      <button class="add-to-cart-btn" data-name="Addon" data-price="4500" data-img="/image/addon.png">Add to
-        Cart</button>
-    </div>
-
-    <div class="card">
-      <img src="/image/prime tab.png" alt="Prime Tab Chair">
-      <h3>Prime Tab</h3>
-      <p class="price">₹3,000</p>
-      <button class="add-to-cart-btn" data-name="Prime Tab" data-price="3000" data-img="/image/prime tab.png">Add
-        to Cart</button>
-    </div>
-  </div>
+  <!-- Cards will be inserted here -->
+  <div class="card-container" id="card-container"></div>
 
   <div id="cart-popup"
     style="display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
@@ -232,6 +184,41 @@
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
+
+    // ✅ JSON data for products
+    const products = [
+      { name: "Century", price: 4000, image: "/image/century.png" },
+      { name: "Timber", price: 4250, image: "/image/timber.png" },
+      { name: "EVO", price: 6000, image: "/image/evo.png" },
+      { name: "Premier", price: 4500, image: "/image/premier.png" },
+      { name: "Addon", price: 4500, image: "/image/addon.png" },
+      { name: "Prime Tab", price: 3000, image: "/image/prime tab.png" },
+    ];
+
+    // ✅ Generate cards dynamically
+    const container = document.getElementById('card-container');
+    products.forEach(prod => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}">
+        <h3>${prod.name}</h3>
+        <p class="price">₹${prod.price.toLocaleString()}</p>
+        <button class="add-to-cart-btn" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.image}">
+          Add to Cart
+        </button>
+      `;
+      container.appendChild(card);
+    });
+
+    // ✅ Reuse existing Add-to-Cart logic
+    // Your cart-logic.js already attaches listeners to .add-to-cart-btn on page load
+    // So this ensures it's dynamically compatible
+    window.addEventListener('load', () => {
+      const event = new Event('DOMContentLoaded');
+      document.dispatchEvent(event);
+    });
+
   </script>
 </body>
 
