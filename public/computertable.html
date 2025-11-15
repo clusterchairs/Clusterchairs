@@ -299,102 +299,100 @@
         </div>
     </header>
 
-    <div class="card-container">
-        <div class="card">
-            <img src="/image/chikkan.jpg" alt="Computer Table 1">
-            <h3>Chikkana Computer Table</h3>
-            <p class="price">₹15,000</p>
-            <p>Chikkana Compact Space Saving Computer Table SB 008 (SB-008 COMPUTER TABLE)</p>
-            <button class="add-to-cart-btn" data-name="Chikkana table" data-price="15000"
-                data-img="/image/chikkan.jpg">Add to
-                Cart</button>
-        </div>
+    <!-- CARD CONTAINER (JSON WILL FILL THIS) -->
+    <div class="card-container" id="product-container"></div>
 
-        <div class="card">
-            <img src="/image/verner.jpg" alt="Computer Table 2">
-            <h3>Verner Computer Table</h3>
-            <p class="price">₹15,000</p>
-            <p><strong>Verner Computer Desk | Walnut</strong></p>
-            <button class="add-to-cart-btn" data-name="Verner Table" data-price="15000" data-img="/image/verner.jpg">Add
-                to
-                Cart</button>
-        </div>
+    <div id="cart-popup"
+        style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
+    </div>
 
-        <div class="card">
-            <img src="/image/hutch.jpg" alt="Computer Table 3">
-            <h3>Hutch Computer Table</h3>
-            <p class="price">₹20,000</p>
-            <p>Home Office Computer Table with Hutch and Monitor Shelf, Modern Writing Desk with Drawers and Shelves</p>
-            <button class="add-to-cart-btn" data-name="Hutch Table" data-price="20000" data-img="/image/hutch.jpg">Add
-                to
-                Cart</button>
-        </div>
+    <script>
 
-        <div class="card">
-            <img src="/image/gaming desk.jpg" alt="Gaming Desk 1">
-            <h3>Gaming Desk (Black)</h3>
-            <p class="price">₹12,000</p>
-            <p>Gaming desk, black, 160x80 cm (63x31 1/2 ")</p>
-            <button class="add-to-cart-btn" data-name="Gaming Desk Black" data-price="12000"
-                data-img="/image/gaming desk.jpg">Add to
-                Cart</button>
-        </div>
+        /* JSON PRODUCT LIST */
+        const products = [
+            {
+                name: "Chikkana Computer Table",
+                price: 15000,
+                img: "/image/chikkan.jpg",
+                desc: "Chikkana Compact Space Saving Computer Table SB 008"
+            },
+            {
+                name: "Verner Computer Table",
+                price: 15000,
+                img: "/image/verner.jpg",
+                desc: "Verner Computer Desk | Walnut"
+            },
+            {
+                name: "Hutch Computer Table",
+                price: 20000,
+                img: "/image/hutch.jpg",
+                desc: "Home Office Computer Table with Hutch"
+            },
+            {
+                name: "Gaming Desk (Black)",
+                price: 12000,
+                img: "/image/gaming desk.jpg",
+                desc: "Gaming desk, black, 160x80 cm"
+            },
+            {
+                name: "Sit/Stand Gaming Table",
+                price: 40000,
+                img: "/image/gaming vesk.jpg",
+                desc: "Electric adjustable gaming desk"
+            },
+            {
+                name: "Computer Desk: Gaming",
+                price: 40000,
+                img: "/image/computerone.jpg",
+                desc: "Gaming desk laptop table"
+            },
+            {
+                name: "Gaming Table (Black)",
+                price: 15000,
+                img: "/image/computertwo.jpg",
+                desc: "Gaming Table In Black Finish"
+            }
+        ];
 
-        <div class="card">
-            <img src="/image/gaming vesk.jpg" alt="Gaming Table 2">
-            <h3>Sit/Stand Gaming Table</h3>
-            <p class="price">₹40,000</p>
-            <p>Gaming desk sit/stand, electric/black, 120x80 cm (47 1/4x31 1/2 ")</p>
-            <button class="add-to-cart-btn" data-name="Sit/Stand Gaming Table" data-price="40000"
-                data-img="/image/gaming vesk.jpg">Add
-                to Cart</button>
-        </div>
+        /* AUTO-GENERATE CARDS */
+        products.forEach(p => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `
+                <img src="${p.img}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <p class="price">₹${p.price.toLocaleString()}</p>
+                <p>${p.desc}</p>
+                <button class="add-to-cart-btn"
+                    data-name="${p.name}"
+                    data-price="${p.price}"
+                    data-img="${p.img}">
+                    Add to Cart
+                </button>
+            `;
+            container.appendChild(card);
+        });
 
-        <div class="card">
-            <img src="/image/computerone.jpg" alt="Gaming Table 3">
-            <h3>Computer Desk: Gaming</h3>
-            <p class="price">₹40,000</p>
-            <p>Computer Desk : Gaming Desk Laptop Table</p>
-            <button class="add-to-cart-btn" data-name="Gaming Laptop Table" data-price="40000"
-                data-img="/image/computerone.jpg">Add
-                to Cart</button>
-        </div>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
-        <div class="card">
-            <img src="/image/computertwo.jpg" alt="Gaming Table 4">
-            <h3>Gaming Table (Black)</h3>
-            <p class="price">₹15,000</p>
-            <p>Gaming Table In Black Finish</p>
-            <button class="add-to-cart-btn" data-name="Gaming Table Black Finish" data-price="15000"
-                data-img="/image/computertwo.jpg">Add
-                to Cart</button>
-        </div>
+        hamburger.addEventListener("click", () => {
+            // Toggles the 'active' class on both elements
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
 
-        <div id="cart-popup"
-            style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
-        </div>
-
-        <script>
-            const hamburger = document.getElementById("hamburger");
-            const navLinks = document.getElementById("nav-links");
-
-            hamburger.addEventListener("click", () => {
-                // Toggles the 'active' class on both elements
-                navLinks.classList.toggle("active");
-                hamburger.classList.toggle("active");
+        // Optional: Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // Only close if the mobile menu is open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
             });
-
-            // Optional: Close menu when a link is clicked
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    // Only close if the mobile menu is open
-                    if (navLinks.classList.contains('active')) {
-                        navLinks.classList.remove('active');
-                        hamburger.classList.remove('active');
-                    }
-                });
-            });
-        </script>
+        });
+    </script>
 </body>
 
 </html>
