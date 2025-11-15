@@ -215,6 +215,9 @@
       container.appendChild(card);
     });
 
+
+
+
     // ✅ Attach add-to-cart events (same logic as cart-logic.js)
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.add-to-cart-btn').forEach(button => {
@@ -224,7 +227,7 @@
             price: parseInt(this.dataset.price),
             img: this.dataset.img
           };
-          handleAddToCart(product); // Calls your existing cart-logic.js function
+          handleAddToCart(product);
         });
       });
     });
