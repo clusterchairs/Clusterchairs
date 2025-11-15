@@ -237,9 +237,9 @@
         </div>
     </header>
 
-    <!-- EMPTY CONTAINER → JS will insert cards -->
-    <div class="card-container" id="dining-container"></div>
+    <!-- ---------------   JSON GENERATED CARDS HERE   ---------------- -->
 
+    <div class="card-container" id="dining-container"></div>
 
     <div id="cart-popup"
         style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
@@ -248,41 +248,36 @@
     <script>
 
         const diningData = [
-            { id: "DI-101", price: 25000, img: "/image/Fancy.jpg", desc: "Fancy & CRAFTS Solid Sheesham Wood 6 Seater Dining Table with 6 Chairs for Living Room | Walnut Finish" },
-            { id: "DI-102", price: 22000, img: "/image/dining2.jpg", desc: "Sheesham Wood 6 Seater Dining Table with Cushion Chairs Wooden Dining Table Set (Antique Oak Finish)" },
-            { id: "DI-103", price: 34000, img: "/image/dining3.jpg", desc: "Solid Sheesham Wood 6 Seater Dining Table Set with Cushion Chairs (Dark Walnut)" },
+            { id: "DI-101", price: 25000, img: "/image/Fancy.jpg", desc: "Fancy & CRAFTS Solid Sheesham Wood 6 Seater Dining Table..." },
+            { id: "DI-102", price: 22000, img: "/image/dining2.jpg", desc: "Sheesham Wood 6 Seater Dining Table with Cushion Chairs..." },
+            { id: "DI-103", price: 34000, img: "/image/dining3.jpg", desc: "Solid Sheesham Wood 6 Seater Dining Table Set..." },
             { id: "DI-104", price: 23000, img: "/image/dining4.jpg", desc: "Dining Set, Table with Top and 6 Jaíne Chairs" },
-            { id: "DI-105", price: 26500, img: "/image/dining5.jpg", desc: "Sheesham Wood Dining Table with 6 Chairs | Honey Finish with Cushions" },
+            { id: "DI-105", price: 26500, img: "/image/dining5.jpg", desc: "Sheesham Wood Dining Table with 6 Chairs..." },
             { id: "DI-106", price: 19000, img: "/image/dining6.jpg", desc: "Sheesham Wood 4 Seater Dining Table | Brown Finish" },
-            { id: "DI-107", price: 21000, img: "/image/dining7.jpg", desc: "6 Seater Solid Wood Dining Set | 4 Chairs + 1 Bench | Brown" },
-            { id: "DI-108", price: 19000, img: "/image/dining8.jpg", desc: "Solid Sheesham Wood 4 Seater Dining Table Set - Walnut & Beige" },
+            { id: "DI-107", price: 21000, img: "/image/dining7.jpg", desc: "Home Centre 6 Seater Solid Wood Dining Set..." },
+            { id: "DI-108", price: 19000, img: "/image/dining8.jpg", desc: "Solid Sheesham Wood 4 Seater Dining Table Set" },
             { id: "DI-109", price: 18000, img: "/image/dining9.jpg", desc: "Solid Wood 4 Seater Dining Table Set | Dirty Oak Finish" },
-            { id: "DI-110", price: 21000, img: "/image/dining10.jpg", desc: "Pure Sheesham Solid Wood 4 Seater Dining Table | Honey Oak Finish" }
+            { id: "DI-110", price: 21000, img: "/image/dining10.jpg", desc: "Pure Sheesham Solid Wood 4 Seater Dining Table" }
         ];
 
-        function loadDining() {
-            const container = document.getElementById("dining-container");
-            container.innerHTML = "";
+        const container = document.getElementById("dining-container");
 
-            diningData.forEach(item => {
-                const card = document.createElement("div");
-                card.classList.add("card");
-
-                card.innerHTML = `
+        diningData.forEach(item => {
+            container.innerHTML += `
+                <div class="card">
                     <img src="${item.img}" alt="${item.id}">
                     <h3>${item.id}</h3>
                     <p class="price">₹${item.price.toLocaleString()}</p>
                     <p>${item.desc}</p>
-                    <button class="add-to-cart-btn"
-                        data-name="${item.id}"
-                        data-price="${item.price}"
+                    <button class="add-to-cart-btn" 
+                        data-name="${item.id}" 
+                        data-price="${item.price}" 
                         data-img="${item.img}">
                         Add to Cart
                     </button>
-                `;
-                container.appendChild(card);
-            });
-        }
+                </div>
+            `;
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById("hamburger");
