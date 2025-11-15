@@ -314,31 +314,50 @@
         </div>
     </header>
 
-    <div class="card-container">
-        <div class="card">
-            <img src="/image/GTPLAYER.jpg" alt="Chair 1">
-            <h3>GTPLAYER</h3>
-            <p class="price">₹12,000</p>
-            <p>GTPLAYER Ergonomic Gaming Chair – Massage Cushion, PU Leather, Neck & Lumbar Pillow, Footrest (Red)</p>
-            <button class="add-to-cart-btn" data-name="GTPLAYER" data-price="12000" data-img="/image/GTPLAYER.jpg">Add
-                to Cart</button>
-        </div>
+    <!-- CARD CONTAINER -->
+    <div class="card-container" id="product-container"></div>
 
-        <div class="card">
-            <img src="/image/IAFA.jpg" alt="Chair 2">
-            <h3>IAFA</h3>
-            <p class="price">₹7,000</p>
-            <p>IAFA Ergonomic Premium Office Chair | Mesh Desk Chair with Adjustable Armrests & Lumbar Support</p>
-            <button class="add-to-cart-btn" data-name="IAFA" data-price="7000" data-img="/image/IAFA.jpg">Add to
-                Cart</button>
-        </div>
-    </div>
 
     <div id="cart-popup"
         style="display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999;">
     </div>
 
     <script>
+
+        const products = [
+            {
+                "name": "GTPLAYER",
+                "price": 12000,
+                "img": "/image/GTPLAYER.jpg",
+                "desc": "GTPLAYER Ergonomic Gaming Chair – Massage Cushion, PU Leather, Neck & Lumbar Pillow, Footrest (Red)"
+            },
+            {
+                "name": "IAFA",
+                "price": 7000,
+                "img": "/image/IAFA.jpg",
+                "desc": "IAFA Ergonomic Premium Office Chair | Mesh Desk Chair with Adjustable Armrests & Lumbar Support"
+            }
+        ];
+
+        const container = document.getElementById("product-container");
+
+        products.forEach(p => {
+            container.innerHTML += `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <h3>${p.name}</h3>
+                    <p class="price">₹${p.price.toLocaleString()}</p>
+                    <p>${p.desc}</p>
+                    <button class="add-to-cart-btn"
+                        data-name="${p.name}"
+                        data-price="${p.price}"
+                        data-img="${p.img}">
+                        Add to Cart
+                    </button>
+                </div>
+            `;
+        });
+
         const hamburger = document.getElementById("hamburger");
         const navLinks = document.getElementById("nav-links");
 
