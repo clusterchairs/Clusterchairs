@@ -2,17 +2,20 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/image/logo.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/image/logo.png" sizes="16x16" type="image/png">
     <link rel="apple-touch-icon" href="/image/logo.png">
     <title>Officesofa</title>
+
+    <!-- keep your external includes (they won't be modified) -->
     <link rel="stylesheet" href="/index.js">
     <link rel="stylesheet" href="/index.html">
-    <script src="/utils.js"></script>
+    <script src="/utils.js" defer></script>
     <link rel="stylesheet" href="/office.css">
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+
     <style>
         /* Base Reset & Styling */
         body,
@@ -159,6 +162,10 @@
             min-width: 0;
             height: 100%;
             /* Ensure all cards have equal height in the grid row */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
         }
 
         .card:hover,
@@ -201,6 +208,7 @@
             font-size: 0.9em;
             color: #666;
             margin-bottom: 15px;
+            flex: 1 0 auto;
         }
 
         .add-to-cart-btn {
@@ -220,9 +228,7 @@
             background: #a05252;
         }
 
-        /* ====================
-           Tablet View (max-width 1024px) 
-           ==================== */
+        /* ==================== Tablet View (max-width 1024px) ==================== */
         @media (max-width: 1024px) {
             .location {
                 font-size: 35px;
@@ -237,9 +243,7 @@
             }
         }
 
-        /* ====================
-           Mobile View (max-width 768px) 
-           ==================== */
+        /* ==================== Mobile View (max-width 768px) ==================== */
         @media (max-width: 768px) {
             .location {
                 font-size: 24px;
@@ -253,7 +257,6 @@
 
             .hamburger {
                 display: flex;
-                /* Show hamburger icon */
             }
 
             .card-container,
@@ -273,12 +276,36 @@
                 padding: 10px 15px;
             }
         }
+
+        /* small popup style */
+        #cart-popup {
+            display: none;
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: #232f3e;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            font-size: 1em;
+            z-index: 9999;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+
+        #cart-popup.show {
+            display: block;
+            opacity: 1;
+        }
     </style>
 </head>
 
 <body>
-    <script src="/auth.js"></script>
-    <script src="/cart-logic.js"></script>
+    <script src="/auth.js" defer></script>
+    <!-- cart-logic.js kept for compatibility but we also include inline cart JS below -->
+    <script src="/cart-logic.js" defer></script>
+
     <header class="navbar">
         <a href="/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
             <div class="logo"><img src="/image/logo.png" alt="Logo"></div>
@@ -289,12 +316,10 @@
             <a href="/login.html" id="account-link">Account & Lists</a>
             <a href="#" id="logout-link" style="display: none;">Logout</a>
             <a href="/cart.html">
-                <img src="/image/cartimage.png" class="cart">
+                <img src="/image/cartimage.png" class="cart" alt="cart">
                 <span id="cart-count">0</span>
             </a>
         </div>
-
-        <div class="special-card"></div>
 
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
@@ -309,90 +334,181 @@
         <a href="/cart.html">Cart (<span id="cart-count-mobile">0</span>)</a>
     </div>
 
+    <!-- Products -> will be rendered from JSON into this container -->
+    <div class="special-card" id="productContainer"></div>
 
-    <div id="cart-popup"
-        style="display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
-    </div>
+    <div id="cart-popup" aria-live="polite"></div>
 
     <script>
-
+        /******************************
+         * PRODUCTS JSON DATA
+         ******************************/
         const products = [
-            { name: "AE 823", price: 30000, img: "/image/AE 823.png", desc: "Comfortable wooden chair for cafes." },
-            { name: "AE 824", price: 30000, img: "/image/AE 824.png", desc: "Stylish table for your cafe space." },
-            { name: "AE 825", price: 30000, img: "/image/AE 825.png", desc: "Comfortable wooden chair for cafes." },
-            { name: "AE 826", price: 30000, img: "/image/AE 826.png", desc: "Stylish table for your cafe space." },
-            { name: "AE 827", price: 30000, img: "/image/AE 827.png", desc: "Comfortable wooden chair for cafes." },
-            { name: "AE 828", price: 40000, img: "/image/AE 828.png", desc: "Stylish table for your cafe space." },
-            { name: "New Port", price: 37000, img: "/image/New Port.png", desc: "Fabric Sofa | Metal Frame Leg | Wooden Structure THREE 75 x 32" },
-            { name: "Aldo", price: 37000, img: "/image/aldo.png", desc: "Composite Leather & Fabric | Wooden Frame | Steel Legs THREE 72 x 30" },
-            { name: "Hamilton", price: 41000, img: "/image/hamilton.png", desc: "THREE 78 x 34" },
-            { name: "Neptune", price: 41000, img: "/image/neptune.png", desc: "THREE 80 x 34" },
-            { name: "Hilton", price: 41000, img: "/image/hilton.png", desc: "Composite Leather | Wooden Frame | Wooden Legs THREE 75 x 32" },
-            { name: "Hercules", price: 41000, img: "/image/hercules.png", desc: "THREE 80 x 34" },
-            { name: "Nivea", price: 41000, img: "/image/nivea.png", desc: "THREE 75 x 33" },
-            { name: "Athena", price: 42000, img: "/image/Athena.png", desc: "THREE 75 x 33" },
-            { name: "Zeus", price: 41000, img: "/image/Zeus.png", desc: "THREE 75 x 32" },
-            { name: "OZI", price: 42000, img: "/image/OZI.png", desc: "THREE 80 x 34" },
-            { name: "Kraby", price: 39000, img: "/image/Kraby.png", desc: "THREE 78 x 34" },
-            { name: "Grezza", price: 44000, img: "/image/Grezza.png", desc: "THREE 75 x 32" },
-            { name: "Dyno", price: 39000, img: "/image/dyno.png", desc: "THREE 75 x 32" },
-            { name: "Roger", price: 39000, img: "/image/Roger.png", desc: "THREE 75 x 32" },
-            { name: "ONIX", price: 39000, img: "/image/onix.png", desc: "THREE 75 x 32" },
-            { name: "Crimson", price: 46000, img: "/image/crimson.png", desc: "THREE 80 x 34" },
-            { name: "Hawkins", price: 46000, img: "/image/hawkins.png", desc: "THREE 84 x 34" },
-            { name: "Byron", price: 42000, img: "/image/byron.jpg", desc: "THREE 75 x 32" },
-            { name: "Emperor", price: 46000, img: "/image/Emperor.png", desc: "THREE 84 x 34" },
-            { name: "Sofa 1", price: 46000, img: "/image/sofa1.png", desc: "THREE 84 x 34" },
-            { name: "Sofa 2", price: 46000, img: "/image/sofa2.png", desc: "THREE 84 x 34" },
-            { name: "Sofa 3", price: 46000, img: "/image/sofa3.png", desc: "THREE 84 x 34" },
-            { name: "Sofa 4", price: 46000, img: "/image/sofa4.png", desc: "THREE 84 x 34" },
-            { name: "Sofa 5", price: 46000, img: "/image/sofa5.png", desc: "THREE 84 x 34" },
-            { name: "Sofa 6", price: 46000, img: "/image/sofa6.png", desc: "THREE 84 x 34" },
-            { name: "Bajar Basvi Chair", price: 40000, img: "/image/Global 3.png", desc: "Stylish table for your cafe space." },
-            { name: "AE 817", price: 7000, img: "/image/AE 817.png", desc: "Comfortable wooden chair for cafes." },
-            { name: "AE 818", price: 12000, img: "/image/AE 818.png", desc: "Stylish table for your cafe space." },
-            { name: "AE 819", price: 18000, img: "/image/AE 819.png", desc: "Comfortable wooden chair for cafes." }
+            { "name": "AE 823", "price": 30000, "img": "/image/AE 823.png", "desc": "Comfortable wooden chair for cafes." },
+            { "name": "AE 824", "price": 30000, "img": "/image/AE 824.png", "desc": "Stylish table for your cafe space." },
+            { "name": "AE 825", "price": 30000, "img": "/image/AE 825.png", "desc": "Comfortable wooden chair for cafes." },
+            { "name": "AE 826", "price": 30000, "img": "/image/AE 826.png", "desc": "Stylish table for your cafe space." },
+            { "name": "AE 827", "price": 30000, "img": "/image/AE 827.png", "desc": "Comfortable wooden chair for cafes." },
+            { "name": "AE 828", "price": 40000, "img": "/image/AE 828.png", "desc": "Stylish table for your cafe space." },
+            { "name": "New Port", "price": 37000, "img": "/image/New Port.png", "desc": "Fabric Sofa | Metal Frame Leg | Wooden Structure THREE 75\" x 32\"" },
+            { "name": "Aldo", "price": 37000, "img": "/image/aldo.png", "desc": "Composite Leather & Fabric | Wooden Frame | Steel Legs THREE 72\" x 30\"" },
+            { "name": "Hamilton", "price": 41000, "img": "/image/hamilton.png", "desc": "THREE 78\" x 34\"" },
+            { "name": "Neptune", "price": 41000, "img": "/image/neptune.png", "desc": "THREE 80\" x 34\"" },
+            { "name": "Hilton", "price": 41000, "img": "/image/hilton.png", "desc": "Composite Leather | Wooden Frame | Wooden Legs THREE 75\" x 32\"" },
+            { "name": "Hercules", "price": 41000, "img": "/image/hercules.png", "desc": "THREE 80\" x 34\"" },
+            { "name": "Nivea", "price": 41000, "img": "/image/nivea.png", "desc": "THREE 75\" x 33\"" },
+            { "name": "Athena", "price": 42000, "img": "/image/Athena.png", "desc": "THREE 75\" x 33\"" },
+            { "name": "Zeus", "price": 41000, "img": "/image/Zeus.png", "desc": "THREE 75\" x 32\"" },
+            { "name": "OZI", "price": 42000, "img": "/image/OZI.png", "desc": "THREE 80\" x 34\"" },
+            { "name": "Kraby", "price": 39000, "img": "/image/Kraby.png", "desc": "THREE 78\" x 34\"" },
+            { "name": "Grezza", "price": 44000, "img": "/image/grezza.png", "desc": "THREE 75\" x 32\"" },
+            { "name": "Dyno", "price": 39000, "img": "/image/dyno.png", "desc": "THREE 75\" x 32\"" },
+            { "name": "Roger", "price": 39000, "img": "/image/Roger.png", "desc": "THREE 75\" x 32\"" },
+            { "name": "ONIX", "price": 39000, "img": "/image/onix.png", "desc": "THREE 75\" x 32\"" },
+            { "name": "Crimson", "price": 46000, "img": "/image/crimson.png", "desc": "THREE 80\" x 34\"" },
+            { "name": "Hawkins", "price": 46000, "img": "/image/hawkins.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Byron", "price": 42000, "img": "/image/byron.png", "desc": "THREE 75\" x 32\"" },
+            { "name": "Emperor", "price": 46000, "img": "/image/emperor.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Sofa 1", "price": 46000, "img": "/image/sofa1.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Sofa 2", "price": 46000, "img": "/image/sofa2.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Sofa 3", "price": 46000, "img": "/image/sofa3.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Sofa 4", "price": 46000, "img": "/image/sofa4.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Sofa 5", "price": 46000, "img": "/image/sofa5.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Sofa 6", "price": 46000, "img": "/image/sofa6.png", "desc": "THREE 84\" x 34\"" },
+            { "name": "Bajar Basvi Chair", "price": 40000, "img": "/image/Global 3.png", "desc": "Stylish table for your cafe space." },
+            { "name": "AE 817", "price": 7000, "img": "/image/AE 817.png", "desc": "Comfortable wooden chair for cafes." },
+            { "name": "AE 818", "price": 12000, "img": "/image/AE 818.png", "desc": "Stylish table for your cafe space." },
+            { "name": "AE 819", "price": 18000, "img": "/image/AE 819.png", "desc": "Comfortable wooden chair for cafes." }
         ];
 
-        // ------------------------------
-        // AUTO GENERATE PRODUCT CARDS
-        // ------------------------------
-        const container = document.querySelector(".special-card");
+        /******************************
+         * RENDER PRODUCTS
+         ******************************/
+        const productContainer = document.getElementById('productContainer');
 
-        container.innerHTML = ""; // clear existing manual cards
+        function renderProducts(list) {
+            productContainer.innerHTML = ''; // clear
+            list.forEach(p => {
+                const div = document.createElement('div');
+                // keep original classes and markup structure
+                div.className = 'cardone';
+                div.innerHTML = `
+                    <img src="${p.img}" alt="${escapeHtml(p.name)}">
+                    <h3>${escapeHtml(p.name)}</h3>
+                    <p class="price">₹${Number(p.price).toLocaleString()}</p>
+                    <p>${escapeHtml(p.desc)}</p>
+                    <button class="add-to-cart-btn"
+                        data-name="${escapeHtmlAttr(p.name)}"
+                        data-price="${Number(p.price)}"
+                        data-img="${escapeHtmlAttr(p.img)}">
+                      Add to Cart
+                    </button>
+                `;
+                productContainer.appendChild(div);
+            });
+        }
 
-        products.forEach(p => {
-            const div = document.createElement("div");
-            div.className = "cardone";
+        // small helpers to avoid breaking attributes if names contain quotes
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, function (m) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+            });
+        }
+        function escapeHtmlAttr(str) {
+            return escapeHtml(str).replace(/"/g, '&quot;');
+        }
 
-            div.innerHTML = `
-        <img src="${p.img}" alt="${p.name}">
-        <h3>${p.name}</h3>
-        <p class="price">₹${p.price.toLocaleString()}</p>
-        <p>${p.desc}</p>
-        <button class="add-to-cart-btn"
-            data-name="${p.name}"
-            data-price="${p.price}"
-            data-img="${p.img}">
-            Add to Cart
-        </button>
-    `;
+        /******************************
+         * CART LOGIC
+         ******************************/
+        const CART_KEY = 'clusterchairs_cart_v1';
 
-            container.appendChild(div);
+        function getCart() {
+            try {
+                const raw = localStorage.getItem(CART_KEY);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                console.warn('Failed to parse cart from localStorage', e);
+                return [];
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const totalQty = cart.reduce((s, it) => s + (it.qty || 1), 0);
+            const desktop = document.getElementById('cart-count');
+            const mobile = document.getElementById('cart-count-mobile');
+            if (desktop) desktop.textContent = totalQty;
+            if (mobile) mobile.textContent = totalQty;
+        }
+
+        function showPopup(message) {
+            const pop = document.getElementById('cart-popup');
+            pop.textContent = message;
+            pop.classList.add('show');
+            setTimeout(() => {
+                pop.classList.remove('show');
+            }, 1400);
+        }
+
+        function addToCartItem(item) {
+            const cart = getCart();
+            const idx = cart.findIndex(i => i.name === item.name);
+            if (idx > -1) {
+                cart[idx].qty = (cart[idx].qty || 1) + (item.qty || 1);
+            } else {
+                cart.push(Object.assign({ qty: item.qty || 1 }, item));
+            }
+            saveCart(cart);
+            showPopup(`${item.name} — added to cart`);
+        }
+
+        // event delegation for add-to-cart buttons
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.add-to-cart-btn');
+            if (!btn) return;
+            const name = btn.getAttribute('data-name');
+            const price = parseInt(btn.getAttribute('data-price'), 10) || 0;
+            const img = btn.getAttribute('data-img') || '';
+            addToCartItem({ name, price, img, qty: 1 });
         });
 
-        // Function to toggle the mobile menu
+        /******************************
+         * MOBILE MENU TOGGLE
+         ******************************/
         function toggleMenu() {
             const menu = document.getElementById("mobileMenu");
-            // Toggle the display property
+            if (!menu) return;
             if (menu.style.display === "flex") {
                 menu.style.display = "none";
             } else {
                 menu.style.display = "flex";
             }
-            // Optional: You would also need logic here or in /cart-logic.js 
-            // to update the cart count span inside the mobile menu.
         }
+
+        /******************************
+         * ON LOAD
+         ******************************/
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            updateCartCount();
+
+            // hide mobile menu when clicking outside (small convenience)
+            document.addEventListener('click', (ev) => {
+                const menu = document.getElementById('mobileMenu');
+                const hamburger = ev.target.closest('.hamburger');
+                const isMenuClick = ev.target.closest('#mobileMenu');
+                if (!hamburger && !isMenuClick && menu && menu.style.display === 'flex') {
+                    menu.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 
