@@ -300,63 +300,48 @@
         </div>
     </header>
 
-    <div class="card-container">
-        <div class="card">
-            <img src="/image/flipper Sofa Cum Bed.jpg" alt="Flipper Sofa Cum Bed">
-            <h3>Flipper Sofa Cumbed</h3>
-            <p class="price">₹11,000</p>
-            <p>Three Seater (6'x5') Feet- WarpKnit Grey</p>
-            <button class="add-to-cart-btn" data-name="Flipper Sofa Cumbed" data-price="11000"
-                data-img="/image/flipper Sofa Cum Bed.jpg">Add to Cart</button>
-        </div>
-        <div class="card">
-            <img src="/image/Friheten.jpg" alt="Friheten Sofa">
-            <h3>Friheten</h3>
-            <p class="price">₹54,000</p>
-            <p>Corner sofa-bed with storage, Faringe light grey</p>
-            <button class="add-to-cart-btn" data-name="Friheten" data-price="54000" data-img="/image/Friheten.jpg">Add
-                to
-                Cart</button>
-        </div>
-        <div class="card">
-            <img src="/image/Skonaback.jpg" alt="Skonaback Sofa">
-            <h3>Skonaback</h3>
-            <p class="price">₹42,000</p>
-            <p>Skonaback 2 seat sofa bed knisa dark grey</p>
-            <button class="add-to-cart-btn" data-name="Skonaback" data-price="42000" data-img="/image/Skonaback.jpg">Add
-                to Cart</button>
-        </div>
-        <div class="card">
-            <img src="/image/milan.jpg" alt="Milan Sofa">
-            <h3>Milan Sofa Cumbed</h3>
-            <p class="price">₹40,000</p>
-            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
-            <button class="add-to-cart-btn" data-name="Milan Sofa Cumbed" data-price="40000"
-                data-img="/image/milan.jpg">Add to Cart</button>
-        </div>
-        <div class="card">
-            <img src="/image/upholstered.jpg" alt="Upholstered Sofa Bed">
-            <h3>Upholstered Sofa Bed</h3>
-            <p class="price">₹70,000</p>
-            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
-            <button class="add-to-cart-btn" data-name="Upholstered Sofa Bed" data-price="70000"
-                data-img="/image/upholstered.jpg">Add to Cart</button>
-        </div>
-        <div class="card">
-            <img src="/image/Marisa 4 seat.jpg" alt="Marisa 4 Seat Sofa Bed">
-            <h3>Marisa 4 Seater Sofa Bed</h3>
-            <p class="price">₹40,000</p>
-            <p>Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery</p>
-            <button class="add-to-cart-btn" data-name="Marisa 4 Seater Sofa Bed" data-price="40000"
-                data-img="/image/Marisa 4 seat.jpg">Add to Cart</button>
-        </div>
-    </div>
+    <!-- Products -->
+    <div class="card-container" id="card-container"></div>
 
     <div id="cart-popup"
         style=" display:none; position:fixed; top:30px; right:30px; background:#232f3e; color:#fff; padding:16px 32px; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-size:1.1em; z-index:9999; transition:opacity 0.3s;">
     </div>
 
     <script>
+
+        /* --------------------------------------------------------------
+      JSON PRODUCT DATA
+   -------------------------------------------------------------- */
+        const products = [
+            { name: "Flipper Sofa Cumbed", price: 11000, img: "/image/flipper Sofa Cum Bed.jpg", desc: "" },
+            { name: "Friheten", price: 54000, img: "/image/Friheten.jpg", desc: "" },
+            { name: "Skonaback", price: 42000, img: "/image/Skonaback.jpg", desc: "" },
+            { name: "Milan Sofa Cumbed", price: 40000, img: "/image/milan.jpg", desc: "" },
+            { name: "Upholstered Sofa Bed", price: 70000, img: "/image/upholstered.jpg", desc: "" },
+            { name: "Marisa 4 Seater Sofa Bed", price: 40000, img: "/image/Marisa 4 seat.jpg", desc: "" },
+        ];
+
+        // ✅ Generate all product cards dynamically
+        const container = document.getElementById('card-container');
+
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p class="price">₹${product.price.toLocaleString()}</p>
+        <p>${p.desc}</p>
+        <button class="add-to-cart-btn" 
+                data-name="${product.name}" 
+                data-price="${product.price}" 
+                data-img="${product.img}">
+          Add to Cart
+        </button>
+      `;
+            container.appendChild(card);
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.getElementById('nav-links');
