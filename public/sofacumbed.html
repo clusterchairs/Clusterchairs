@@ -310,15 +310,15 @@
     <script>
 
         /* --------------------------------------------------------------
-      JSON PRODUCT DATA
-   -------------------------------------------------------------- */
+  JSON PRODUCT DATA
+-------------------------------------------------------------- */
         const products = [
-            { name: "Flipper Sofa Cumbed", price: 11000, img: "/image/flipper Sofa Cum Bed.jpg", desc: "" },
-            { name: "Friheten", price: 54000, img: "/image/Friheten.jpg", desc: "" },
-            { name: "Skonaback", price: 42000, img: "/image/Skonaback.jpg", desc: "" },
-            { name: "Milan Sofa Cumbed", price: 40000, img: "/image/milan.jpg", desc: "" },
-            { name: "Upholstered Sofa Bed", price: 70000, img: "/image/upholstered.jpg", desc: "" },
-            { name: "Marisa 4 Seater Sofa Bed", price: 40000, img: "/image/Marisa 4 seat.jpg", desc: "" },
+            { name: "Flipper Sofa Cumbed", price: 11000, img: "/image/flipper Sofa Cum Bed.jpg", desc: "Three Seater (6'x5') Feet- WarpKnit Grey" },
+            { name: "Friheten", price: 54000, img: "/image/Friheten.jpg", desc: "Corner sofa-bed with storage, Faringe light grey" },
+            { name: "Skonaback", price: 42000, img: "/image/Skonaback.jpg", desc: "Skonaback 2 seat sofa bed knisa dark grey" },
+            { name: "Milan Sofa Cumbed", price: 40000, img: "/image/milan.jpg", desc: "Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery" },
+            { name: "Upholstered Sofa Bed", price: 70000, img: "/image/upholstered.jpg", desc: "Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery" },
+            { name: "Marisa 4 Seater Sofa Bed", price: 40000, img: "/image/Marisa 4 seat.jpg", desc: "Three convertible modes | Pull out design | Underbed storage | Cotton & linen upholstery" }
         ];
 
         // ✅ Generate all product cards dynamically
@@ -327,20 +327,23 @@
         products.forEach(product => {
             const card = document.createElement('div');
             card.classList.add('card');
+
             card.innerHTML = `
         <img src="${product.img}" alt="${product.name}">
         <h3>${product.name}</h3>
         <p class="price">₹${product.price.toLocaleString()}</p>
-        <p>${p.desc}</p>
-        <button class="add-to-cart-btn" 
-                data-name="${product.name}" 
-                data-price="${product.price}" 
-                data-img="${product.img}">
-          Add to Cart
+        <p>${product.desc}</p>
+        <button class="add-to-cart-btn"
+            data-name="${product.name}"
+            data-price="${product.price}"
+            data-img="${product.img}">
+            Add to Cart
         </button>
-      `;
+    `;
+
             container.appendChild(card);
         });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
