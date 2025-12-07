@@ -241,121 +241,123 @@
 
 
     <script>
-        // --- Navbar Toggle Logic ---
-        const hamburger = document.getElementById("hamburger");
-        const navLinks = document.getElementById("nav-links");
+        document.addEventListener("DOMContentLoaded", () => {
 
-        hamburger.addEventListener("click", () => {
-            // Toggles the 'active' class on both elements for menu visibility and icon animation
-            navLinks.classList.toggle("active");
-            hamburger.classList.toggle("active");
-        });
+            // --- Navbar Toggle Logic ---
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
 
-        // Close menu when a link is clicked
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    hamburger.classList.remove('active');
+            hamburger.addEventListener("click", () => {
+                navLinks.classList.toggle("active");
+                hamburger.classList.toggle("active");
+            });
+
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    }
+                });
+            });
+
+            // --- Login Form Logic ---
+            document.getElementById("loginForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                document.getElementById("message").textContent = "Logging in...";
+
+                try {
+                    const res = await fetch("/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const data = await res.json();
+
+                    if (data.success) {
+                        localStorage.setItem("isLoggedIn", "true");
+                        localStorage.setItem("userEmail", email);
+
+                        document.getElementById("message").textContent = "✅ Login Successful! Redirecting...";
+                        setTimeout(() => { window.location.href = "/index.html"; }, 1500);
+                    } else {
+                        document.getElementById("message").textContent = "❌ " + (data.message || "Invalid credentials.");
+                    }
+                } catch (err) {
+                    document.getElementById("message").textContent = "❌ Server error! Could not connect.";
                 }
             });
-        });
 
-        // --- Login Form Logic ---
-        document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+            // ---------------------------
+            // FORGOT PASSWORD FIXED CODE
+            // ---------------------------
 
-            document.getElementById("message").textContent = "Logging in...";
+            let RESET_OTP = null;
 
-            try {
-                // Mocking the server login call
-                const res = await fetch("/login", {
+            // Open modal
+            document.getElementById("forgotPasswordLink").onclick = function () {
+                document.getElementById("forgotPasswordModal").style.display = "flex";
+            };
+
+            // Close modal
+            document.getElementById("closeModalBtn").onclick = function () {
+                document.getElementById("forgotPasswordModal").style.display = "none";
+            };
+
+            // Send OTP using EmailJS
+            document.getElementById("sendResetOtpBtn").onclick = async function () {
+                const email = document.getElementById("resetEmailInput").value.trim();
+                if (!email) {
+                    document.getElementById("resetMsg").textContent = "Enter your email first.";
+                    return;
+                }
+
+                // GENERATE OTP
+                RESET_OTP = Math.floor(100000 + Math.random() * 900000);
+
+                // SEND OTP EMAIL
+                emailjs.send("service_8sur9mk", "template_9xr7bfc", {
+                    to_email: email,
+                    otp: RESET_OTP,
+                }).then(() => {
+                    document.getElementById("resetMsg").textContent = "OTP sent to your email.";
+                    document.getElementById("resetOtpSection").style.display = "block";
+                }).catch(() => {
+                    document.getElementById("resetMsg").textContent = "Failed to send OTP. Try again.";
+                });
+            };
+
+            // Reset Password
+            document.getElementById("resetPasswordBtn").onclick = async function () {
+                const email = document.getElementById("resetEmailInput").value.trim();
+                const otp = document.getElementById("resetOtpInput").value.trim();
+                const newPassword = document.getElementById("newPasswordInput").value.trim();
+
+                if (otp != RESET_OTP) {
+                    document.getElementById("resetMsg").textContent = "Invalid OTP!";
+                    return;
+                }
+
+                const response = await fetch("/reset-password", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email, newPassword })
                 });
 
-                const data = await res.json();
+                const data = await response.json();
+                document.getElementById("resetMsg").textContent = data.message;
 
                 if (data.success) {
-                    // ✅ Save login flag + email 
-                    localStorage.setItem("isLoggedIn", "true");
-                    localStorage.setItem("userEmail", email);
-
-                    document.getElementById("message").textContent = "✅ Login Successful! Redirecting...";
-                    setTimeout(() => { window.location.href = "/index.html"; }, 1500);
-                } else {
-                    document.getElementById("message").textContent = "❌ " + (data.message || "Invalid credentials.");
+                    alert("Password reset successful!");
+                    window.location.href = "/login.html";
                 }
-            } catch (err) {
-                document.getElementById("message").textContent = "❌ Server error! Could not connect.";
-            }
-        });
+            };
 
-        let RESET_OTP = null;
-
-        // Open modal
-        document.getElementById("forgotPasswordLink").onclick = function () {
-            document.getElementById("forgotPasswordModal").style.display = "flex";
-        };
-
-        // Close modal
-        document.getElementById("closeModalBtn").onclick = function () {
-            document.getElementById("forgotPasswordModal").style.display = "none";
-        };
-
-        // Send OTP using EmailJS
-        document.getElementById("sendResetOtpBtn").onclick = async function () {
-            const email = document.getElementById("resetEmailInput").value.trim();
-            if (!email) {
-                document.getElementById("resetMsg").textContent = "Enter your email first.";
-                return;
-            }
-
-            // GENERATE OTP
-            RESET_OTP = Math.floor(100000 + Math.random() * 900000);
-
-            // SEND OTP EMAIL
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                to_email: email,
-                otp: RESET_OTP,
-            }).then(() => {
-                document.getElementById("resetMsg").textContent = "OTP sent to your email.";
-                document.getElementById("resetOtpSection").style.display = "block";
-            }).catch(() => {
-                document.getElementById("resetMsg").textContent = "Failed to send OTP. Try again.";
-            });
-        };
-
-        // Verify OTP + Reset Password
-        document.getElementById("resetPasswordBtn").onclick = async function () {
-            const email = document.getElementById("resetEmailInput").value.trim();
-            const otp = document.getElementById("resetOtpInput").value.trim();
-            const newPassword = document.getElementById("newPasswordInput").value.trim();
-
-            if (otp != RESET_OTP) {
-                document.getElementById("resetMsg").textContent = "Invalid OTP!";
-                return;
-            }
-
-            const response = await fetch("/reset-password", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, newPassword })
-            });
-
-            const data = await response.json();
-            document.getElementById("resetMsg").textContent = data.message;
-
-            if (data.success) {
-                alert("Password reset successful!");
-                window.location.href = "/login.html";
-            }
-        };
-
-
+        }); // END DOMContentLoaded
     </script>
 
     <!-- Forgot Password Modal -->
