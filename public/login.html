@@ -321,7 +321,7 @@
 
                 // SEND OTP EMAIL
                 emailjs.send("service_uun8501", "template_muph04o", {
-                    to_email: email,
+                    to_name: email,
                     otp: RESET_OTP,
                 }).then(() => {
                     document.getElementById("resetMsg").textContent = "OTP sent to your email.";
