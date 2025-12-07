@@ -10,11 +10,6 @@
     <title>Login | ClusterChairs</title>
     <script src="/utils.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        emailjs.init("UgY7M-_GEp0PIX27k"); 
-    </script>
-
     <style>
         /* Base Styles */
         body {
@@ -233,170 +228,60 @@
                 style="color:#a05252; text-decoration: none; font-weight: bold;">Sign Up</a></p>
     </div>
 
-    <p style="text-align:center; margin-top: 10px;">
-        <a href="#" id="forgotPasswordLink" style="color:#a05252; font-weight:bold; text-decoration:none;">
-            Forgot Password?
-        </a>
-    </p>
-
-
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        // --- Navbar Toggle Logic ---
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("nav-links");
 
-            // --- Navbar Toggle Logic ---
-            const hamburger = document.getElementById("hamburger");
-            const navLinks = document.getElementById("nav-links");
+        hamburger.addEventListener("click", () => {
+            // Toggles the 'active' class on both elements for menu visibility and icon animation
+            navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
+        });
 
-            hamburger.addEventListener("click", () => {
-                navLinks.classList.toggle("active");
-                hamburger.classList.toggle("active");
-            });
-
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks.classList.contains('active')) {
-                        navLinks.classList.remove('active');
-                        hamburger.classList.remove('active');
-                    }
-                });
-            });
-
-            // --- Login Form Logic ---
-            document.getElementById("loginForm").addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const email = document.getElementById("email").value;
-                const password = document.getElementById("password").value;
-
-                document.getElementById("message").textContent = "Logging in...";
-
-                try {
-                    const res = await fetch("/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, password })
-                    });
-
-                    const data = await res.json();
-
-                    if (data.success) {
-                        localStorage.setItem("isLoggedIn", "true");
-                        localStorage.setItem("userEmail", email);
-
-                        document.getElementById("message").textContent = "✅ Login Successful! Redirecting...";
-                        setTimeout(() => { window.location.href = "/index.html"; }, 1500);
-                    } else {
-                        document.getElementById("message").textContent = "❌ " + (data.message || "Invalid credentials.");
-                    }
-                } catch (err) {
-                    document.getElementById("message").textContent = "❌ Server error! Could not connect.";
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
                 }
             });
+        });
 
-            // ---------------------------
-            // FORGOT PASSWORD FIXED CODE
-            // ---------------------------
+        // --- Login Form Logic ---
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-            let RESET_OTP = null;
+            document.getElementById("message").textContent = "Logging in...";
 
-            // Open modal
-            document.getElementById("forgotPasswordLink").onclick = function () {
-                document.getElementById("forgotPasswordModal").style.display = "flex";
-            };
-
-            // Close modal
-            document.getElementById("closeModalBtn").onclick = function () {
-                document.getElementById("forgotPasswordModal").style.display = "none";
-            };
-
-            // Send OTP using EmailJS
-            document.getElementById("sendResetOtpBtn").onclick = async function () {
-                const email = document.getElementById("resetEmailInput").value.trim();
-                if (!email) {
-                    document.getElementById("resetMsg").textContent = "Enter your email first.";
-                    return;
-                }
-
-                // GENERATE OTP
-                RESET_OTP = Math.floor(100000 + Math.random() * 900000);
-
-                // SEND OTP EMAIL
-                emailjs.send("service_uun8501", "template_muph04o", {
-                    to_name: email,
-                    otp: RESET_OTP,
-                }).then(() => {
-                    document.getElementById("resetMsg").textContent = "OTP sent to your email.";
-                    document.getElementById("resetOtpSection").style.display = "block";
-                }).catch(() => {
-                    document.getElementById("resetMsg").textContent = "Failed to send OTP. Try again.";
-                });
-            };
-
-            // Reset Password
-            document.getElementById("resetPasswordBtn").onclick = async function () {
-                const email = document.getElementById("resetEmailInput").value.trim();
-                const otp = document.getElementById("resetOtpInput").value.trim();
-                const newPassword = document.getElementById("newPasswordInput").value.trim();
-
-                if (otp != RESET_OTP) {
-                    document.getElementById("resetMsg").textContent = "Invalid OTP!";
-                    return;
-                }
-
-                const response = await fetch("/reset-password", {
+            try {
+                // Mocking the server login call
+                const res = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, newPassword })
+                    body: JSON.stringify({ email, password })
                 });
 
-                const data = await response.json();
-                document.getElementById("resetMsg").textContent = data.message;
+                const data = await res.json();
 
                 if (data.success) {
-                    alert("Password reset successful!");
-                    window.location.href = "/login.html";
+                    // ✅ Save login flag + email 
+                    localStorage.setItem("isLoggedIn", "true");
+                    localStorage.setItem("userEmail", email);
+
+                    document.getElementById("message").textContent = "✅ Login Successful! Redirecting...";
+                    setTimeout(() => { window.location.href = "/index.html"; }, 1500);
+                } else {
+                    document.getElementById("message").textContent = "❌ " + (data.message || "Invalid credentials.");
                 }
-            };
-
-        }); // END DOMContentLoaded
+            } catch (err) {
+                document.getElementById("message").textContent = "❌ Server error! Could not connect.";
+            }
+        });
     </script>
-
-    <!-- Forgot Password Modal -->
-    <div id="forgotPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.6); justify-content:center; align-items:center;">
-
-        <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:350px;">
-            <h3 style="text-align:center; margin-bottom:10px;">Reset Password</h3>
-
-            <input type="email" id="resetEmailInput" placeholder="Enter your email" required
-                style="width:100%; padding:10px; margin-bottom:12px; border-radius:6px; border:1px solid #ccc;">
-
-            <button id="sendResetOtpBtn"
-                style="width:100%; background:#a05252; color:#fff; padding:10px; border:none; border-radius:6px;">
-                Send OTP
-            </button>
-
-            <div id="resetOtpSection" style="display:none; margin-top:15px;">
-                <input type="text" id="resetOtpInput" placeholder="Enter OTP"
-                    style="width:100%; padding:10px; margin-bottom:12px; border-radius:6px; border:1px solid #ccc;">
-
-                <input type="password" id="newPasswordInput" placeholder="New Password"
-                    style="width:100%; padding:10px; margin-bottom:12px; border-radius:6px; border:1px solid #ccc;">
-
-                <button id="resetPasswordBtn"
-                    style="width:100%; background:#28a745; color:#fff; padding:10px; border:none; border-radius:6px;">
-                    Reset Password
-                </button>
-            </div>
-
-            <p id="resetMsg" style="text-align:center; margin-top:10px; color:#a05252;"></p>
-
-            <button id="closeModalBtn"
-                style="width:100%; margin-top:12px; background:#555; color:#fff; padding:10px; border:none; border-radius:6px;">
-                Close
-            </button>
-        </div>
-    </div>
-
 
 </body>
 
