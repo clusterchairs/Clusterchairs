@@ -65,25 +65,6 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/reset-password", async (req, res) => {
-  const { email, newPassword } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await db.query("UPDATE users SET password=? WHERE email=?", [
-      hashedPassword,
-      email,
-    ]);
-
-    res.json({ success: true, message: "Password updated successfully" });
-  } catch (err) {
-    console.error("❌ Password reset error:", err);
-    res.json({ success: false, message: "Server error" });
-  }
-});
-
-
 // Login User
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
